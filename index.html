@@ -1031,6 +1031,86 @@
     .ko-round-head h3,.ko-round-head p{text-align:center}
     .bcol h3{text-align:center}
   }
+
+  /* ---------- PLAYER NAME PILL (user er deya reference image er style) ----------
+     Dark navy gradient bar, patla bright-blue neon border + soft blue glow,
+     bam dike flag/crest (gol kona, sada outline), tar pore bold sada boro
+     naam, niche halka nil ronge bracket e desh/club. Tournament 1 (crest+club)
+     ar Tournament 2 (flag+country) — dui jaygay eki style. Mobile e naam
+     wrap hoye purota dekhabe, kata porbe na. */
+  .name-pill{
+    position:relative;display:inline-flex;align-items:center;gap:9px;
+    max-width:100%;min-width:0;vertical-align:middle;text-align:left;
+    padding:7px 12px 7px 7px;border-radius:16px;color:#fff;overflow:hidden;
+    background:linear-gradient(135deg,#0B2E63 0%,#061C40 48%,#030D24 100%);
+    border:1.5px solid #2DB9FF;
+    box-shadow:0 0 14px rgba(45,185,255,.38),0 4px 12px rgba(0,0,0,.4),inset 0 1px 0 rgba(140,210,255,.35),inset 0 -10px 20px rgba(0,90,220,.16);
+  }
+  .name-pill::before{
+    content:"";position:absolute;top:0;left:12px;right:12px;height:2px;pointer-events:none;
+    background:linear-gradient(90deg,transparent,#5EDBFF,transparent);opacity:.95;
+  }
+  .name-pill-flag{
+    width:44px;height:32px;flex:none;border-radius:9px;
+    border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.45);background:#0B1B36;
+  }
+  .name-pill-flag.flag{object-fit:cover}
+  .name-pill-flag.crest{object-fit:contain;background:#F4F8FF;padding:2px}
+  .name-pill .player-photo{
+    width:30px;height:30px;border-radius:50%;flex:none;
+    border:2px solid #fff;object-fit:cover;object-position:center 12%;background:#0B1B36;
+  }
+  .name-pill-text{display:flex;flex-direction:column;gap:1px;min-width:0;line-height:1.2}
+  .name-pill-name{
+    font-family:"Archivo","Hind Siliguri",sans-serif;font-weight:800;color:#fff;
+    font-size:15.5px;letter-spacing:.01em;line-height:1.25;
+    white-space:normal;overflow-wrap:break-word;
+  }
+  .name-pill-sub{font-size:12.5px;font-weight:600;color:#8EC8FF;line-height:1.3;white-space:normal;overflow-wrap:break-word}
+  .name-pill--sm{padding:5px 10px 5px 5px;border-radius:13px;gap:7px}
+  .name-pill--sm .name-pill-flag{width:36px;height:26px;border-radius:7px}
+  .name-pill--sm .name-pill-name{font-size:13.5px}
+  .name-pill--sm .name-pill-sub{font-size:11.5px}
+  .name-pill--sm .player-photo{width:24px;height:24px}
+  .name-pill--block{display:flex;width:100%}
+  /* Match card: dui pasher pill soman jayga nebe, dan pasher pill o flag
+     bam dikei thakbe (reference er moto), lekha bam thekei shuru */
+  .match .side{min-width:0}
+  .match .side .name-pill{flex:1 1 auto}
+  .match .side.right .name-pill{flex:1 1 auto}
+  /* Points table / scorers / Total Goals row: pill cell er puro jayga nebe */
+  .pname-cell .name-pill{flex:1 1 auto}
+  /* Knockout slot: pill score er age puro jayga nebe */
+  .ko-slot .name-pill{flex:1 1 auto;min-width:0}
+  /* Participants card: number er pore pill puro baki jayga nebe */
+  .participant-card .name-pill{flex:1 1 auto}
+  .participant-card .p-flag.name-pill-flag{box-shadow:0 2px 8px rgba(0,0,0,.45)}
+  /* VS card er naam pill — eki reference style e upgrade */
+  .vs-name-pill{
+    background:linear-gradient(135deg,#0B2E63 0%,#061C40 48%,#030D24 100%);
+    border:1.5px solid #2DB9FF;border-radius:16px;
+    box-shadow:0 0 16px rgba(45,185,255,.42),0 6px 16px rgba(0,0,0,.45),inset 0 1px 0 rgba(140,210,255,.35);
+    padding:10px 8px 9px;overflow:hidden;
+  }
+  .vs-name-flag{
+    width:40px;height:28px;border:2px solid #fff;border-radius:8px;flex:none;
+    box-shadow:0 2px 8px rgba(0,0,0,.45);background:#0B1B36;
+  }
+  .vs-name-flag.flag{object-fit:cover}
+  .vs-name-flag.crest{object-fit:contain;background:#F4F8FF;padding:2px}
+  .vs-name-line{flex-wrap:wrap;justify-content:center}
+  .vs-name{font-family:"Archivo","Hind Siliguri",sans-serif;font-weight:800}
+  .vs-country{color:#8EC8FF;font-weight:600}
+  @media (max-width:560px){
+    .name-pill{gap:7px;padding:6px 9px 6px 6px;border-radius:14px}
+    .name-pill-flag{width:36px;height:26px;border-radius:7px}
+    .name-pill-name{font-size:13.5px}
+    .name-pill-sub{font-size:11.5px}
+    .name-pill .player-photo{width:24px;height:24px}
+    .match{padding:12px 10px;gap:6px}
+    .scorebox{min-width:84px}
+    .score{min-width:58px;font-size:16px;padding:5px 7px}
+  }
 </style>
 </head>
 <body class="gate-open">
@@ -1840,10 +1920,22 @@ var YOU = "MD Yusuf Ali";
 var PLAYER_NAMES = ["Radwan Riad","Mustafizur Rahman","Kamrul Hassan","Sabbir Rahman","Sifat Arfin","Showrab Patwary","Sakil Mirza","Rs Rifat","MD Yusuf Ali","Sahinul Islam","Nazmuz Sakib"];
 
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+/* Reference style er name pill (Tournament 1): bam dike club crest
+   (sada outline, gol kona), tar pore player er photo (thakle), bold sada
+   naam, niche halka nil bracket e club. Sob match/table/scorer jaygay
+   eki helper diye pill ashe — data/pairing/score bodlay na. */
+function t1PillHtml(name, opts){
+  opts = opts || {};
+  var c = CLUBS[name] || "";
+  var crestSrc = c ? (window.__CREST_DATA[c.toLowerCase()]||"") : "";
+  var crest = crestSrc ? '<img class="name-pill-flag crest" src="'+crestSrc+'" alt="'+c+' club crest" loading="lazy" />' : '';
+  var sub = c ? '<span class="name-pill-sub">('+c+')</span>' : '';
+  var cls = "name-pill" + (opts.sm ? " name-pill--sm" : "") + (opts.block ? " name-pill--block" : "");
+  return '<span class="'+cls+'">'+crest+playerPhotoImg(name)
+    + '<span class="name-pill-text"><span class="name-pill-name">'+esc(name)+'</span>'+sub+'</span></span>';
+}
 function nameHtml(n){
-  var club = CLUBS[n] ? ' <span class="club-inline">('+CLUBS[n]+')</span>' : '';
-  var nm = esc(n)+club;
-  return playerPhotoImg(n) + crestImg(n) + '<span>' + nm + '</span>';
+  return t1PillHtml(n);
 }
 function hasScore(m){ return typeof m.hs==="number" && typeof m.as==="number"; }
 function todayStr(){
@@ -1908,7 +2000,7 @@ function tableRows(list, showForm, anyPlayed, showClub){
     var mrows = list.map(function(p,i){
       return '<div class="trow mini'+((anyPlayed && i<4)?" q":"")+(p.you?" me":"")+'">'
         + '<div class="pos">'+(i+1)+'</div>'
-        + '<div class="pname-cell">'+playerPhotoImg(p.name,"sm")+crestImg(p.name,"sm")+'<span class="nm">'+esc(p.name)+'</span></div>'
+        + '<div class="pname-cell">'+t1PillHtml(p.name,{sm:true})+'</div>'
         + '<div class="num">'+p.p+'</div><div class="num">'+gdTxt(p.gd)+'</div>'
         + '<div class="pts">'+p.pts+'</div>'
         + '</div>';
@@ -1921,7 +2013,7 @@ function tableRows(list, showForm, anyPlayed, showClub){
     var club = (showClub && CLUBS[p.name]) ? '<span class="club-chip">'+CLUBS[p.name]+'</span>' : '';
     return '<div class="trow with-form'+((anyPlayed && i<4)?" q":"")+(p.you?" me":"")+'">'
       + '<div class="pos">'+(i+1)+'</div>'
-      + '<div class="pname-cell">'+playerPhotoImg(p.name,"sm")+crestImg(p.name)+'<span class="nm">'+esc(p.name)+'</span>'+club+'</div>'
+      + '<div class="pname-cell">'+t1PillHtml(p.name,{sm:true})+'</div>'
       + '<div class="num">'+p.p+'</div><div class="num c-w">'+p.w+'</div><div class="num c-d">'+p.d+'</div><div class="num c-l">'+p.l+'</div>'
       + '<div class="num c-gf">'+p.gf+'</div><div class="num c-ga">'+p.ga+'</div><div class="num c-gd">'+gdTxt(p.gd)+'</div>'
       + '<div class="pts">'+p.pts+'</div>'
@@ -1969,9 +2061,7 @@ var finished = MATCHES.filter(hasScore);
 function featuredCard(m, isFirst){
   var num = MATCHES.indexOf(m) + 1;
   function sideHtml(n, right){
-    var club = CLUBS[n] ? ' <span class="club-inline">('+CLUBS[n]+')</span>' : '';
-    var nm = esc(n)+club;
-    return '<div class="side'+(right?" right":"")+'">'+playerPhotoImg(n,"lg")+crestImg(n,"lg")+'<span>'+nm+'</span></div>';
+    return '<div class="side'+(right?" right":"")+'">'+t1PillHtml(n)+'</div>';
   }
   return '<div class="card match"'+(isFirst?' style="border-color:var(--gold)"':'')+'>'
     + sideHtml(m.h,false)
@@ -2000,7 +2090,7 @@ if(scorersEl){
     var club = CLUBS[p.name] ? ' <span class="club-inline">('+CLUBS[p.name]+')</span>' : '';
     return '<div class="trow goals'+(rank===0 ? " q" : "")+'">'
       + '<div class="pos">'+(rank+1)+'</div>'
-      + '<div class="pname-cell">'+playerPhotoImg(p.name,"sm")+crestImg(p.name,"sm")+'<span class="nm">'+esc(p.name)+'</span>'+club+'</div>'
+      + '<div class="pname-cell">'+t1PillHtml(p.name,{sm:true})+'</div>'
       + '<div class="scorer-goals"><b>'+toBn(p.goals)+'</b><span>গোল</span></div>'
       + '</div>';
   }
@@ -2085,7 +2175,7 @@ function t1PlayerHtml(name){
 function t1NamePill(name){
   var c = CLUBS[name] || "";
   return '<div class="vs-name-pill">'
-    + '<span class="vs-name-line"><img class="vs-name-flag" src="'+(window.__CREST_DATA[c.toLowerCase()]||"")+'" alt="'+c+' club crest" loading="lazy" /><span class="vs-name">'+esc(name)+'</span></span>'
+    + '<span class="vs-name-line"><img class="vs-name-flag crest" src="'+(window.__CREST_DATA[c.toLowerCase()]||"")+'" alt="'+c+' club crest" loading="lazy" /><span class="vs-name">'+esc(name)+'</span></span>'
     + '<span class="vs-country">('+c+')</span>'
     + '</div>';
 }
@@ -2540,8 +2630,20 @@ window.addEventListener("load", syncNavHeight);
     if(er) er.textContent = bn(rounds);
     if(em) em.textContent = bn(total);
   })();
+  /* Reference style er name pill (Tournament 2): bam dike desher flag
+     (sada outline, gol kona), tar pore player er photo (thakle), bold sada
+     naam, niche halka nil bracket e desh. Bracket / Total Goals /
+     sorboshesh match — sob jaygay eki helper. */
+  function t32PillHtml(p, opts){
+    opts = opts || {};
+    var flagSrc = window.__FLAG_DATA[p.f]||"";
+    var flag = flagSrc ? '<img class="name-pill-flag flag" src="'+flagSrc+'" alt="'+p.c+' flag" loading="lazy" />' : '';
+    var cls = "name-pill" + (opts.sm ? " name-pill--sm" : "");
+    return '<span class="'+cls+'">'+flag+t32PhotoImg(p.n)
+      + '<span class="name-pill-text"><span class="name-pill-name">'+p.n+'</span><span class="name-pill-sub">('+p.c+')</span></span></span>';
+  }
   function playerSlot(p){
-    return '<span class="ko-player">'+t32PhotoImg(p.n,"sm")+'<img class="ko-flag" src="'+(window.__FLAG_DATA[p.f]||"")+'" alt="'+p.c+' flag" loading="lazy" /><span class="ko-pinfo"><span class="ko-pname">'+p.n+'</span><span class="ko-pcountry">'+p.c+'</span></span></span>';
+    return t32PillHtml(p, {sm:true});
   }
   function r32TieHtml(m, i){
     /* Score (hs/as) bosano thakle bracket e asol score-i dekhabe,
@@ -2583,7 +2685,7 @@ window.addEventListener("load", syncNavHeight);
     function goalRow(p,i){
       return '<div class="trow goals'+((anyScored && i===0 && p.goals>0)?" q":"")+'">'
         + '<div class="pos">'+(i+1)+'</div>'
-        + '<div class="pname-cell">'+t32PhotoImg(p.name,"sm")+'<img class="ko-flag" src="'+(window.__FLAG_DATA[p.flag]||"")+'" alt="'+p.country+' flag" loading="lazy" /><span class="nm">'+p.name+'</span> <span class="club-inline">('+p.country+')</span></div>'
+        + '<div class="pname-cell">'+t32PillHtml({n:p.name, c:p.country, f:p.flag}, {sm:true})+'</div>'
         + '<div class="goals-num">'+p.goals+'</div>'
         + '</div>';
     }
@@ -2614,7 +2716,7 @@ window.addEventListener("load", syncNavHeight);
       return;
     }
     function sideHtml(p, right){
-      return '<div class="side'+(right?" right":"")+'">'+t32PhotoImg(p.n,"sm")+'<img class="ko-flag" src="'+(window.__FLAG_DATA[p.f]||"")+'" alt="'+p.c+' flag" loading="lazy" /><span>'+p.n+' <span class="club-inline">('+p.c+')</span></span></div>';
+      return '<div class="side'+(right?" right":"")+'">'+t32PillHtml(p)+'</div>';
     }
     var last2 = played.slice(-2).reverse();
     el.innerHTML = last2.map(function(it){
@@ -2751,7 +2853,7 @@ window.addEventListener("load", syncNavHeight);
     }
     function namePill(p){
       return '<div class="vs-name-pill">'
-        + '<span class="vs-name-line"><img class="vs-name-flag" src="'+(window.__FLAG_DATA[p.f]||"")+'" alt="'+p.c+' flag" loading="lazy" /><span class="vs-name">'+p.n+'</span></span>'
+        + '<span class="vs-name-line"><img class="vs-name-flag flag" src="'+(window.__FLAG_DATA[p.f]||"")+'" alt="'+p.c+' flag" loading="lazy" /><span class="vs-name">'+p.n+'</span></span>'
         + '<span class="vs-country">('+p.c+')</span>'
         + '</div>';
     }
@@ -2871,6 +2973,46 @@ window.addEventListener("load", syncNavHeight);
       if(empty) empty.style.display = shown===0 ? "block" : "none";
     });
   }
+})();
+</script>
+
+<script>
+/* Participants (Tournament 2) static card gula ke reference style er
+   name pill e sajano: flag (sada outline) + bold naam + bracket e desh.
+   Card er number, naam, desh, flag — kichui bodlay na, sudhu sajano hoy.
+   Player photo (registry theke agei bosa) thakle seta o pill er bhitore thake. */
+(function wrapT32Participants(){
+  var grid = document.getElementById("t32-participants-grid");
+  if(!grid) return;
+  grid.querySelectorAll(".participant-card").forEach(function(card){
+    var flag = card.querySelector(".p-flag");
+    var info = card.querySelector(".p-info");
+    if(!flag || !info || card.querySelector(".name-pill")) return;
+    var nameEl = info.querySelector(".p-name");
+    var countryEl = info.querySelector(".p-country");
+    var photo = card.querySelector(".player-photo");
+    var pill = document.createElement("span");
+    pill.className = "name-pill name-pill--block";
+    flag.classList.add("name-pill-flag","flag");
+    pill.appendChild(flag);
+    if(photo) pill.appendChild(photo);
+    var text = document.createElement("span");
+    text.className = "name-pill-text";
+    var nm = document.createElement("span");
+    nm.className = "name-pill-name";
+    nm.textContent = nameEl ? nameEl.textContent : "";
+    text.appendChild(nm);
+    var country = countryEl ? countryEl.textContent.trim() : "";
+    if(country){
+      var sub = document.createElement("span");
+      sub.className = "name-pill-sub";
+      sub.textContent = "(" + country + ")";
+      text.appendChild(sub);
+    }
+    pill.appendChild(text);
+    info.remove();
+    card.appendChild(pill);
+  });
 })();
 </script>
 </body>
