@@ -534,10 +534,12 @@
   .vs-name{font-weight:700;font-size:clamp(13.5px,1.6vw,15.5px);line-height:1.3;color:#fff;overflow-wrap:break-word}
   .vs-country{font-size:12.5px;color:#9FB8DE;font-weight:500;line-height:1.3}
   .vs-when{
-    display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:0 14px;
-    font-family:"IBM Plex Mono",monospace;font-size:13px;color:#B9CFEF;text-align:center;flex-wrap:wrap;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px;padding:0 14px;
+    font-family:"IBM Plex Mono",monospace;font-size:13px;color:#B9CFEF;flex-wrap:wrap;
   }
   .vs-when svg{width:15px;height:15px;flex:none}
+  .vs-when .vw-date{display:flex;align-items:center;gap:8px;min-width:0;text-align:left}
+  .vs-when .vw-time{margin-left:auto;text-align:right;flex:none}
   .vs-cd{
     margin:12px 14px 0;background:rgba(2,8,20,.74);border:1px solid rgba(86,156,255,.32);
     border-radius:16px;padding:14px 6px 12px;
@@ -578,6 +580,29 @@
   .mtime{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.45}
   .status{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
   .status.ft{color:var(--muted)} .status.up{color:var(--gold)} .status.lv{color:var(--red)} .status.ab{color:var(--amber)}
+  /* ---------- MATCH META ROW (user er screenshot er lal box onujayi):
+     prottek match card er niche alada full-width row — BAM dike date,
+     DAN dike time + status badge. FULL TIME / Upcoming lekha line diye
+     ghera gol pill (circled badge) er moddhe thake. Tournament 1 ar
+     Tournament 2 — sob .match card (latest / schedule / biggest win)
+     ei eki layout. Kono date / time / score / pairing bodlay nai —
+     sudhu sajano. ---------- */
+  .match-meta{
+    grid-column:1/-1;width:100%;display:flex;align-items:center;justify-content:space-between;
+    gap:6px 12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:9px;margin-top:2px;
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);line-height:1.45;
+  }
+  .match-meta .mm-date{min-width:0;text-align:left;overflow-wrap:break-word}
+  .match-meta .mm-right{display:flex;align-items:center;gap:9px;margin-left:auto;text-align:right;flex:none}
+  .status-badge{
+    display:inline-flex;align-items:center;flex:none;white-space:nowrap;
+    font-size:10.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;line-height:1;
+    padding:5px 11px;border:1.5px solid currentColor;border-radius:999px;
+  }
+  .status-badge.ft{color:#B9CBE8;background:rgba(151,170,204,.08)}
+  .status-badge.up{color:var(--gold);background:rgba(84,200,255,.07)}
+  .status-badge.lv{color:var(--red);background:rgba(255,122,102,.07)}
+  .status-badge.ab{color:var(--amber);background:rgba(245,183,62,.07)}
   /* "ফলাফলের জন্য অপেক্ষা করুন" note: SUDHU tarikh periye jawa
      (past-date) kintu result (hs/as) na asha match card ei boshe —
      ajker / future match e boshe na, tara normal UPCOMING-i thake.
@@ -1013,7 +1038,9 @@
   .ko-slot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;font-weight:600;font-size:14.5px;color:var(--ink2)}
   .ko-slot + .ko-slot{border-top:1px dashed var(--line)}
   .ko-slot .ko-score{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:13px;flex:none}
-  .ko-tie .ko-when{font-size:12.5px;color:var(--amber);font-weight:600;margin-top:8px;line-height:1.5}
+  .ko-tie .ko-when{font-size:12.5px;color:var(--amber);font-weight:600;margin-top:8px;line-height:1.5;display:flex;align-items:center;justify-content:space-between;gap:6px 10px;flex-wrap:wrap}
+  .ko-tie .ko-when .kw-right{display:flex;align-items:center;gap:9px;margin-left:auto;flex:none}
+  .ko-tie .ko-when .status-badge{font-size:10px;padding:4px 10px}
   /* Round of 32 pairing — flag + naam + desh, participant card er motoi flag box */
   .ko-player{display:flex;align-items:center;gap:9px;min-width:0}
   .ko-flag{width:32px;height:22px;object-fit:contain;flex:none;border-radius:4px;background:rgba(255,255,255,.05);box-shadow:0 0 0 1px rgba(255,255,255,.22)}
@@ -1077,6 +1104,10 @@
     border:2px solid #fff;object-fit:cover;object-position:center 12%;background:#0B1B36;
   }
   .name-pill-text{display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:0;line-height:1.2}
+  /* Flag/crest + photo er wrapper: desktop e display:contents — ager
+     row layout ekdom oporibortito; mobile e (niche) eta ekta row hoye
+     pill er upore bose */
+  .name-pill-media{display:contents}
   .name-pill-name{
     font-family:"Archivo","Hind Siliguri",sans-serif;font-weight:800;color:#fff;
     font-size:15.5px;letter-spacing:.01em;line-height:1.25;
@@ -1155,13 +1186,13 @@
   }
   @media (max-width:640px){
     /* LEFT-RIGHT: home pill | score | away pill prothom row te;
-       scorebox display:contents howay tar date/time (mtime) ar
-       status niche puro-width row te bose — pora shohoj thake,
-       card o screen er bhitorei fit hoy */
+       tar niche puro-width meta row: bam e date, dan e time + circled
+       status badge (scorebox display:contents howay score-i sudhu
+       majhe bose) — pora shohoj thake, card o screen er bhitorei fit hoy */
     .match{
       display:grid;
       grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
-      grid-template-areas:"home score away" "meta meta meta" "status status status" "wait wait wait";
+      grid-template-areas:"home score away" "meta meta meta" "wait wait wait";
       align-items:center;column-gap:6px;row-gap:7px;
       padding:12px 10px;width:100%;max-width:100%;
     }
@@ -1170,8 +1201,8 @@
     .match .side .name-pill{flex:1 1 auto;width:100%;min-width:0}
     .match .scorebox{display:contents}
     .match .score{grid-area:score;justify-self:center;font-size:15px;min-width:54px;padding:5px 8px;white-space:nowrap}
-    .match .mtime{grid-area:meta;text-align:center;margin-top:0;font-size:11.5px;line-height:1.5;max-width:100%}
-    .match .status{grid-area:status;text-align:center;margin-top:0}
+    .match .match-meta{grid-area:meta;margin-top:0;padding-top:8px;font-size:11.5px;max-width:100%}
+    .match .match-meta .status-badge{font-size:10px;padding:4px 9px}
     .match .wait-note{grid-area:wait;width:100%}
     /* Compact pill sudhu match card er vitore: flag/photo/font/padding
        choto kore dui pill + score 390px e fit; naam kata porbe na,
@@ -1195,6 +1226,32 @@
     .match .name-pill .player-photo{width:18px;height:18px}
     .match .name-pill-name{font-size:11px}
     .match .name-pill-sub{font-size:9.5px}
+  }
+
+  /* ---------- MOBILE NAME PILL: VERTICAL STACK (user er screenshot) ----------
+     User er screenshot er pill er moto: mobile e prottek name pill e
+     UPORE flag/crest + player photo (ek row te, majhe), tar NICHE
+     player er naam, tar niche team/club/country — sob centered.
+     Desktop layout jemon chilo temon-i (uporer .name-pill-media
+     display:contents desktop row oporibortito rakhe).
+     Tournament 1 ar Tournament 2 — dui jaygar SOB pill ei eki niom:
+     match card, latest, schedule, points table, Total Goals,
+     participants, bracket (.ko-slot) ar VS card er .vs-name-pill.
+     Kono naam / flag / photo / score / date / time bodlay nai —
+     sudhu mobile er sajano. Match card nije left-right-i thake
+     (home pill | score | away pill), sudhu pill er bhitorta stack. */
+  @media (max-width:640px){
+    .name-pill{
+      flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;gap:5px;
+    }
+    .name-pill-media{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+    .name-pill-text{align-items:center;text-align:center}
+    .vs-name-pill{
+      flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;gap:6px;
+    }
+    .vs-name-text{align-items:center;text-align:center}
   }
 </style>
 </head>
@@ -2016,7 +2073,7 @@ function t1PillHtml(name, opts){
   var crest = crestSrc ? '<img class="name-pill-flag crest" src="'+crestSrc+'" alt="'+c+' club crest" loading="lazy" />' : '';
   var sub = c ? '<span class="name-pill-sub">('+c+')</span>' : '';
   var cls = "name-pill" + (opts.sm ? " name-pill--sm" : "") + (opts.block ? " name-pill--block" : "");
-  return '<span class="'+cls+'">'+crest+playerPhotoImg(name)
+  return '<span class="'+cls+'"><span class="name-pill-media">'+crest+playerPhotoImg(name)+'</span>'
     + '<span class="name-pill-text"><span class="name-pill-name">'+esc(name)+'</span>'+sub+'</span></span>';
 }
 function nameHtml(n){
@@ -2054,7 +2111,7 @@ function matchCard(m){
   else if(st==="ab"){ center='<span class="score">VS</span>'; stCls="ab"; stTxt="রেজাল্ট বাকি"; }
   else { center='<span class="score">VS</span>'; stCls="up"; stTxt="Upcoming"; }
   /* Ajker match card e "AJKER MATCH" label thakbe na — sudhu VS, date, time thakbe */
-  var statusHtml = stTxt ? '<div class="status '+stCls+'">'+stTxt+'</div>' : '';
+  var statusHtml = stTxt ? '<span class="status-badge '+stCls+'">'+stTxt+'</span>' : '';
   /* Wait note SUDHU tarikh periye jawa (st==="ab": m.d < ajker tarikh,
      Asia/Dhaka) kintu result na asha match ei bosbe — ajker (today)
      ar future (up) match e bosbe na, tara ager motoi VS / Upcoming
@@ -2063,8 +2120,9 @@ function matchCard(m){
   var waitHtml = st==="ab" ? '<div class="wait-note">ফলাফলের জন্য অপেক্ষা করুন • রেজাল্ট এখনো আসেনি</div>' : '';
   return '<div class="card match">'
     + '<div class="side">'+nameHtml(m.h)+'</div>'
-    + '<div class="scorebox">'+center+'<div class="mtime">'+matchDateTime(m)+'</div>'+statusHtml+'</div>'
+    + '<div class="scorebox">'+center+'</div>'
     + '<div class="side right">'+nameHtml(m.a)+'</div>'
+    + '<div class="match-meta"><span class="mm-date">'+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span>'+statusHtml+'</span></div>'
     + waitHtml
     + '</div>';
 }
@@ -2157,8 +2215,9 @@ function featuredCard(m, isFirst){
   }
   return '<div class="card match"'+(isFirst?' style="border-color:var(--gold)"':'')+'>'
     + sideHtml(m.h,false)
-    + '<div class="scorebox"><span class="score">'+m.hs+' – '+m.as+'</span><div class="mtime">ম্যাচ '+toBn(num)+' · '+matchDateTime(m)+'</div><div class="status ft">Full Time</div></div>'
+    + '<div class="scorebox"><span class="score">'+m.hs+' – '+m.as+'</span></div>'
     + sideHtml(m.a,true)
+    + '<div class="match-meta"><span class="mm-date">ম্যাচ '+toBn(num)+' · '+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span><span class="status-badge ft">Full Time</span></span></div>'
     + '</div>';
 }
 var latestEl = document.getElementById("latest-list");
@@ -2201,8 +2260,9 @@ function biggestWinCard(m){
   var lScore = homeWin ? m.as : m.hs;
   return '<div class="card match">'
     + '<div class="side">'+nameHtml(winner)+'</div>'
-    + '<div class="scorebox"><span class="score">'+wScore+' – '+lScore+'</span><div class="mtime">'+bnDateOf(m)+' · '+m.t+'</div></div>'
+    + '<div class="scorebox"><span class="score">'+wScore+' – '+lScore+'</span></div>'
     + '<div class="side right">'+nameHtml(loser)+'</div>'
+    + '<div class="match-meta"><span class="mm-date">'+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span><span class="status-badge ft">Full Time</span></span></div>'
     + '</div>';
 }
 var biggestEl = document.getElementById("biggest-list");
@@ -2279,7 +2339,7 @@ function t1VsCard(m){
     + '<div class="vs-pill">পরের ম্যাচ শুরু হতে বাকি</div>'
     + '<div class="vs-badge" aria-hidden="true">VS</div></div>'
     + '<div class="vs-names">'+t1NamePill(m.h)+t1NamePill(m.a)+'</div>'
-    + '<div class="vs-when">'+T1_CAL_SVG+'<span>'+matchDateTime(m)+'</span></div>'
+    + '<div class="vs-when"><span class="vw-date">'+T1_CAL_SVG+'<span>'+bnDateOf(m)+'</span></span><span class="vw-time">'+m.t+'</span></div>'
     + '<div class="vs-cd"><div class="cd-segments" role="timer" aria-label="ম্যাচ শুরু হতে বাকি সময়">'
     + '<div class="cd-unit"><b class="cd2-d">0</b><span>days</span></div>'
     + '<div class="cd-colon" aria-hidden="true">:</div>'
@@ -2692,7 +2752,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot"><span>'+slotA+'</span><span class="ko-score">–</span></div>'
       + '<div class="ko-slot"><span>'+slotB+'</span><span class="ko-score">–</span></div>'
-      + '<div class="ko-when">সময় পরে জানানো হবে</div><div class="status up">Upcoming</div></div>';
+      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div></div>';
   }
   function fill(id, count, prefix, slotA, slotB){
     var el = document.getElementById(id); if(!el) return;
@@ -2747,7 +2807,7 @@ window.addEventListener("load", syncNavHeight);
     var flagSrc = window.__FLAG_DATA[p.f]||"";
     var flag = flagSrc ? '<img class="name-pill-flag flag" src="'+flagSrc+'" alt="'+p.c+' flag" loading="lazy" />' : '';
     var cls = "name-pill" + (opts.sm ? " name-pill--sm" : "");
-    return '<span class="'+cls+'">'+flag+t32PhotoImg(p.n)
+    return '<span class="'+cls+'"><span class="name-pill-media">'+flag+t32PhotoImg(p.n)+'</span>'
       + '<span class="name-pill-text"><span class="name-pill-name">'+p.n+'</span><span class="name-pill-sub">('+p.c+')</span></span></span>';
   }
   function playerSlot(p){
@@ -2757,15 +2817,17 @@ window.addEventListener("load", syncNavHeight);
     /* Score (hs/as) bosano thakle bracket e asol score-i dekhabe,
        na thakle ager motoi "–" thakbe. Total Goals table o ei
        hs/as thekei hiseb hoy.
-       UPCOMING badge: result (hs/as) na thakle-i sudhu bosbe —
-       Tournament 1 er schedule card er status style ei (.status.up,
-       nil "Upcoming" lekha, date/time er thik niche). Score boslei
-       badge nije thekei sore jabe, score-i dekhabe (auto). Khela
-       hoye jawa match e (jemon #1-#2) kono UPCOMING thakbe na. */
+       Meta row layout (sob match card er motoi): ko-when row te
+       BAM e date, DAN e time + circled status badge — result (hs/as)
+       na thakle "Upcoming" badge, score bosle "Full Time" badge
+       (jemon #1-#2). Kono date / time / score bodlay nai. */
     var hasScore = typeof m.hs==="number" && typeof m.as==="number";
     var scoreA = hasScore ? m.hs : "–";
     var scoreB = hasScore ? m.as : "–";
-    var statusHtml = hasScore ? '' : '<div class="status up">Upcoming</div>';
+    var wp = (m.w || "").split(" · ");
+    var wTime = wp.length > 1 ? wp[wp.length - 1] : "";
+    var wDate = wp.length > 1 ? wp.slice(0, -1).join(" · ") : (m.w || "");
+    var statusHtml = '<span class="status-badge '+(hasScore ? "ft" : "up")+'">'+(hasScore ? "Full Time" : "Upcoming")+'</span>';
     /* Wait note SUDHU tarikh periye jawa (m.w er date < aj, Asia/Dhaka)
        kintu result na asha match ei bosbe — ajker / future match e
        bosbe na, tara sudhu UPCOMING-i thakbe. Score boslei note
@@ -2774,7 +2836,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">Match '+(i+1)+'</div>'
       + '<div class="ko-slot">'+playerSlot(m.a)+'<span class="ko-score">'+scoreA+'</span></div>'
       + '<div class="ko-slot">'+playerSlot(m.b)+'<span class="ko-score">'+scoreB+'</span></div>'
-      + '<div class="ko-when">'+m.w+'</div>'+statusHtml+waitHtml+'</div>';
+      + '<div class="ko-when"><span class="kw-date">'+wDate+'</span><span class="kw-right"><span class="kw-time">'+wTime+'</span>'+statusHtml+'</span></div>'+waitHtml+'</div>';
   }
   /* ============ TOTAL GOALS (Tournament 2 Overview): prottek player er
      mot goal — R32 er match data (hs/as) theke nije hiseb hoy, sob 32 jon
@@ -2834,10 +2896,14 @@ window.addEventListener("load", syncNavHeight);
     var last2 = played.slice(-2).reverse();
     el.innerHTML = last2.map(function(it){
       var m = it.m;
+      var wp2 = m.w.split(" · ");
+      var wDate2 = wp2.slice(0, -1).join(" · ");
+      var wTime2 = wp2[wp2.length - 1];
       return '<div class="card match" style="border-color:var(--gold)">'
         + sideHtml(m.a, false)
-        + '<div class="scorebox"><span class="score">'+m.hs+' – '+m.as+'</span><div class="mtime">MATCH '+(it.idx+1)+' · Round of 32 · '+m.w+'</div><div class="status ft">Full Time</div></div>'
+        + '<div class="scorebox"><span class="score">'+m.hs+' – '+m.as+'</span></div>'
         + sideHtml(m.b, true)
+        + '<div class="match-meta"><span class="mm-date">MATCH '+(it.idx+1)+' · Round of 32 · '+wDate2+'</span><span class="mm-right"><span class="mm-time">'+wTime2+'</span><span class="status-badge ft">Full Time</span></span></div>'
         + '</div>';
     }).join("");
   }
@@ -2859,7 +2925,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot">'+playerSlot(pA)+'<span class="ko-score">–</span></div>'
       + '<div class="ko-slot">'+playerSlot(pB)+'<span class="ko-score">–</span></div>'
-      + '<div class="ko-when">সময় পরে জানানো হবে</div><div class="status up">Upcoming</div></div>';
+      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div></div>';
   }
   (function renderR16(){
     var el = document.getElementById("ko-r16"); if(!el) return;
@@ -2987,7 +3053,7 @@ window.addEventListener("load", syncNavHeight);
         + '<div class="vs-pill">পরের ম্যাচ শুরু হতে বাকি</div>'
         + '<div class="vs-badge" aria-hidden="true">VS</div></div>'
         + '<div class="vs-names">'+namePill(m.a)+namePill(m.b)+'</div>'
-        + '<div class="vs-when">'+CAL_SVG+'<span>'+m.when+'</span></div>'
+        + '<div class="vs-when"><span class="vw-date">'+CAL_SVG+'<span>'+m.when.split(",").slice(0,2).join(",")+'</span></span><span class="vw-time">'+m.t+'</span></div>'
         + '<div class="vs-cd"><div class="cd-segments" role="timer" aria-label="ম্যাচ শুরু হতে বাকি সময়">'
         + '<div class="cd-unit"><b class="cd2-d">0</b><span>days</span></div>'
         + '<div class="cd-colon" aria-hidden="true">:</div>'
@@ -3112,8 +3178,11 @@ window.addEventListener("load", syncNavHeight);
     var pill = document.createElement("span");
     pill.className = "name-pill name-pill--block";
     flag.classList.add("name-pill-flag","flag");
-    pill.appendChild(flag);
-    if(photo) pill.appendChild(photo);
+    var media = document.createElement("span");
+    media.className = "name-pill-media";
+    media.appendChild(flag);
+    if(photo) media.appendChild(photo);
+    pill.appendChild(media);
     var text = document.createElement("span");
     text.className = "name-pill-text";
     var nm = document.createElement("span");
