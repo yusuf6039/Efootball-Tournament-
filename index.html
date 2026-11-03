@@ -1129,15 +1129,17 @@
   }
 
   /* ---------- MOBILE CARD FIX (user er screenshot er problem) ----------
-     Choto screen e .match card er 3-column grid e dui pasher name-pill
-     chapa pore soru lomba bar hoye jeto — naam, chobi, potaka/crest
-     hariye sudhu score dekha jeto, card o screen er baire beriye jeto.
-     Ekhon mobile e prottek match/result card STACK layout: prothome
-     home player er pill (puro width — potaka/crest + chobi + naam +
-     desh/club sob dekhabe), majhe score + date + time + status,
-     tarpor away player er pill, seshe wait-note thakle seta.
-     Tournament 1 ar Tournament 2 — dui jaygar sob .match card,
-     .ko-tie bracket card ar .vs-card ei eki niom e screen er
+     Age mobile e .match card STACK (upore-niche) chilo — user bollo
+     upore-niche korate score er krom bujha jay na. Ekhon mobile eo
+     desktop er motoi LEFT-RIGHT layout: bam e home player er pill,
+     majhe score (bam player er score bam dike, dan player er score
+     dan dike — "3 – 2" soja pore jay), dan e away player er pill.
+     Score er niche puro width e date + time + status, seshe
+     wait-note thakle seta. 390px screen e fit korar jonno match
+     card er pill compact: flag/photo/font/padding choto, naam
+     wrap hoye purota dekhabe, card screen er baire jabe na.
+     Tournament 1 ar Tournament 2 — dui jaygar sob .match card ei
+     eki niom; .ko-tie bracket card ar .vs-card o screen er
      bhitorei thakbe, kono horizontal overflow hobe na.
      Kono score / pairing / date / time bodlay nai — sudhu sajano. */
   @media (max-width:820px){
@@ -1152,24 +1154,47 @@
     .tie .slot > span:first-child{min-width:0;overflow-wrap:break-word}
   }
   @media (max-width:640px){
+    /* LEFT-RIGHT: home pill | score | away pill prothom row te;
+       scorebox display:contents howay tar date/time (mtime) ar
+       status niche puro-width row te bose — pora shohoj thake,
+       card o screen er bhitorei fit hoy */
     .match{
-      display:flex;flex-direction:column;align-items:stretch;gap:10px;
-      padding:14px 12px;width:100%;max-width:100%;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+      grid-template-areas:"home score away" "meta meta meta" "status status status" "wait wait wait";
+      align-items:center;column-gap:6px;row-gap:7px;
+      padding:12px 10px;width:100%;max-width:100%;
     }
-    .match .side{width:100%;min-width:0;flex:none}
-    .match .side.right{flex-direction:row;text-align:left}
-    .match .side .name-pill{flex:none;width:100%}
-    .match .scorebox{
-      align-self:center;text-align:center;flex:none;
-      display:flex;flex-direction:column;align-items:center;gap:0;
-    }
-    .match .mtime{margin-top:6px;font-size:12px;line-height:1.5;max-width:100%}
-    .match .wait-note{flex:none;width:100%}
+    .match .side{grid-area:home;min-width:0;width:auto}
+    .match .side.right{grid-area:away;flex-direction:row;text-align:left}
+    .match .side .name-pill{flex:1 1 auto;width:100%;min-width:0}
+    .match .scorebox{display:contents}
+    .match .score{grid-area:score;justify-self:center;font-size:15px;min-width:54px;padding:5px 8px;white-space:nowrap}
+    .match .mtime{grid-area:meta;text-align:center;margin-top:0;font-size:11.5px;line-height:1.5;max-width:100%}
+    .match .status{grid-area:status;text-align:center;margin-top:0}
+    .match .wait-note{grid-area:wait;width:100%}
+    /* Compact pill sudhu match card er vitore: flag/photo/font/padding
+       choto kore dui pill + score 390px e fit; naam kata porbe na,
+       wrap hoye purota dekhabe */
+    .match .name-pill{gap:5px;padding:5px 7px 5px 5px;border-radius:12px}
+    .match .name-pill-flag{width:26px;height:19px;border-radius:5px;border-width:1.5px}
+    .match .name-pill .player-photo{width:20px;height:20px;border-width:1.5px}
+    .match .name-pill-name{font-size:11.5px;line-height:1.2}
+    .match .name-pill-sub{font-size:10px;line-height:1.25}
     .ko-tie{padding:12px;width:100%;max-width:100%}
     .vs-card{width:100%;max-width:100%}
     .vs-name-flag{width:38px;height:28px}
     .vs-name{font-size:13px}
     .vs-country{font-size:11.5px}
+  }
+  @media (max-width:400px){
+    .match{padding:11px 8px;column-gap:5px}
+    .match .score{font-size:14px;min-width:50px;padding:4px 6px}
+    .match .name-pill{gap:4px;padding:4px 6px 4px 4px}
+    .match .name-pill-flag{width:24px;height:18px}
+    .match .name-pill .player-photo{width:18px;height:18px}
+    .match .name-pill-name{font-size:11px}
+    .match .name-pill-sub{font-size:9.5px}
   }
 </style>
 </head>
