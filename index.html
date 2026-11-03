@@ -580,20 +580,22 @@
   .mtime{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.45}
   .status{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
   .status.ft{color:var(--muted)} .status.up{color:var(--gold)} .status.lv{color:var(--red)} .status.ab{color:var(--amber)}
-  /* ---------- MATCH META ROW (user er screenshot er lal box onujayi):
-     prottek match card er niche alada full-width row — BAM dike date,
-     DAN dike time + status badge. FULL TIME / Upcoming lekha line diye
-     ghera gol pill (circled badge) er moddhe thake. Tournament 1 ar
-     Tournament 2 — sob .match card (latest / schedule / biggest win)
-     ei eki layout. Kono date / time / score / pairing bodlay nai —
-     sudhu sajano. ---------- */
+  /* ---------- MATCH META ROW (user er final screenshot onujayi):
+     prottek match card er niche alada full-width row — SOB CENTER ALIGN:
+     prothom line e MATCH / Round / date thik majhkhane, tar niche
+     time + status badge (FULL TIME / Upcoming, line diye ghera gol
+     pill) o thik majhkhane. Date-left / time-right layout ar nai.
+     Tournament 1 ar Tournament 2 — sob .match card (latest / schedule /
+     biggest win) ei eki layout. Kono date / time / score / pairing
+     bodlay nai — sudhu sajano. ---------- */
   .match-meta{
-    grid-column:1/-1;width:100%;display:flex;align-items:center;justify-content:space-between;
-    gap:6px 12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:9px;margin-top:2px;
+    grid-column:1/-1;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:5px 12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:9px;margin-top:2px;
     font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);line-height:1.45;
+    text-align:center;
   }
-  .match-meta .mm-date{min-width:0;text-align:left;overflow-wrap:break-word}
-  .match-meta .mm-right{display:flex;align-items:center;gap:9px;margin-left:auto;text-align:right;flex:none}
+  .match-meta .mm-date{min-width:0;text-align:center;overflow-wrap:break-word}
+  .match-meta .mm-right{display:flex;align-items:center;justify-content:center;gap:9px;margin-left:0;text-align:center;flex:none}
   .status-badge{
     display:inline-flex;align-items:center;flex:none;white-space:nowrap;
     font-size:10.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;line-height:1;
@@ -1228,31 +1230,17 @@
     .match .name-pill-sub{font-size:9.5px}
   }
 
-  /* ---------- MOBILE NAME PILL: VERTICAL STACK (user er screenshot) ----------
-     User er screenshot er pill er moto: mobile e prottek name pill e
-     UPORE flag/crest + player photo (ek row te, majhe), tar NICHE
-     player er naam, tar niche team/club/country — sob centered.
-     Desktop layout jemon chilo temon-i (uporer .name-pill-media
-     display:contents desktop row oporibortito rakhe).
-     Tournament 1 ar Tournament 2 — dui jaygar SOB pill ei eki niom:
-     match card, latest, schedule, points table, Total Goals,
-     participants, bracket (.ko-slot) ar VS card er .vs-name-pill.
-     Kono naam / flag / photo / score / date / time bodlay nai —
-     sudhu mobile er sajano. Match card nije left-right-i thake
-     (home pill | score | away pill), sudhu pill er bhitorta stack. */
-  @media (max-width:640px){
-    .name-pill{
-      flex-direction:column;align-items:center;justify-content:center;
-      text-align:center;gap:5px;
-    }
-    .name-pill-media{display:inline-flex;align-items:center;justify-content:center;gap:6px}
-    .name-pill-text{align-items:center;text-align:center}
-    .vs-name-pill{
-      flex-direction:column;align-items:center;justify-content:center;
-      text-align:center;gap:6px;
-    }
-    .vs-name-text{align-items:center;text-align:center}
-  }
+  /* ---------- MOBILE NAME PILL (user er correction onujayi REVERTED) ----------
+     Age ekbar mobile e vertical stack (upore flag/photo, niche naam,
+     tar niche team) kora hoyechilo — user bolay seta SOB jayga theke
+     sorano hoyeche. */
+  /* REVERTED (user er correction): mobile vertical stack sorano hoyeche —
+     sob jaygay (match card, Total Goals, Points Table, mini standings,
+     bracket, participants, VS card) pill abar ager HORIZONTAL layout e:
+     bame flag/crest + player photo, dane naam + team/club/country text.
+     Base .name-pill / .vs-name-pill (flex row) ei layout-i dey, tai
+     ekhane ar kono override nai. Kono naam / flag / photo / score /
+     date / time bodlay nai — sudhu sajano ager moto fire eseche. */
 </style>
 </head>
 <body class="gate-open">
