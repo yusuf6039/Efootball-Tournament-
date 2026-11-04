@@ -30,6 +30,13 @@
   button{font-family:inherit;cursor:pointer}
   .wrap{max-width:760px;margin:0 auto;padding:14px 14px 28px}
 
+  /* Home bar */
+  .homeBar{margin-bottom:12px}
+  .homeBtn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#171100;font-weight:800;font-size:15px;padding:11px 18px;border-radius:999px;text-decoration:none;box-shadow:0 8px 20px rgba(245,197,24,.22);transition:.15s}
+  .homeBtn:active{transform:scale(.97)}
+  .homeBtn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+  .homeBtn .hicon{font-size:17px;line-height:1}
+
   /* Scoreboard */
   .scoreboard{background:linear-gradient(180deg,#123626,#0a2016);border:1px solid var(--line);border-radius:18px;padding:12px 14px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
   .team{text-align:center;min-width:0}
@@ -166,6 +173,11 @@
 </head>
 <body>
 <div class="wrap">
+
+  <!-- HOME -->
+  <nav class="homeBar" aria-label="হোম পেজে ফিরুন">
+    <a class="homeBtn" href="https://yusuf6039.github.io/Efootball-Tournament-/"><span class="hicon" aria-hidden="true">🏠</span> হোম পেজে যাও</a>
+  </nav>
 
   <!-- SCOREBOARD -->
   <section class="scoreboard" aria-label="স্কোরবোর্ড">
