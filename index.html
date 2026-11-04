@@ -168,6 +168,38 @@
   .topnav-fb:active{transform:scale(.97)}
   .topnav-fb:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
   .topnav-fb svg{width:18px;height:18px;flex:none}
+  /* Game button — SUDHU gate/first page e: brand ar Facebook button er
+     majher faka jaygay (menu hidden thaka obosthay center slot).
+     Default display:none — tournament page e (body.gate-open sore gele)
+     kokhono dekha jabe na. */
+  .topnav-game-slot{display:none}
+  body.gate-open .topnav-game-slot{
+    display:flex;flex:1 1 auto;align-items:center;justify-content:center;
+    min-width:0;padding:0 6px;
+  }
+  .topnav-game{
+    flex:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+    background:#16A34A;color:#fff;
+    font-family:"Archivo",sans-serif;font-weight:900;font-size:13.5px;
+    letter-spacing:.06em;text-transform:uppercase;
+    padding:11px 20px;border-radius:999px;line-height:1;white-space:nowrap;
+    height:44px;min-height:44px;
+    border:2px solid transparent;
+    box-shadow:0 6px 18px rgba(22,163,74,.32);
+    transition:background .18s,transform .12s,border-color .18s,color .18s;
+  }
+  .topnav-game:hover{background:#0A1A2F;border-color:#fff;color:#fff}
+  .topnav-game:active{transform:scale(.97)}
+  .topnav-game:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+  .topnav-game svg{width:20px;height:20px;flex:none}
+  @media (min-width:821px) and (max-width:1080px){
+    .topnav-game{padding:10px 15px;font-size:12.5px;height:42px;min-height:42px}
+  }
+  @media (max-width:820px){
+    body.gate-open .topnav-game-slot{order:2;flex:1 1 100%;padding:0}
+    body.gate-open .topnav-actions{order:3}
+    .topnav-game{padding:13px 22px;font-size:13px;height:48px;min-height:48px}
+  }
   /* ---------- BACK TO GATE (intro/question screen e fire jawa, reload chara) ---------- */
   .back-btn{
     flex:none;display:inline-flex;align-items:center;justify-content:center;gap:7px;
@@ -1331,6 +1363,9 @@
       <button type="button" class="topnav-link t32-nav-link" data-t32nav="bracket">সূচি ও ফলাফল</button>
       <button type="button" class="topnav-link t32-nav-link" data-t32nav="rules">খেলার নিয়ম ও শর্তাবলি</button>
     </nav>
+    <div class="topnav-game-slot">
+      <a class="topnav-game" href="https://muse.ai/s/football-penalty-game-pc6xbxnkxr3xsxexd/OzrzeEWrqt7RPUvpOWVZ3tZBX275xHcEoQcPOkItHgk" target="_blank" rel="noopener" aria-label="Game — Football Penalty Game (notun tab e khulbe)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="#fff"/><path d="M12 7.1l3.1 2.25-1.18 3.65h-3.84L8.9 9.35 12 7.1z" fill="#0A1A2F"/><path d="M12 2.8v4.3M18.9 7.6l-3.8 1.75M16.9 17.9l-3.02-2.9M7.1 17.9l3.02-2.9M5.1 7.6l3.8 1.75" stroke="#0A1A2F" stroke-width="1.3" fill="none"/></svg>Game</a>
+    </div>
     <div class="topnav-actions">
       <button type="button" class="back-btn js-back-to-gate" aria-label="Back">Back</button>
     <a class="topnav-fb" href="https://www.facebook.com/mohammadyusufkhan6/" target="_blank" rel="noopener" aria-label="Facebook — Md Yusuf Ali (notun tab e khulbe)"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</a>
