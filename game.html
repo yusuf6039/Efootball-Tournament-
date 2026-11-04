@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="data:," />
+<title>Football Penalty Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Archivo:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#06120d;
+    --panel:#0c2118;
+    --panel2:#0f2d1e;
+    --line:rgba(255,255,255,.12);
+    --text:#f2f7f3;
+    --muted:#9db8a9;
+    --gold:#f5c518;
+    --gold2:#ffde59;
+    --green:#22c55e;
+    --red:#ef4444;
+    --blue:#38bdf8;
+    --pitch1:#16703c;
+    --pitch2:#0e5a30;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:"Hind Siliguri",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+  button{font-family:inherit;cursor:pointer}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 28px}
+
+  /* Scoreboard */
+  .scoreboard{background:linear-gradient(180deg,#123626,#0a2016);border:1px solid var(--line);border-radius:18px;padding:12px 14px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+  .team{text-align:center;min-width:0}
+  .team .name{font-weight:700;font-size:15px;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .team .label{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+  .team .big{font-family:"Archivo",sans-serif;font-size:42px;line-height:1;font-weight:900}
+  .team.you .big{color:var(--gold)}
+  .team.cpu .big{color:#fff}
+  .vsBox{text-align:center}
+  .vsBox .vs{font-family:"Archivo",sans-serif;font-weight:900;font-size:13px;background:#fff;color:#07130c;padding:5px 10px;border-radius:999px;display:inline-block}
+  .vsBox .round{margin-top:7px;font-size:12px;color:var(--muted);font-weight:600}
+  .dots{display:flex;gap:5px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+  .dot{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:11px;line-height:1;background:rgba(255,255,255,.06)}
+  .dot.goal{background:var(--green);border-color:var(--green);color:#04150a}
+  .dot.miss{background:var(--red);border-color:var(--red);color:#fff}
+  .dot.next{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,197,24,.22)}
+
+  /* Status */
+  .statusBar{margin-top:12px;display:flex;gap:8px;align-items:stretch}
+  .turnBadge{flex:0 0 auto;display:flex;align-items:center;gap:7px;background:var(--gold);color:#161003;font-weight:800;font-size:13px;padding:9px 12px;border-radius:999px}
+  .turnBadge.defend{background:var(--blue);color:#03141f}
+  .turnBadge .pulse{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.7)}}
+  .commentary{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:14px;font-weight:600;display:flex;align-items:center;min-height:38px}
+  @media(max-width:520px){.statusBar{flex-direction:column}.commentary{border-radius:14px}.turnBadge{justify-content:center}.team .name{font-size:12px;white-space:normal}.team .big{font-size:34px}.vsBox .vs{font-size:10px;padding:4px 7px}.dots{flex-wrap:nowrap;gap:3px}.dot{width:14px;height:14px;font-size:9px;border-width:1.5px}.scoreboard{padding:10px 8px;gap:6px}}
+
+  /* Stadium */
+  .stadium{margin-top:12px;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#071a10;position:relative}
+  .crowd{height:74px;background:
+    radial-gradient(circle at 12% 40%, rgba(255,255,255,.55) 0 2px, transparent 3px),
+    radial-gradient(circle at 28% 65%, rgba(245,197,24,.7) 0 2px, transparent 3px),
+    radial-gradient(circle at 46% 35%, rgba(255,255,255,.5) 0 2px, transparent 3px),
+    radial-gradient(circle at 63% 60%, rgba(56,189,248,.6) 0 2px, transparent 3px),
+    radial-gradient(circle at 82% 40%, rgba(255,255,255,.55) 0 2px, transparent 3px),
+    linear-gradient(180deg,#0b2a1a,#081f13);
+    background-size:90px 44px,110px 50px,80px 40px,100px 48px,90px 44px,100% 100%;
+    display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;position:relative}
+  .crowd span{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.14);color:#fff;font-size:11px;font-weight:700;letter-spacing:.14em;padding:5px 10px;border-radius:999px}
+  .flood{position:absolute;top:8px;width:54px;height:10px;background:#fff8c5;border-radius:999px;filter:blur(1px);box-shadow:0 0 22px 8px rgba(255,248,180,.55);opacity:.9}
+  .flood.l{left:14px}.flood.r{right:14px}
+
+  .pitch{background:repeating-linear-gradient(90deg,var(--pitch1) 0 64px,var(--pitch2) 64px 128px);padding:18px 14px 0;position:relative}
+  .pitch::after{content:"";position:absolute;inset:auto 0 0 0;height:110px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.24));pointer-events:none}
+
+  /* Goal */
+  .goalWrap{max-width:620px;margin:0 auto;position:relative;z-index:2}
+  .goal{position:relative;width:100%;aspect-ratio:2.55/1;background:
+      linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,.02)),
+      repeating-linear-gradient(0deg,transparent 0 18px,rgba(255,255,255,.14) 18px 19px),
+      repeating-linear-gradient(90deg,transparent 0 18px,rgba(255,255,255,.14) 18px 19px),
+      #0b3520;
+    border:10px solid #f8fafc;border-bottom-width:6px;border-radius:6px 6px 2px 2px;box-shadow:0 10px 0 rgba(0,0,0,.18), inset 0 0 40px rgba(0,0,0,.35);overflow:hidden}
+  .goal::before,.goal::after{content:"";position:absolute;top:0;bottom:0;width:10px;background:rgba(255,255,255,.12)}
+  .goal::before{left:0}.goal::after{right:0}
+
+  .zones{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);z-index:6}
+  .zone{border:1px dashed rgba(255,255,255,.10);background:transparent;position:relative;padding:0}
+  .zone:hover,.zone:focus-visible{background:rgba(245,197,24,.16);outline:none}
+  .zone .ring{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:.15s}
+  .zone:hover .ring,.zone:focus-visible .ring{opacity:1}
+  .ring i{width:30px;height:30px;border-radius:50%;border:3px solid var(--gold);display:block;box-shadow:0 0 0 4px rgba(245,197,24,.18)}
+  .zones.locked{pointer-events:none}
+  .zones.locked .zone:hover{background:transparent}
+
+  /* Keeper */
+  .keeper{position:absolute;left:50%;bottom:6%;width:118px;height:150px;transform:translateX(-50%);z-index:5;transition:transform .48s cubic-bezier(.2,.9,.25,1.2), left .48s cubic-bezier(.2,.9,.25,1.2);pointer-events:none;filter:drop-shadow(0 10px 10px rgba(0,0,0,.35))}
+  .keeper svg{width:100%;height:100%;overflow:visible}
+  .keeper.dive-left{left:22%;transform:translateX(-50%) rotate(-68deg)}
+  .keeper.dive-right{left:78%;transform:translateX(-50%) rotate(68deg)}
+  .keeper.dive-center{transform:translateX(-50%) translateY(-16px) scale(1.06)}
+  .keeper.jump-mid-left{left:36%;transform:translateX(-50%) rotate(-32deg) translateY(-12px)}
+  .keeper.jump-mid-right{left:64%;transform:translateX(-50%) rotate(32deg) translateY(-12px)}
+  @media(max-width:520px){.keeper{width:86px;height:110px}}
+
+  /* Ball target flash */
+  .targetFlash{position:absolute;width:34px;height:34px;border-radius:50%;border:4px solid #fff;background:var(--gold);z-index:7;transform:translate(-50%,-50%) scale(0);pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  .targetFlash.show{animation:pop .45s ease forwards}
+  @keyframes pop{0%{transform:translate(-50%,-50%) scale(0)}60%{transform:translate(-50%,-50%) scale(1.25)}100%{transform:translate(-50%,-50%) scale(1)}}
+
+  /* Penalty area */
+  .penArea{position:relative;height:168px;max-width:620px;margin:0 auto;z-index:2}
+  .spotLine{position:absolute;left:50%;top:18px;transform:translateX(-50%);width:72%;height:54px;border:3px solid rgba(255,255,255,.75);border-top:none;border-radius:0 0 999px 999px;opacity:.85}
+  .ball{position:absolute;left:50%;top:52px;width:54px;height:54px;transform:translate(-50%,0);z-index:8;transition:all .52s cubic-bezier(.2,.7,.3,1);filter:drop-shadow(0 8px 8px rgba(0,0,0,.4))}
+  .ball svg{width:100%;height:100%}
+  .ball.shooting{transition-timing-function:cubic-bezier(.15,.6,.3,1)}
+  .shooter{position:absolute;left:calc(50% - 92px);bottom:2px;width:74px;height:96px;z-index:4;opacity:.95}
+  .shooter svg{width:100%;height:100%}
+  @media(max-width:520px){.penArea{height:142px}.ball{width:46px;height:46px;top:44px}.shooter{display:none}}
+
+  /* Result banner */
+  .resultBanner{position:absolute;inset:0;z-index:12;display:none;place-items:center;pointer-events:none;padding:16px}
+  .resultBanner.show{display:grid}
+  .resultBanner .card{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(34px,9vw,64px);letter-spacing:.01em;padding:10px 22px;border-radius:16px;text-align:center;animation:bannerIn .35s cubic-bezier(.2,1.4,.4,1);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+  .resultBanner.goal .card{background:var(--gold);color:#171100}
+  .resultBanner.saved .card{background:#fff;color:#0b1f14}
+  .resultBanner.miss .card{background:var(--red);color:#fff}
+  @keyframes bannerIn{from{transform:scale(.6) rotate(-3deg);opacity:0}to{transform:scale(1) rotate(-1deg);opacity:1}}
+
+  /* Controls */
+  .controls{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:520px){.controls{grid-template-columns:1fr}}
+  .btn{border:none;border-radius:14px;padding:14px 16px;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+  .btn:active{transform:scale(.98)}
+  .btn-primary{background:var(--gold);color:#171100;box-shadow:0 8px 20px rgba(245,197,24,.22)}
+  .btn-ghost{background:var(--panel);color:#fff;border:1px solid var(--line)}
+  .hint{margin-top:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:11px 13px;display:flex;gap:10px;align-items:flex-start}
+  .hint b{color:var(--gold)}
+  .hint p{margin:0;font-size:13.5px;line-height:1.55;color:#d7e6dc}
+  .hint .ic{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:rgba(245,197,24,.14);display:grid;place-items:center;font-size:16px}
+
+  /* Dive buttons for defend phase */
+  .diveRow{display:none;margin-top:10px;grid-template-columns:repeat(3,1fr);gap:8px}
+  .diveRow.show{display:grid}
+  .diveBtn{border:1px solid var(--line);background:#123324;color:#fff;border-radius:12px;padding:12px 8px;font-weight:800;font-size:14px}
+  .diveBtn:active{background:var(--blue);color:#03141f}
+
+  /* Final modal */
+  .final{display:none;margin-top:14px;border-radius:18px;padding:18px;text-align:center;border:1px solid rgba(245,197,24,.35);background:linear-gradient(180deg,#172a12,#0b1d12)}
+  .final.show{display:block;animation:bannerIn .35s ease}
+  .final .trophy{font-size:44px;line-height:1}
+  .final h2{font-family:"Archivo",sans-serif;margin:8px 0 4px;font-size:28px}
+  .final p{margin:0;color:var(--muted);font-weight:600}
+  .final .finalScore{font-family:"Archivo",sans-serif;font-size:44px;font-weight:900;margin:10px 0}
+  .final .finalScore em{font-style:normal;color:var(--gold)}
+
+  .legend{margin-top:12px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:12px;color:var(--muted);font-weight:600}
+  .legend span{display:inline-flex;gap:6px;align-items:center}
+  .sw{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+  .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- SCOREBOARD -->
+  <section class="scoreboard" aria-label="স্কোরবোর্ড">
+    <div class="team you">
+      <div class="label">তুমি</div>
+      <div class="name">YOU</div>
+      <div class="big" id="scoreYou">0</div>
+      <div class="dots" id="dotsYou"></div>
+    </div>
+    <div class="vsBox">
+      <span class="vs">PENALTY SHOOTOUT</span>
+      <div class="round" id="roundText">রাউন্ড ১ / ৫</div>
+      <div class="round" id="kickText">কিক ১</div>
+    </div>
+    <div class="team cpu">
+      <div class="label">কম্পিউটার</div>
+      <div class="name">CPU KEEPER</div>
+      <div class="big" id="scoreCpu">0</div>
+      <div class="dots" id="dotsCpu"></div>
+    </div>
+  </section>
+
+  <!-- STATUS -->
+  <div class="statusBar">
+    <div class="turnBadge" id="turnBadge"><span class="pulse"></span><span id="turnText">তোমার শট — গোলে ট্যাপ করো</span></div>
+    <div class="commentary" id="commentary">গোলের যেকোনো জায়গায় ট্যাপ করে শট নাও। কর্নারে মারলে গোলের চান্স বেশি, কিন্তু মিসও হতে পারে!</div>
+  </div>
+
+  <!-- STADIUM -->
+  <section class="stadium" id="stadium">
+    <div class="crowd"><div class="flood l"></div><span>INFINITE ARENA • PENALTY NIGHT</span><div class="flood r"></div></div>
+
+    <div class="pitch">
+      <div class="goalWrap">
+        <div class="goal" id="goal">
+          <!-- Keeper -->
+          <div class="keeper" id="keeper" aria-hidden="true">
+            <svg viewBox="0 0 120 150" fill="none">
+              <!-- legs -->
+              <path d="M48 92 L38 138" stroke="#111827" stroke-width="11" stroke-linecap="round"/>
+              <path d="M72 92 L82 138" stroke="#111827" stroke-width="11" stroke-linecap="round"/>
+              <!-- boots -->
+              <path d="M30 140 h18" stroke="#f5c518" stroke-width="7" stroke-linecap="round"/>
+              <path d="M74 140 h18" stroke="#f5c518" stroke-width="7" stroke-linecap="round"/>
+              <!-- shorts -->
+              <rect x="42" y="74" width="36" height="24" rx="6" fill="#111827"/>
+              <!-- jersey -->
+              <path d="M38 38 Q60 28 82 38 L86 78 Q60 86 34 78 Z" fill="#f97316"/>
+              <path d="M38 38 L22 62" stroke="#f97316" stroke-width="11" stroke-linecap="round"/>
+              <path d="M82 38 L98 62" stroke="#f97316" stroke-width="11" stroke-linecap="round"/>
+              <!-- gloves -->
+              <circle cx="18" cy="66" r="8" fill="#fff" stroke="#111827" stroke-width="2"/>
+              <circle cx="102" cy="66" r="8" fill="#fff" stroke="#111827" stroke-width="2"/>
+              <!-- head -->
+              <circle cx="60" cy="20" r="15" fill="#f2c09a"/>
+              <path d="M45 18 Q60 2 75 18 Q75 8 60 7 Q45 8 45 18" fill="#111827"/>
+            </svg>
+          </div>
+
+          <div class="targetFlash" id="targetFlash"></div>
+
+          <!-- 9 aim zones -->
+          <div class="zones" id="zones" role="group" aria-label="গোলের টার্গেট">
+            <button class="zone" data-zone="0" aria-label="উপরের বাম কর্নার"><span class="ring"><i></i></span></button>
+            <button class="zone" data-zone="1" aria-label="উপরের মাঝখান"><span class="ring"><i></i></span></button>
+            <button class="zone" data-zone="2" aria-label="উপরের ডান কর্নার"><span class="ring"><i></i></span></button>
+            <button class="zone" data-zone="3" aria-label="মাঝের বাম"><span class="ring"><i></i></span></button>
+            <button class="zone" data-zone="4" aria-label="মাঝখান"><span class="ring"><i></i></span></button>
+            <button class="zone" data-zone="5" aria-label="মাঝের ডান"><span class="ring"><i></i></span></button>
+            <button class="zone" data-zone="6" aria-label="নিচের বাম কর্নার"><span class="ring"><i></i></span></button>
+            <button class="zone" data-zone="7" aria-label="নিচের মাঝখান"><span class="ring"><i></i></span></button>
+            <button class="zone" data-zone="8" aria-label="নিচের ডান কর্নার"><span class="ring"><i></i></span></button>
+          </div>
+
+          <div class="resultBanner" id="resultBanner"><div class="card" id="resultCard">GOAL!</div></div>
+        </div>
+      </div>
+
+      <div class="penArea">
+        <div class="spotLine"></div>
+        <div class="shooter" aria-hidden="true">
+          <svg viewBox="0 0 80 100" fill="none">
+            <circle cx="40" cy="12" r="10" fill="#f2c09a"/>
+            <path d="M28 24 Q40 18 52 24 L54 52 L26 52 Z" fill="#2563eb"/>
+            <path d="M52 28 L68 42" stroke="#2563eb" stroke-width="8" stroke-linecap="round"/>
+            <path d="M28 52 L22 84" stroke="#111827" stroke-width="9" stroke-linecap="round"/>
+            <path d="M48 52 L64 72 L58 86" stroke="#111827" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="ball" id="ball" aria-hidden="true">
+          <svg viewBox="0 0 60 60">
+            <circle cx="30" cy="30" r="27" fill="#fff" stroke="#111827" stroke-width="2"/>
+            <polygon points="30,18 39,25 36,36 24,36 21,25" fill="#111827"/>
+            <path d="M30 3v15M52 14 L39 25M57 38 L36 36M43 55 L36 36M17 55 L24 36M3 38 L21 25M8 14 L21 25" stroke="#111827" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEFEND CONTROLS -->
+  <div class="diveRow" id="diveRow">
+    <button class="diveBtn" data-dive="left">⬅ বামে ঝাঁপ</button>
+    <button class="diveBtn" data-dive="center">মাঝখানে থাকো</button>
+    <button class="diveBtn" data-dive="right">ডানে ঝাঁপ ➡</button>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <button class="btn btn-primary" id="restartBtn">↻ নতুন ম্যাচ শুরু করো</button>
+    <button class="btn btn-ghost" id="soundBtn">🔊 সাউন্ড: চালু</button>
+  </div>
+
+  <div class="hint">
+    <div class="ic">🎯</div>
+    <p><b>কীভাবে খেলবে:</b> শট নেওয়ার সময় গোলের ৯টা জায়গার যেকোনো একটায় ট্যাপ করো। তারপর CPU শট নিলে তুমি কিপার — গোলে ট্যাপ করে বা নিচের বাটনে ঝাঁপ দিয়ে সেভ করো। ৫ রাউন্ড শেষে বেশি গোল করলেই জিতবে। সমান হলে সাডেন ডেথ!</p>
+  </div>
+
+  <!-- FINAL -->
+  <section class="final" id="finalBox">
+    <div class="trophy" id="finalEmoji">🏆</div>
+    <h2 id="finalTitle">তুমি জিতেছো!</h2>
+    <p id="finalSub">দারুণ পেনাল্টি শুটআউট!</p>
+    <div class="finalScore"><span id="finalYou">0</span> <em>—</em> <span id="finalCpu">0</span></div>
+    <button class="btn btn-primary" id="againBtn" style="width:100%">আবার খেলো</button>
+  </section>
+
+  <div class="legend">
+    <span><i class="sw" style="background:var(--green)"></i> গোল</span>
+    <span><i class="sw" style="background:var(--red)"></i> মিস / সেভ</span>
+    <span><i class="sw" style="background:var(--gold)"></i> পরের কিক</span>
+  </div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+(function(){
+  var zonesEl = document.getElementById('zones');
+  var keeper = document.getElementById('keeper');
+  var ball = document.getElementById('ball');
+  var flash = document.getElementById('targetFlash');
+  var banner = document.getElementById('resultBanner');
+  var bannerCard = document.getElementById('resultCard');
+  var commentary = document.getElementById('commentary');
+  var turnBadge = document.getElementById('turnBadge');
+  var turnText = document.getElementById('turnText');
+  var scoreYouEl = document.getElementById('scoreYou');
+  var scoreCpuEl = document.getElementById('scoreCpu');
+  var roundText = document.getElementById('roundText');
+  var kickText = document.getElementById('kickText');
+  var dotsYou = document.getElementById('dotsYou');
+  var dotsCpu = document.getElementById('dotsCpu');
+  var diveRow = document.getElementById('diveRow');
+  var finalBox = document.getElementById('finalBox');
+  var goalEl = document.getElementById('goal');
+
+  // zone positions inside goal (%)
+  var zonePos = [
+    {x:16,y:18},{x:50,y:16},{x:84,y:18},
+    {x:16,y:50},{x:50,y:48},{x:84,y:50},
+    {x:16,y:82},{x:50,y:84},{x:84,y:82}
+  ];
+  var cornerZones = [0,2,6,8];
+  var edgeZones = [0,2,6,8,1];
+
+  var state;
+  var soundOn = true;
+  var audioCtx = null;
+
+  function beep(freq, dur, type, vol){
+    if(!soundOn) return;
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      if(audioCtx.state==='suspended') audioCtx.resume();
+      var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = type||'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(vol||0.12, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (dur||0.15));
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(); o.stop(audioCtx.currentTime + (dur||0.15));
+    }catch(e){}
+  }
+  function whistle(){ beep(2200,0.35,'square',0.05); setTimeout(function(){beep(2200,0.25,'square',0.05)},180); }
+  function kickSound(){ beep(140,0.12,'triangle',0.22); }
+  function cheer(){ [523,659,784].forEach(function(f,i){ setTimeout(function(){beep(f,0.22,'sine',0.09)}, i*90); }); }
+
+  function reset(){
+    state = {
+      phase:'shoot', // shoot | anim | defend | animDef | over
+      round:1,
+      kick:1, // total kicks taken counter for display
+      you:0, cpu:0,
+      youHist:[], cpuHist:[],
+      suddenDeath:false,
+      busy:false
+    };
+    finalBox.classList.remove('show');
+    banner.className='resultBanner';
+    resetPositions();
+    render();
+    setTurn('shoot');
+    commentary.textContent = 'গোলের যেকোনো জায়গায় ট্যাপ করে শট নাও। কর্নারে মারলে গোলের চান্স বেশি, কিন্তু মিসও হতে পারে!';
+    whistle();
+  }
+
+  function resetPositions(){
+    keeper.className='keeper';
+    ball.style.transition='none';
+    ball.style.left='50%'; ball.style.top='52px';
+    ball.style.transform='translate(-50%,0) scale(1)';
+    ball.style.opacity='1';
+    // force reflow then restore transition
+    void ball.offsetWidth;
+    ball.style.transition='';
+    flash.className='targetFlash';
+  }
+
+  function render(){
+    scoreYouEl.textContent = state.you;
+    scoreCpuEl.textContent = state.cpu;
+    var totalRounds = state.suddenDeath ? state.round : 5;
+    roundText.textContent = state.suddenDeath ? ('সাডেন ডেথ • রাউন্ড ' + state.round) : ('রাউন্ড ' + Math.min(state.round,5) + ' / ৫');
+    kickText.textContent = state.phase==='defend' ? 'এবার সেভ করো' : (state.phase==='over' ? 'ম্যাচ শেষ' : 'তোমার কিক');
+    renderDots(dotsYou, state.youHist, state.phase==='shoot' && !state.busy);
+    renderDots(dotsCpu, state.cpuHist, state.phase==='defend' && !state.busy);
+  }
+  function renderDots(el, hist, isNext){
+    el.innerHTML='';
+    var n = Math.max(5, hist.length + (isNext?1:0));
+    for(var i=0;i<n;i++){
+      var d=document.createElement('span'); d.className='dot';
+      if(i<hist.length){ d.className += hist[i] ? ' goal':' miss'; d.textContent = hist[i] ? '✓':'✕'; }
+      else if(isNext && i===hist.length){ d.className+=' next'; }
+      el.appendChild(d);
+    }
+  }
+
+  function setTurn(mode){
+    if(mode==='shoot'){
+      turnBadge.classList.remove('defend');
+      turnText.textContent='তোমার শট — গোলে ট্যাপ করো';
+      diveRow.classList.remove('show');
+      zonesEl.classList.remove('locked');
+    } else if(mode==='defend'){
+      turnBadge.classList.add('defend');
+      turnText.textContent='CPU-র শট — ঝাঁপ দিয়ে সেভ করো';
+      diveRow.classList.add('show');
+      zonesEl.classList.remove('locked');
+    } else {
+      turnText.textContent='...';
+      diveRow.classList.remove('show');
+      zonesEl.classList.add('locked');
+    }
+    render();
+  }
+
+  function keeperClassForZone(z){
+    // map 9 zones to 5 keeper moves
+    if(z===0||z===3) return 'dive-left';
+    if(z===6) return 'jump-mid-left';
+    if(z===2||z===5) return 'dive-right';
+    if(z===8) return 'jump-mid-right';
+    return 'dive-center';
+  }
+  function zoneCol(z){ return z%3; } // 0 left,1 center,2 right
+
+  function showBanner(type, text){
+    banner.className='resultBanner show '+type;
+    bannerCard.textContent=text;
+  }
+  function hideBanner(){ banner.className='resultBanner'; }
+
+  function flyBallTo(zone, done){
+    var gr = goalEl.getBoundingClientRect();
+    var br = ball.parentElement.getBoundingClientRect();
+    var p = zonePos[zone];
+    var targetX = gr.left - br.left + gr.width * (p.x/100);
+    var targetY = gr.top - br.top + gr.height * (p.y/100);
+    // flash target
+    flash.style.left = p.x+'%'; flash.style.top = p.y+'%';
+    flash.className='targetFlash show';
+    kickSound();
+    ball.classList.add('shooting');
+    ball.style.left = targetX+'px';
+    ball.style.top = targetY+'px';
+    ball.style.transform='translate(-50%,-50%) scale(0.55) rotate(260deg)';
+    setTimeout(done, 540);
+  }
+  function flyBallWide(zone, done){
+    // miss: ball goes outside post
+    var gr = goalEl.getBoundingClientRect();
+    var br = ball.parentElement.getBoundingClientRect();
+    var p = zonePos[zone];
+    var outX = p.x < 50 ? -4 : 104;
+    var targetX = gr.left - br.left + gr.width * (outX/100);
+    var targetY = gr.top - br.top + gr.height * ((p.y-6)/100);
+    kickSound();
+    ball.style.left = targetX+'px';
+    ball.style.top = targetY+'px';
+    ball.style.transform='translate(-50%,-50%) scale(0.5) rotate(300deg)';
+    setTimeout(done, 540);
+  }
+
+  // ---------- PLAYER SHOOTS ----------
+  function playerShoot(zone){
+    if(state.busy || state.phase!=='shoot') return;
+    state.busy = true; setTurn('anim');
+    hideBanner();
+
+    var keeperZone = Math.floor(Math.random()*9);
+    // CPU keeper is smart-ish: 40% reads correct column
+    if(Math.random() < 0.40){
+      var col = zoneCol(zone);
+      var options = [col, col+3, col+6];
+      keeperZone = options[Math.floor(Math.random()*options.length)];
+    }
+    var isCorner = cornerZones.indexOf(zone)>-1;
+    var missed = isCorner && Math.random() < 0.16; // corner risk
+
+    setTimeout(function(){ keeper.className='keeper '+keeperClassForZone(keeperZone); }, 120);
+
+    if(missed){
+      flyBallWide(zone, function(){
+        state.youHist.push(false);
+        showBanner('miss','MISS! ✕');
+        commentary.textContent='ওহ! বল পোস্টের বাইরে চলে গেলো। কর্নার শটে ঝুঁকি বেশি!';
+        beep(180,0.3,'sawtooth',0.06);
+        afterKick();
+      });
+      return;
+    }
+    flyBallTo(zone, function(){
+      var saved = (keeperZone===zone);
+      if(saved){
+        state.youHist.push(false);
+        showBanner('saved','SAVED!');
+        commentary.textContent='কিপার ধরে ফেললো! ঠিক জায়গায় ঝাঁপ দিয়েছিল CPU কিপার।';
+        beep(220,0.25,'triangle',0.1);
+      } else {
+        state.youHist.push(true); state.you++;
+        showBanner('goal','GOAL! ⚽');
+        commentary.textContent = pickGoalLine();
+        cheer();
+        burstConfetti(14);
+      }
+      afterKick();
+    });
+  }
+  function pickGoalLine(){
+    var lines=['গোওওল! কিপার উল্টো দিকে, বল জালে!','দারুণ ফিনিশ! গোলকিপারের কোনো সুযোগই ছিল না।','কী শট! স্টেডিয়ামে উল্লাস ছড়িয়ে পড়লো!','নিখুঁত পেনাল্টি! বল সোজা জালে।'];
+    return lines[Math.floor(Math.random()*lines.length)];
+  }
+
+  function afterKick(){
+    render();
+    setTimeout(function(){
+      hideBanner(); resetPositions();
+      if(checkEarlyEnd()) return;
+      state.phase='defend'; state.busy=false;
+      setTurn('defend');
+      commentary.textContent='এবার CPU শট নেবে। কোন দিকে ঝাঁপ দেবে ঠিক করো — গোলে ট্যাপ করো বা নিচের বাটন চাপো।';
+      render();
+    }, 1250);
+  }
+
+  // ---------- PLAYER KEEPS (DEFEND) ----------
+  function playerDive(zone){
+    if(state.busy || state.phase!=='defend') return;
+    state.busy = true; setTurn('anim');
+    hideBanner(); diveRow.classList.remove('show');
+
+    var cpuZone = Math.floor(Math.random()*9);
+    var cpuMissed = cornerZones.indexOf(cpuZone)>-1 && Math.random() < 0.14;
+
+    setTimeout(function(){ keeper.className='keeper '+keeperClassForZone(zone); }, 120);
+
+    if(cpuMissed){
+      flyBallWide(cpuZone, function(){
+        state.cpuHist.push(false);
+        showBanner('saved','CPU MISS!');
+        commentary.textContent='CPU বল বাইরে মেরে দিলো! তোমার জন্য বোনাস সুযোগ।';
+        cheer();
+        afterDefend();
+      });
+      return;
+    }
+    flyBallTo(cpuZone, function(){
+      var saved = (zone===cpuZone);
+      if(saved){
+        state.cpuHist.push(false);
+        showBanner('saved','SAVED! 🧤');
+        commentary.textContent='অসাধারণ সেভ! তুমি ঠিক দিকটা পড়ে ফেলেছিলে!';
+        cheer(); burstConfetti(10);
+      } else {
+        state.cpuHist.push(true); state.cpu++;
+        showBanner('goal','CPU GOAL');
+        commentary.textContent='CPU গোল করে দিলো। বলটা অন্য কর্নারে গেলো।';
+        beep(200,0.25,'triangle',0.08);
+      }
+      afterDefend();
+    });
+  }
+
+  function afterDefend(){
+    render();
+    setTimeout(function(){
+      hideBanner(); resetPositions();
+      // round complete
+      var bothTaken = state.youHist.length===state.cpuHist.length;
+      if(bothTaken){
+        if(state.suddenDeath){
+          if(state.you!==state.cpu){ finish(); return; }
+          state.round++;
+        } else if(state.round>=5){
+          if(state.you===state.cpu){ state.suddenDeath=true; state.round=6; commentary.textContent='স্কোর সমান! এখন সাডেন ডেথ — একটা মিস মানেই হার।'; }
+          else { finish(); return; }
+        } else {
+          state.round++;
+          if(checkEarlyEnd()) return;
+        }
+      }
+      state.phase='shoot'; state.busy=false;
+      setTurn('shoot');
+      if(!state.suddenDeath) commentary.textContent='রাউন্ড '+state.round+' — তোমার শট। গোলে ট্যাপ করো।';
+      render();
+    }, 1250);
+  }
+
+  function remaining(hist){ var base = state.suddenDeath ? hist.length : 5; return Math.max(0, base - hist.length); }
+  function checkEarlyEnd(){
+    if(state.suddenDeath) return false;
+    var youLeft = 5 - state.youHist.length;
+    var cpuLeft = 5 - state.cpuHist.length;
+    if(state.you > state.cpu + cpuLeft || state.cpu > state.you + youLeft){
+      finish(); return true;
+    }
+    return false;
+  }
+
+  function finish(){
+    state.phase='over'; state.busy=false;
+    setTurn('over'); render();
+    kickText.textContent='ম্যাচ শেষ';
+    var win = state.you > state.cpu;
+    var draw = state.you===state.cpu;
+    document.getElementById('finalYou').textContent=state.you;
+    document.getElementById('finalCpu').textContent=state.cpu;
+    document.getElementById('finalEmoji').textContent = win ? '🏆' : (draw ? '🤝':'😤');
+    document.getElementById('finalTitle').textContent = win ? 'তুমি জিতেছো!' : 'CPU জিতলো!';
+    document.getElementById('finalSub').textContent = win ? 'চ্যাম্পিয়ন! দারুণ ঠান্ডা মাথায় পেনাল্টি নিয়েছো।' : 'কাছাকাছি লড়াই হলো। আবার চেষ্টা করো, পরেরবার তুমিই জিতবে!';
+    finalBox.classList.add('show');
+    commentary.textContent = win ? 'ম্যাচ শেষ — তুমি পেনাল্টি শুটআউটের চ্যাম্পিয়ন!' : 'ম্যাচ শেষ — CPU এবার জিতে গেলো।';
+    whistle();
+    if(win) burstConfetti(60);
+    finalBox.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  function burstConfetti(n){
+    var box=document.getElementById('confetti');
+    var colors=['#f5c518','#22c55e','#38bdf8','#ffffff','#f97316'];
+    for(var i=0;i<n;i++){
+      var el=document.createElement('i');
+      el.style.left=(Math.random()*100)+'vw';
+      el.style.background=colors[Math.floor(Math.random()*colors.length)];
+      el.style.animationDuration=(0.9+Math.random()*0.9)+'s';
+      el.style.animationDelay=(Math.random()*0.25)+'s';
+      el.style.transform='rotate('+(Math.random()*360)+'deg)';
+      box.appendChild(el);
+      (function(node){ setTimeout(function(){ node.remove(); }, 2200); })(el);
+    }
+  }
+
+  // Events
+  zonesEl.addEventListener('click', function(e){
+    var btn = e.target.closest('.zone'); if(!btn) return;
+    var z = parseInt(btn.getAttribute('data-zone'),10);
+    if(state.phase==='shoot') playerShoot(z);
+    else if(state.phase==='defend') playerDive(z);
+  });
+  diveRow.addEventListener('click', function(e){
+    var btn=e.target.closest('.diveBtn'); if(!btn) return;
+    var d=btn.getAttribute('data-dive');
+    var z = d==='left' ? 3 : (d==='right' ? 5 : 4);
+    playerDive(z);
+  });
+  document.getElementById('restartBtn').addEventListener('click', reset);
+  document.getElementById('againBtn').addEventListener('click', function(){ reset(); window.scrollTo({top:0,behavior:'smooth'}); });
+  var soundBtn=document.getElementById('soundBtn');
+  soundBtn.addEventListener('click', function(){
+    soundOn=!soundOn;
+    soundBtn.textContent = soundOn ? '🔊 সাউন্ড: চালু' : '🔇 সাউন্ড: বন্ধ';
+    if(soundOn) beep(660,0.1,'sine',0.08);
+  });
+
+  reset();
+})();
+</script>
+</body>
+</html>
