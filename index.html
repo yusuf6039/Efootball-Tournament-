@@ -1692,7 +1692,7 @@
   <section class="panel" id="panel-fixtures" role="tabpanel">
     <div class="sec-head">
       <h2>সূচি ও ফলাফল</h2>
-      <p>মোট ৫৫ ম্যাচ · ৩১টির ফলাফল এসেছে · খেলোয়াড়ের নাম দিয়ে খুঁজুন, বা ফিল্টার করুন</p>
+      <p>মোট ৫৫ ম্যাচ · ৩৩টির ফলাফল এসেছে · খেলোয়াড়ের নাম দিয়ে খুঁজুন, বা ফিল্টার করুন</p>
     </div>
     <div class="filters" role="group" aria-label="ম্যাচ ফিল্টার">
       <button class="chip" data-filter="all" aria-pressed="true">সব ম্যাচ</button>
@@ -2249,8 +2249,8 @@ var MATCHES = [
   {d:"2026-11-03", dl:"Tue · 3 Nov", h:"Sabbir Rahman", a:"Sifat Arfin", t:"10:00 PM", hs:1, as:5},
   {d:"2026-11-04", dl:"Wed · 4 Nov", h:"Mustafizur Rahman", a:"Kamrul Hassan", t:"9:30 PM", hs:1, as:2},
   {d:"2026-11-04", dl:"Wed · 4 Nov", h:"Nazmuz Sakib", a:"MD Yusuf Ali", t:"10:00 PM", hs:2, as:1},
-  {d:"2026-11-05", dl:"Thu · 5 Nov", h:"Sahinul Islam", a:"Sakil Mirza", t:"9:30 PM"},
-  {d:"2026-11-05", dl:"Thu · 5 Nov", h:"Rs Rifat", a:"Sifat Arfin", t:"10:00 PM"},
+  {d:"2026-11-05", dl:"Thu · 5 Nov", h:"Sahinul Islam", a:"Sakil Mirza", t:"9:30 PM", hs:2, as:3},
+  {d:"2026-11-05", dl:"Thu · 5 Nov", h:"Rs Rifat", a:"Sifat Arfin", t:"10:00 PM", hs:3, as:0},
   {d:"2026-11-06", dl:"Fri · 6 Nov", h:"Showrab Patwary", a:"Kamrul Hassan", t:"9:30 PM"},
   {d:"2026-11-06", dl:"Fri · 6 Nov", h:"Sabbir Rahman", a:"Radwan Riad", t:"10:00 PM"},
   {d:"2026-11-07", dl:"Sat · 7 Nov", h:"Nazmuz Sakib", a:"Sakil Mirza", t:"9:30 PM"},
@@ -2663,18 +2663,35 @@ function pad2(n){ return (n<10 ? "0" : "") + n; }
 
 /* ============ FIXTURES: filter + search ============ */
 var curFilter = "all";
+/* Somoy ("9:30 PM") ke minute e rupantor — newest-first sort er jonno */
+function timeToMin(t){
+  var p = t.split(" "), hm = p[0].split(":");
+  var mins = (Number(hm[0]) % 12) * 60 + Number(hm[1]);
+  return p[1]==="PM" ? mins + 720 : mins;
+}
 function renderFixtures(){
   var q = document.getElementById("search").value.trim().toLowerCase();
   var html = "", count = 0;
-  var groups = {};
+  var list = [];
   MATCHES.forEach(function(m){
     if(curFilter==="ft" && !hasScore(m)) return;
     if(curFilter==="up" && hasScore(m)) return;
     if(q && (m.h+" "+m.a).toLowerCase().indexOf(q)===-1) return;
-    (groups[m.d] = groups[m.d] || []).push(m);
+    list.push(m);
     count++;
   });
-  Object.keys(groups).forEach(function(dk){
+  /* Newest-first: sobcheye notun date age, eki date er moddhe sobcheye
+     derir somoyer match age — purono match niche jay */
+  list.sort(function(x,y){
+    if(x.d!==y.d) return x.d < y.d ? 1 : -1;
+    return timeToMin(y.t) - timeToMin(x.t);
+  });
+  var groups = {}, order = [];
+  list.forEach(function(m){
+    if(!groups[m.d]){ groups[m.d] = []; order.push(m.d); }
+    groups[m.d].push(m);
+  });
+  order.forEach(function(dk){
     html += '<div class="date-label">'+bnDateOf(groups[dk][0])+'</div><div class="match-list">'
       + groups[dk].map(matchCard).join("") + '</div>';
   });
@@ -3039,7 +3056,7 @@ window.addEventListener("load", syncNavHeight);
     {a:{n:"Radwan Riad",c:"Belgium",f:"be"}, b:{n:"HM Nahidul Islam",c:"Australia",f:"au"}, w:"Tue, 3 Nov 2026 · 11:00 PM", hs:3, as:4},
     {a:{n:"Didarul Islam",c:"Portugal",f:"pt"}, b:{n:"Mohashin Mia",c:"Ivory Coast",f:"ci"}, w:"Wed, 4 Nov 2026 · 10:30 PM", hs:1, as:2},
     {a:{n:"Mustafizur Rahman",c:"Poland",f:"pl"}, b:{n:"Md Bijoy",c:"South Korea",f:"kr"}, w:"Wed, 4 Nov 2026 · 11:00 PM", hs:1, as:2},
-    {a:{n:"Md Hassanur Rashid Adib",c:"England",f:"gb-eng"}, b:{n:"Munif Ahnaf",c:"Croatia",f:"hr"}, w:"Thu, 5 Nov 2026 · 10:30 PM"},
+    {a:{n:"Md Hassanur Rashid Adib",c:"England",f:"gb-eng"}, b:{n:"Munif Ahnaf",c:"Croatia",f:"hr"}, w:"Thu, 5 Nov 2026 · 10:30 PM", hs:4, as:3},
     {a:{n:"Tamim Rahman",c:"Norway",f:"no"}, b:{n:"Al Shahriar",c:"Uruguay",f:"uy"}, w:"Fri, 6 Nov 2026 · 9:00 PM"},
     {a:{n:"Al Imran",c:"Germany",f:"de"}, b:{n:"Yasir Arafat Simanto",c:"Austria",f:"at"}, w:"Fri, 6 Nov 2026 · 10:30 PM"},
     {a:{n:"Mohammad Sayed Islam",c:"Mexico",f:"mx"}, b:{n:"Md Sifat Arfin",c:"Senegal",f:"sn"}, w:"Fri, 6 Nov 2026 · 11:00 PM"},
