@@ -9,6 +9,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- FAST OPEN, ORIGINAL QUALITY: sob file-i asol original (compress /
+     re-encode kora hoy nai — quality ekdom ager motoi). Page kholar somoy
+     sudhu gate er prothom screen er joruri ongsho (stadium poster +
+     logo) name; baki chobi, SVG flag/crest, player photo/art lazy —
+     scroll ba section khulle name. Sobcheye vari duto jinis — gate er
+     background video (7.5 MB) ar YouTube embed — page kholar somoy
+     EKDOMI name na: dutor-i play button e tap korlei sudhu load hoy,
+     tai mobile data teo page sathe sathe khule jay, poster tai
+     background thake jotokkhon user nije video na chalacche. -->
+<link rel="preconnect" href="https://www.youtube.com">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="preload" as="image" href="assets/stadium-night.jpg" fetchpriority="high">
 <style>
   /* Infinite Arena theme: neon blue + silver on dark navy/black (logo-r color).
      Puro site ek tai dark theme — halka text sudhu dark background e,
@@ -231,15 +243,23 @@
        Sudhu mobile (max-width:820px) — desktop menu bodlay na. */
     #topnav-menu-ucl{gap:6px 8px;padding:0}
     #topnav-menu-ucl .topnav-link{min-height:42px;padding:9px 12px;font-size:12.5px}
-    /* Tournament 2 menu (mobile): aro ghono/compact — user screenshot e
-       lal dag deya 2 jaygar (row 1–2 ar row 2–3 er majher) gap komate
-       row gap 0, item gap 4px, link padding 2px 6px, min-height 30px —
-       row gula porospor aro kache boshe, kintu prottek item alada tap
-       area rakhe (30px lomba), kichu lukay na.
+    /* Tournament 2 menu (mobile): age flex-wrap e item gula elomelo
+       chhoriye jeto — lomba Bangla label (অংশগ্রহণকারী ৩২ জন /
+       খেলার নিয়ম ও শর্তাবলি) ek rowe dhorto na bole bhenge niche
+       pore jeto (user er screenshot, lal box). Tai ekhon porishkar
+       2-column grid: prottek button soman ghore, soman height e
+       boshe — [Home | Overview] [অংশগ্রহণকারী ৩২ জন | সূচি ও ফলাফল]
+       ar sesher (খেলার নিয়ম ও শর্তাবলি) full width niye niche.
+       Kono button kata pore na, elomelo lage na. Tap target 44px.
        Sudhu #topnav-menu-t32 scoped + sudhu mobile — Tournament 1 ar
        desktop menu bodlay na. */
-    #topnav-menu-t32{gap:0 4px;padding:0;margin-top:-4px}
-    #topnav-menu-t32 .topnav-link{min-height:30px;padding:2px 6px;font-size:12px;line-height:1.1;border-radius:8px}
+    #topnav-menu-t32{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0;margin-top:0}
+    #topnav-menu-t32 .topnav-link{min-height:44px;padding:9px 8px;font-size:12.5px;line-height:1.3;border-radius:10px;width:100%}
+    #topnav-menu-t32 .topnav-link:last-child{grid-column:1 / -1}
+    /* Uporer display:grid jeno gate screen e menu lukano (body.gate-open)
+       rule ta ke hariye na dey — tai ekhane aro strong specificity te
+       abar none kore deya holo. */
+    body.gate-open #topnav-menu-t32{display:none}
     /* Mobile: Facebook ar YouTube Live button e sudhu icon — "FACEBOOK" /
        "YOUTUBE LIVE" lekha lukano (font-size:0 e text node adrishya hoy,
        svg er nijosso size thakay icon poriskar dekha jay). Button compact
@@ -249,6 +269,14 @@
     .topnav-fb,.topnav-cta{font-size:0;line-height:0;gap:0;padding:12px 16px;min-width:56px}
     .topnav-fb svg{width:20px;height:20px}
     .topnav-cta svg{width:26px;height:19px}
+    /* Mobile: Back / Facebook / YouTube button aro choto (user er
+       screenshot — button gula boro lagchilo). Uporer 48px height ar
+       boro padding ekhane override hoye 38px height e name; icon-o
+       ektu choto. Sudhu mobile — desktop er 44px size ager motoi. */
+    .back-btn{height:38px;min-height:38px;padding:8px 16px;font-size:12px}
+    .topnav-fb,.topnav-cta{height:38px;min-height:38px;padding:8px 12px;min-width:46px}
+    .topnav-fb svg{width:17px;height:17px}
+    .topnav-cta svg{width:22px;height:16px}
   }
 
   /* ---------- HERO ---------- */
@@ -551,7 +579,10 @@
   .vs-cd .cd-colon{font-size:clamp(23px,3.4vw,34px)}
   @media (max-width:480px){
     .vs-card{padding:0 0 12px;border-radius:20px}
-    .vs-stage{height:clamp(164px,44vw,192px)}
+    /* Mobile e VS stage er height komano (user er kotha, 2026-11-06):
+       flag/player chobi eki original-i thake, sudhu frame ta choto —
+       card kom lomba hoy, name pill / countdown kichui bodlay nai. */
+    .vs-stage{height:clamp(128px,34vw,150px)}
     .vs-names{padding:0 10px;margin-top:-20px}
     .vs-name-pill{padding:7px 9px 7px 7px}
     .vs-name-flag{width:40px;height:30px}
@@ -804,9 +835,10 @@
     .gate-angled-inner{clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,16px 100%,0 50%);padding:22px 24px 24px}
   }
   /* Gate hero YouTube embed — user er nijer channel er video (Infinite Arena
-     Live Tournament 2026), responsive 16:9, autoplay muted loop. Container er
-     pichone stadium poster (assets/stadium-night.jpg) fallback hisebe thake:
-     iframe load na hole / video na cholle poster tai dekha jay. */
+     Live Tournament 2026), responsive 16:9. TAP-TO-PLAY: page kholar somoy
+     iframe load hoy na — container er stadium poster er upore play button
+     thake, tate tap korlei sudhu YouTube name. Mobile data bachatei ei
+     bebostha; video cholle autoplay muted loop ager motoi. */
   .gate-youtube{
     position:relative;width:100%;max-width:800px;margin:22px auto 0;
     aspect-ratio:16/9;
@@ -816,6 +848,44 @@
   }
   .gate-youtube iframe{
     position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+  }
+  .gate-yt-play{
+    position:absolute;inset:0;z-index:2;width:100%;height:100%;border:0;padding:0;
+    background:rgba(2,6,16,.28);color:#fff;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    font-family:"Hind Siliguri",sans-serif;
+  }
+  .gate-yt-play .yt-play-disc{
+    width:70px;height:70px;border-radius:50%;flex:none;
+    background:#FF0033;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 26px rgba(255,0,51,.45);
+  }
+  .gate-yt-play .yt-play-disc svg{width:30px;height:30px;margin-left:3px}
+  .gate-yt-play .yt-play-label{
+    font-size:16px;font-weight:700;letter-spacing:.01em;
+    background:rgba(2,8,18,.78);padding:7px 16px;border-radius:999px;
+    border:1px solid rgba(148,184,255,.35);text-shadow:0 1px 6px rgba(0,0,0,.8);
+  }
+  .gate-yt-play:active .yt-play-disc{transform:scale(.94)}
+  /* Gate background video toggle — video ta page kholar somoy name na,
+     ei button e tap korlei sudhu chalu hoy (abar tap = thamano jay) */
+  .gate-video-toggle{
+    margin:14px auto 0;display:inline-flex;align-items:center;gap:9px;
+    padding:10px 18px;border-radius:999px;cursor:pointer;
+    border:1px solid rgba(56,189,248,.55);background:rgba(3,10,22,.82);
+    color:#EAF4FF;font-family:"Hind Siliguri",sans-serif;font-size:14.5px;font-weight:600;
+    box-shadow:0 8px 22px rgba(0,0,0,.45);
+  }
+  .gate-video-toggle svg{width:13px;height:13px;flex:none}
+  .gate-video-toggle .ic-pause{display:none}
+  .gate-video-toggle.is-playing .ic-pause{display:block}
+  .gate-video-toggle.is-playing .ic-play{display:none}
+  @media (prefers-reduced-motion: reduce){.gate-video-toggle{display:none}}
+  @media (max-width:560px){
+    .gate-yt-play .yt-play-disc{width:58px;height:58px}
+    .gate-yt-play .yt-play-disc svg{width:25px;height:25px}
+    .gate-yt-play .yt-play-label{font-size:14px;padding:6px 13px}
+    .gate-video-toggle{font-size:13.5px;padding:9px 15px}
   }
   .gate-youtube-caption{
     margin:10px auto 0;font-size:13.5px;font-weight:600;color:#C9D9F2;
@@ -1505,11 +1575,11 @@
      thaka Back / টুর্নামেন্ট বদলাও button chaple reload charai ei
      screen abar fire asbe. -->
 <div class="gate-screen" id="gate-screen" role="dialog" aria-labelledby="gate-question">
-  <video class="gate-video" id="gate-video" muted loop playsinline preload="none" poster="assets/gate-poster.webp" aria-hidden="true" tabindex="-1">
+  <video class="gate-video" id="gate-video" muted loop playsinline preload="none" poster="assets/stadium-night.jpg" aria-hidden="true" tabindex="-1">
     <source src="assets/gate-hero-video.mp4" type="video/mp4" />
   </video>
   <div class="gate-inner">
-    <img class="gate-logo" src="assets/infinite-arena-logo.webp" alt="Infinite Arena logo — neon blue IA crest, Beyond Limits Beyond Games" />
+    <img class="gate-logo" src="assets/infinite-arena-logo.png" alt="Infinite Arena logo — neon blue IA crest, Beyond Limits Beyond Games" fetchpriority="high" decoding="async" />
     <div class="gate-brand">Infinite Arena</div>
     <div class="gate-angled-outer">
       <div class="gate-angled-inner">
@@ -1518,8 +1588,17 @@
     </div>
     <div class="gate-youtube">
       <iframe id="gate-yt" data-src="https://www.youtube.com/embed/EWMwr6Rf9jk?start=3694&autoplay=1&mute=1&loop=1&playlist=EWMwr6Rf9jk" title="Infinite Arena Live Tournament 2026 — YouTube ভিডিও" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+      <button type="button" class="gate-yt-play" id="gate-yt-play" aria-label="YouTube Live ভিডিও চালাও">
+        <span class="yt-play-disc" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5.14v13.72c0 .8.87 1.3 1.56.88l10.5-6.86a1.03 1.03 0 0 0 0-1.76L9.56 4.26A1.03 1.03 0 0 0 8 5.14z"/></svg></span>
+        <span class="yt-play-label">Live ভিডিও চালাও</span>
+      </button>
     </div>
     <p class="gate-youtube-caption">Infinite Arena Live Tournament 2026</p>
+    <button type="button" class="gate-video-toggle" id="gate-video-toggle" aria-pressed="false" aria-label="ব্যাকগ্রাউন্ড ভিডিও চালাও বা থামাও">
+      <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72c0 .8.87 1.3 1.56.88l10.5-6.86a1.03 1.03 0 0 0 0-1.76L9.56 4.26A1.03 1.03 0 0 0 8 5.14z"/></svg>
+      <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+      <span class="gvt-label">ব্যাকগ্রাউন্ড ভিডিও চালাও</span>
+    </button>
     <h1 class="gate-question" id="gate-question">কোন টুর্নামেন্ট দেখতে চাও?</h1>
     <p class="gate-sub">নিচের দুটি টুর্নামেন্টের যেকোনো একটিতে ট্যাপ করো — সেই টুর্নামেন্টের পেজ খুলে যাবে।</p>
     <div class="gate-options">
@@ -1530,7 +1609,7 @@
           <span class="go-desc">বর্তমান UCL টুর্নামেন্ট — পয়েন্ট টেবিল, সূচি ও ফলাফল, Knockout!</span>
           <span class="go-arrow">এই টুর্নামেন্ট দেখো →</span>
         </span>
-        <img class="go-trophy" src="assets/ucl-trophy.jpg" alt="" aria-hidden="true" />
+        <img class="go-trophy" src="assets/ucl-trophy.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       </button>
       <button type="button" class="gate-option gate-card gate-card-32" id="gate-opt-32">
         <span class="go-main">
@@ -1539,7 +1618,7 @@
           <span class="go-desc">৩২ জন অংশগ্রহণকারী ও পুরো Knockout Bracket — Round of 32 থেকে Final</span>
           <span class="go-arrow">এই টুর্নামেন্ট দেখো →</span>
         </span>
-        <img class="go-messi" src="assets/messi-argentina.jpg" alt="" aria-hidden="true" />
+        <img class="go-messi" src="assets/messi-argentina.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       </button>
     </div>
     <div class="gate-marquee" aria-label="eFootball টুর্নামেন্টের হাইলাইটস">
@@ -1573,7 +1652,7 @@
 <header class="topnav" id="topnav">
   <div class="topnav-inner">
     <a class="topnav-brand" href="#" aria-label="Infinite Arena — Home Page e jan">
-      <img src="assets/infinite-arena-logo.webp" alt="Infinite Arena logo" />
+      <img src="assets/infinite-arena-logo.png" alt="Infinite Arena logo" loading="lazy" decoding="async" />
       <span class="topnav-brand-text"><b>Infinite Arena</b><span id="brand-tour-label">UCL • eFootball</span></span>
     </a>
     <nav class="topnav-menu" id="topnav-menu-ucl" aria-label="UCL Paid Tournament menu">
@@ -1603,7 +1682,7 @@
 <header class="hero">
   <img class="bg" loading="lazy" decoding="async" src="assets/stadium-night.jpg" alt="রাতে ফ্লাডলাইটে উজ্জ্বল ফুটবল স্টেডিয়াম, সবুজ মাঠ — টুর্নামেন্টের হিরো ছবি" />
   <div class="hero-inner">
-    <img class="hero-logo-top" src="assets/infinite-arena-logo.webp" alt="Infinite Arena logo — neon blue IA crest, Beyond Limits Beyond Games" />
+    <img class="hero-logo-top" src="assets/infinite-arena-logo.png" alt="Infinite Arena logo — neon blue IA crest, Beyond Limits Beyond Games" loading="lazy" decoding="async" />
     <div class="hero-brand-title">Infinite Arena</div>
     <div class="hero-brand-row">
       <span class="hero-season-pill">UCL টুর্নামেন্ট • eFootball • নতুন সিজন • গ্রুপ পর্ব • সিজন ২০২৬</span>
@@ -2006,10 +2085,10 @@
       <div class="participant-card"><span class="p-num">৪</span><img class="p-flag" src="assets/flags-svg/uy.svg" alt="Uruguay flag" loading="lazy" /><div class="p-info"><div class="p-name">Al Shahriar</div><div class="p-country">Uruguay</div></div></div>
       <div class="participant-card"><span class="p-num">৫</span><img class="p-flag" src="assets/flags-svg/pt.svg" alt="Portugal flag" loading="lazy" /><div class="p-info"><div class="p-name">Didarul Islam</div><div class="p-country">Portugal</div></div></div>
       <div class="participant-card"><span class="p-num">৬</span><img class="p-flag" src="assets/flags-svg/ng.svg" alt="Nigeria flag" loading="lazy" /><div class="p-info"><div class="p-name">Fahad Hossain Khan</div><div class="p-country">Nigeria</div></div></div>
-      <div class="participant-card"><span class="p-num">৭</span><img class="p-flag" src="assets/flags-svg/es.webp" alt="Spain flag" loading="lazy" /><div class="p-info"><div class="p-name">Foysal Rahman Shoron</div><div class="p-country">Spain</div></div></div>
+      <div class="participant-card"><span class="p-num">৭</span><img class="p-flag" src="assets/flags-svg/es.svg" alt="Spain flag" loading="lazy" /><div class="p-info"><div class="p-name">Foysal Rahman Shoron</div><div class="p-country">Spain</div></div></div>
       <div class="participant-card"><span class="p-num">৮</span><img class="p-flag" src="assets/flags-svg/au.svg" alt="Australia flag" loading="lazy" /><div class="p-info"><div class="p-name">HM Nahidul Islam</div><div class="p-country">Australia</div></div></div>
       <div class="participant-card"><span class="p-num">৯</span><img class="p-flag" src="assets/flags-svg/nl.svg" alt="Netherlands flag" loading="lazy" /><div class="p-info"><div class="p-name">Md Yusuf Ali</div><div class="p-country">Netherlands</div></div></div>
-      <div class="participant-card"><span class="p-num">১০</span><img class="p-flag" src="assets/flags-svg/ec.webp" alt="Ecuador flag" loading="lazy" /><div class="p-info"><div class="p-name">MA M UN</div><div class="p-country">Ecuador</div></div></div>
+      <div class="participant-card"><span class="p-num">১০</span><img class="p-flag" src="assets/flags-svg/ec.svg" alt="Ecuador flag" loading="lazy" /><div class="p-info"><div class="p-name">MA M UN</div><div class="p-country">Ecuador</div></div></div>
       <div class="participant-card"><span class="p-num">১১</span><img class="p-flag" src="assets/flags-svg/fr.svg" alt="France flag" loading="lazy" /><div class="p-info"><div class="p-name">HM Junaitul</div><div class="p-country">France</div></div></div>
       <div class="participant-card"><span class="p-num">১২</span><img class="p-flag" src="assets/flags-svg/kr.svg" alt="South Korea flag" loading="lazy" /><div class="p-info"><div class="p-name">Md Bijoy</div><div class="p-country">South Korea</div></div></div>
       <div class="participant-card"><span class="p-num">১৩</span><img class="p-flag" src="assets/flags-svg/gb-eng.svg" alt="England flag" loading="lazy" /><div class="p-info"><div class="p-name">Md Hassanur Rashid Adib</div><div class="p-country">England</div></div></div>
@@ -2018,8 +2097,8 @@
       <div class="participant-card"><span class="p-num">১৬</span><img class="p-flag" src="assets/flags-svg/ca.svg" alt="Canada flag" loading="lazy" /><div class="p-info"><div class="p-name">Meheraj Hossain Rahat</div><div class="p-country">Canada</div></div></div>
       <div class="participant-card"><span class="p-num">১৭</span><img class="p-flag" src="assets/flags-svg/co.svg" alt="Colombia flag" loading="lazy" /><div class="p-info"><div class="p-name">Rs Rifat</div><div class="p-country">Colombia</div></div></div>
       <div class="participant-card"><span class="p-num">১৮</span><img class="p-flag" src="assets/flags-svg/dk.svg" alt="Denmark flag" loading="lazy" /><div class="p-info"><div class="p-name">Mohammad Hassan</div><div class="p-country">Denmark</div></div></div>
-      <div class="participant-card"><span class="p-num">১৯</span><img class="p-flag" src="assets/flags-svg/mx.webp" alt="Mexico flag" loading="lazy" /><div class="p-info"><div class="p-name">Mohammad Sayed Islam</div><div class="p-country">Mexico</div></div></div>
-      <div class="participant-card"><span class="p-num">২০</span><img class="p-flag" src="assets/flags-svg/hr.webp" alt="Croatia flag" loading="lazy" /><div class="p-info"><div class="p-name">Munif Ahnaf</div><div class="p-country">Croatia</div></div></div>
+      <div class="participant-card"><span class="p-num">১৯</span><img class="p-flag" src="assets/flags-svg/mx.svg" alt="Mexico flag" loading="lazy" /><div class="p-info"><div class="p-name">Mohammad Sayed Islam</div><div class="p-country">Mexico</div></div></div>
+      <div class="participant-card"><span class="p-num">২০</span><img class="p-flag" src="assets/flags-svg/hr.svg" alt="Croatia flag" loading="lazy" /><div class="p-info"><div class="p-name">Munif Ahnaf</div><div class="p-country">Croatia</div></div></div>
       <div class="participant-card"><span class="p-num">২১</span><img class="p-flag" src="assets/flags-svg/pl.svg" alt="Poland flag" loading="lazy" /><div class="p-info"><div class="p-name">Mustafizur Rahman</div><div class="p-country">Poland</div></div></div>
       <div class="participant-card"><span class="p-num">২২</span><img class="p-flag" src="assets/flags-svg/ch.svg" alt="Switzerland flag" loading="lazy" /><div class="p-info"><div class="p-name">Nazmuz Sakib</div><div class="p-country">Switzerland</div></div></div>
       <div class="participant-card"><span class="p-num">২৩</span><img class="p-flag" src="assets/flags-svg/tr.svg" alt="Turkey flag" loading="lazy" /><div class="p-info"><div class="p-name">Nur Islam</div><div class="p-country">Turkey</div></div></div>
@@ -2156,18 +2235,18 @@ window.__FLAG_DATA = {
 "de":"assets/flags-svg/de.svg",
 "dk":"assets/flags-svg/dk.svg",
 "dz":"assets/flags-svg/dz.svg",
-"ec":"assets/flags-svg/ec.webp",
+"ec":"assets/flags-svg/ec.svg",
 "eg":"assets/flags-svg/eg.svg",
-"es":"assets/flags-svg/es.webp",
+"es":"assets/flags-svg/es.svg",
 "fr":"assets/flags-svg/fr.svg",
 "gb-eng":"assets/flags-svg/gb-eng.svg",
-"hr":"assets/flags-svg/hr.webp",
+"hr":"assets/flags-svg/hr.svg",
 "ir":"assets/flags-svg/ir.svg",
 "it":"assets/flags-svg/it.svg",
 "jp":"assets/flags-svg/jp.svg",
 "kr":"assets/flags-svg/kr.svg",
 "ma":"assets/flags-svg/ma.svg",
-"mx":"assets/flags-svg/mx.webp",
+"mx":"assets/flags-svg/mx.svg",
 "ng":"assets/flags-svg/ng.svg",
 "nl":"assets/flags-svg/nl.svg",
 "no":"assets/flags-svg/no.svg",
@@ -2185,7 +2264,7 @@ window.__CREST_DATA = {
 "che":"assets/crests-svg/che.svg",
 "fcb":"assets/crests-svg/fcb.svg",
 "int":"assets/crests-svg/int.svg",
-"liv":"assets/crests-svg/liv.webp",
+"liv":"assets/crests-svg/liv.svg",
 "mci":"assets/crests-svg/mci.svg",
 "mun":"assets/crests-svg/mun.svg",
 "psg":"assets/crests-svg/psg.svg",
@@ -2858,11 +2937,14 @@ window.addEventListener("load", syncNavHeight);
   var gate = document.getElementById("gate-screen");
   if(!gate) return;
   /* Gate hero video: load / decode error hole video ta soria dewa hoy,
-     jate nicher stadium background (fallback) dekhay. Gate hide thakle
-     video pause thake, gate fire asle abar play hoy. */
+     jate nicher stadium background (fallback) dekhay. Video sudhu user
+     toggle button e tap korlei chole; gate hide hole pause thake, fire
+     eleo auto-play hoy na (abar tap lagbe). */
   var gateVideo = document.getElementById("gate-video");
+  var videoToggle = document.getElementById("gate-video-toggle");
   function dropGateVideo(){
     if(gateVideo) gateVideo.style.display = "none";
+    if(videoToggle) videoToggle.style.display = "none";
   }
   if(gateVideo){
     gateVideo.addEventListener("error", dropGateVideo);
@@ -2878,23 +2960,40 @@ window.addEventListener("load", syncNavHeight);
     var p = gateVideo.play();
     if(p && p.catch) p.catch(function(){});
   }
-  /* Halka first load (mobile data): gate video ar YouTube iframe prothome
-     load hobe na — page render hoye gele idle somoye video play hobe ar
-     iframe er src bosbe. Save-Data on thakle video auto-load hobe na,
-     poster tai background thakbe. */
-  var gateYt = document.getElementById("gate-yt");
-  function startDeferredGateMedia(){
-    var conn = navigator.connection || {};
-    if(!conn.saveData) playGateVideo();
-    if(gateYt && !gateYt.getAttribute("src") && gateYt.getAttribute("data-src")){
-      gateYt.setAttribute("src", gateYt.getAttribute("data-src"));
-    }
+  /* TAP-TO-LOAD (mobile data bachate): gate er background video (7.5 MB)
+     ar YouTube iframe — dutoi page kholar somoy EKDOM name na. Sudhu
+     user nije play button e tap korlei load/play hoy; totokkhon stadium
+     poster tai background thake. Tai slow mobile data teo gate sathe
+     sathe khule jay, ar keu video na dekhte chaile tar data khoroch-i
+     hoy na. */
+  function syncVideoToggle(){
+    if(!videoToggle || !gateVideo) return;
+    var playing = !gateVideo.paused && !gateVideo.ended;
+    videoToggle.classList.toggle("is-playing", playing);
+    videoToggle.setAttribute("aria-pressed", playing ? "true" : "false");
+    var lbl = videoToggle.querySelector(".gvt-label");
+    if(lbl) lbl.textContent = playing ? "ব্যাকগ্রাউন্ড ভিডিও থামাও" : "ব্যাকগ্রাউন্ড ভিডিও চালাও";
   }
-  if(document.readyState === "complete"){ setTimeout(startDeferredGateMedia, 600); }
-  else{
-    window.addEventListener("load", function(){
-      if(window.requestIdleCallback) requestIdleCallback(startDeferredGateMedia, {timeout:2500});
-      else setTimeout(startDeferredGateMedia, 800);
+  if(gateVideo){
+    gateVideo.addEventListener("play", syncVideoToggle);
+    gateVideo.addEventListener("pause", syncVideoToggle);
+  }
+  if(videoToggle){
+    videoToggle.addEventListener("click", function(){
+      if(!gateVideo) return;
+      if(gateVideo.paused) playGateVideo();
+      else gateVideo.pause();
+      syncVideoToggle();
+    });
+  }
+  var gateYt = document.getElementById("gate-yt");
+  var gateYtPlay = document.getElementById("gate-yt-play");
+  if(gateYtPlay && gateYt){
+    gateYtPlay.addEventListener("click", function(){
+      if(!gateYt.getAttribute("src") && gateYt.getAttribute("data-src")){
+        gateYt.setAttribute("src", gateYt.getAttribute("data-src"));
+      }
+      gateYtPlay.style.display = "none";
     });
   }
   var uclBtn = document.getElementById("gate-opt-ucl");
@@ -2939,7 +3038,9 @@ window.addEventListener("load", syncNavHeight);
     document.body.classList.add("gate-open");
     setChrome("gate");
     syncNavHeight();
-    playGateVideo();
+    /* Video auto-play hobe na — user toggle button e tap korlei cholbe;
+       Back diye fire eleo video theme thakbe jate abar data na name */
+    syncVideoToggle();
     window.scrollTo(0,0);
   }
   function showUCL(){
