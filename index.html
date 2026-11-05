@@ -2663,7 +2663,7 @@ function pad2(n){ return (n<10 ? "0" : "") + n; }
 
 /* ============ FIXTURES: filter + search ============ */
 var curFilter = "all";
-/* Somoy ("9:30 PM") ke minute e rupantor — newest-first sort er jonno */
+/* Somoy ("9:30 PM") ke minute e rupantor — serial (chronological) sort er jonno */
 function timeToMin(t){
   var p = t.split(" "), hm = p[0].split(":");
   var mins = (Number(hm[0]) % 12) * 60 + Number(hm[1]);
@@ -2680,11 +2680,11 @@ function renderFixtures(){
     list.push(m);
     count++;
   });
-  /* Newest-first: sobcheye notun date age, eki date er moddhe sobcheye
-     derir somoyer match age — purono match niche jay */
+  /* Ag er serial order: sobcheye purono date age, eki date er moddhe
+     sobcheye ager somoyer match age — match serial onujayi sajano */
   list.sort(function(x,y){
-    if(x.d!==y.d) return x.d < y.d ? 1 : -1;
-    return timeToMin(y.t) - timeToMin(x.t);
+    if(x.d!==y.d) return x.d < y.d ? -1 : 1;
+    return timeToMin(x.t) - timeToMin(y.t);
   });
   var groups = {}, order = [];
   list.forEach(function(m){
