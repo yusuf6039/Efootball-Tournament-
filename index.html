@@ -1525,6 +1525,32 @@
     .gate-card .go-name{font-size:22px}
     .gate-card .go-desc{font-size:13px}
   }
+
+  /* ---------- VS CARD — MOBILE ASPECT LOCK (user: "desktop a thik thake
+     but mobile tho thake na") ----------
+     Desktop e VS stage er cell (~0.75) resize kora -vs crop er aspect
+     (0.78) er kacha kachi bole cover e mukh thik thake. Kintu mobile e
+     ager niom chilo fixed height (<=480px e clamp(204px,57vw,252px),
+     481-820px e base clamp(252px,30vw,368px)) — phone er width bodlalei
+     cell er aspect crop er aspect theke sore jeto, cover tokhon photo
+     ke alada bhabe crop korto bole ek phone e mukh thik, onno phone e
+     matha/chul kata porto (user er phone er screenshot). Tai mobile
+     (<=820px) e stage er height ekhon r fixed na — stage er aspect
+     -vs crop gulor aspect ei LOCK kora (39/25 = 1.56, mane prottek
+     cell hubuhu 0.78): cover ekhon prottek phone width ei crop ke
+     ekdom crop charai fill kore, mukh/mathar framing desktop er
+     sathe hubuhu ek thake, dui pase faka-o thake na (fill-i ache).
+     Boro (single-column) card e stage jate matra chara lomba na hoy
+     tai max-height:340px cap — cap lagle-o cell aspect 1.35 er niche
+     thake bole mukh tokhono purota frame er bhitorei thake
+     (object-position:center top, crop gele sudhu niche theke jay).
+     Tournament 1 ar Tournament 2 — dui jaygar .vs-card ei eki niom,
+     karon duitai eki .vs-stage class use kore.
+     Desktop (>=821px) er sajano ekdom ager motoi, bodlay nai. */
+  @media (max-width:820px){
+    .vs-stage{height:auto;aspect-ratio:39/25;max-height:340px}
+    .vs-figure{min-height:0}
+  }
 </style>
 </head>
 <body class="gate-open">
