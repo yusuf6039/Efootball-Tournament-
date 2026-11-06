@@ -580,6 +580,22 @@
   .vs-cd .cd-unit b{font-size:clamp(29px,4.4vw,44px)}
   .vs-cd .cd-unit span{font-size:13px;margin-top:6px}
   .vs-cd .cd-colon{font-size:clamp(23px,3.4vw,34px)}
+  /* Ses hoye jawa ajker match er VS card (dui tournament ei eki style):
+     countdown box er jaygay boro final score + Full Time label, uporer
+     pill ar majher badge gold "ম্যাচ শেষ / FT" — result update holeo
+     card ta ajker section ei thake, rat 12 tar age sore na */
+  .vs-pill--ft{border-color:rgba(245,197,66,.7);color:#FFE9A8}
+  .vs-card--ft .vs-badge{background:linear-gradient(135deg,#B8860B,#7A5B00);border-color:#F5C542;box-shadow:0 0 18px rgba(245,197,66,.45),0 8px 18px rgba(0,0,0,.5)}
+  .vs-ft-score{
+    display:flex;align-items:center;justify-content:center;gap:16px;
+    font-family:"Archivo","Hind Siliguri",sans-serif;font-weight:800;
+    font-size:clamp(32px,4.6vw,46px);line-height:1.05;color:#fff;font-variant-numeric:tabular-nums;
+  }
+  .vs-ft-dash{color:#54C8FF;font-size:.6em;font-weight:700}
+  .vs-ft-label{
+    margin-top:9px;text-align:center;font-size:12px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:#9FB8DE;
+  }
   @media (max-width:480px){
     .vs-card{padding:0 0 12px;border-radius:20px}
     /* Mobile e VS stage abar lomba kora holo (2026-11-06 sesh fix):
@@ -2019,7 +2035,8 @@
          live countdown (days/hours/minutes/seconds, proti second e
          update) — 2 Nov er card gula 10:00 PM / 10:30 PM, 3 Nov theke
          1st card 10:30 PM, 2nd card 11:00 PM ke target kore.
-         Ek din er match sesh hole porer din er 2 ta match ashe.
+         Card bodlay kebol rat 12 tar por (Asia/Dhaka te notun tarikh
+         shuru hole) — din er match er somoy par holeo age bodlay na.
          UCL countdown er sathe er kono somporko nai, ar ei section sudhu
          Tournament 2 page ei thake (t32-screen er vitore). Card gula
          JS diye #t32-today-grid e bhore. -->
@@ -2674,17 +2691,46 @@ function t1VsCard(m){
     + '</div></div>'
     + '</div>';
 }
-var tStr = todayStr();
-/* UPCOMING MATCH (Overview-r upore): ajker sob upcoming match — jotota ache totota.
-   Ajker sob match sesh hoye gele / aj kono match na thakle, samner prothom match-er
-   din er sob upcoming match dekhabe, jate section kokhono faka na thake. */
-var featDate = null;
-for(var fi=0; fi<MATCHES.length; fi++){
-  if(!hasScore(MATCHES[fi]) && MATCHES[fi].d>=tStr){ featDate = MATCHES[fi].d; break; }
+function t1VsCardFt(m){
+  /* Ses hoye jawa AJKER match er card: result (hs/as) data te boslei
+     ei card ashe — countdown er jaygay boro final score + Full Time,
+     uporer pill "ম্যাচ শেষ"। User er niyom: result update holeo card ta
+     "আজকের ম্যাচ" section ei thake — Asia/Dhaka r ajker tarikh
+     jotokkhon ache (rat 12 ta porjonto), tar age sore jay na. */
+  return '<div class="vs-card vs-card--ft">'
+    + '<div class="vs-stage">'+t1PlayerHtml(m.h)+t1PlayerHtml(m.a)
+    + '<div class="vs-pill vs-pill--ft">ম্যাচ শেষ · Full Time</div>'
+    + '<div class="vs-badge" aria-hidden="true">FT</div></div>'
+    + '<div class="vs-names">'+t1NamePill(m.h)+t1NamePill(m.a)+'</div>'
+    + '<div class="vs-when"><span class="vw-date">'+T1_CAL_SVG+'<span>'+bnDateOf(m)+'</span></span><span class="vw-time">'+m.t+'</span></div>'
+    + '<div class="vs-cd"><div class="vs-ft-score"><span>'+m.hs+'</span><span class="vs-ft-dash">–</span><span>'+m.as+'</span></div>'
+    + '<div class="vs-ft-label">Full Time · চূড়ান্ত ফলাফল</div></div>'
+    + '</div>';
 }
-var featMatches = featDate ? MATCHES.filter(function(m){return m.d===featDate && !hasScore(m);}) : [];
+var tStr = todayStr();
+/* "আজকের ম্য্যাচ" (user er niyom, 2026-11-06): section ta kebol Asia/Dhaka r
+   TARIKH diye bodlay — ajker tarikh er SOB match ekhane thakbe, result
+   update hoye geleo: sesh hoye jawa match countdown er jaygay tar final
+   score soho (t1VsCardFt) ei section ei thake, rat 12 ta (notun tarikh)
+   porjonto. Age result boslei featDate porer dine chole jeto bole
+   section ta 12 tar agei bodle jeto — setai user er apotti chhilo.
+   Aj kono match-i na thakle (gap day) kebol tokhon-i samner prothom
+   upcoming match er din dekhabe, jate section faka na thake. */
+var featDate = null;
+if(MATCHES.some(function(m){ return m.d===tStr; })){
+  featDate = tStr;
+}else{
+  for(var fi=0; fi<MATCHES.length; fi++){
+    if(!hasScore(MATCHES[fi]) && MATCHES[fi].d>tStr){ featDate = MATCHES[fi].d; break; }
+  }
+}
+var featMatches = featDate ? MATCHES.filter(function(m){
+  return m.d===featDate && (featDate===tStr || !hasScore(m));
+}) : [];
 if(featMatches.length){
-  document.getElementById("today-vs-grid").innerHTML = featMatches.map(t1VsCard).join("");
+  document.getElementById("today-vs-grid").innerHTML = featMatches.map(function(m){
+    return hasScore(m) ? t1VsCardFt(m) : t1VsCard(m);
+  }).join("");
   var BN_WEEKDAYS = {"Sun":"রবি","Mon":"সোম","Tue":"মঙ্গল","Wed":"বুধ","Thu":"বৃহস্পতি","Fri":"শুক্র","Sat":"শনি"};
   var BN_MONTHS_FULL = {"Jan":"জানুয়ারি","Feb":"ফেব্রুয়ারি","Mar":"মার্চ","Apr":"এপ্রিল","May":"মে","Jun":"জুন","Jul":"জুলাই","Aug":"আগস্ট","Sep":"সেপ্টেম্বর","Oct":"অক্টোবর","Nov":"নভেম্বর","Dec":"ডিসেম্বর"};
   var dlParts = featMatches[0].dl.split("·");
@@ -2694,7 +2740,7 @@ if(featMatches.length){
   var monAbbr = dmParts[1] || "";
   var bnDate = (BN_WEEKDAYS[wdAbbr] || wdAbbr) + " · " + toBn(dayNum) + " " + (BN_MONTHS_FULL[monAbbr] || monAbbr) + " " + toBn(2026);
   document.getElementById("upcoming-meta").textContent =
-    (featDate===tStr ? "আজ · " : "") + bnDate + " · " + toBn(featMatches.length) + "টি আসন্ন ম্যাচ";
+    (featDate===tStr ? "আজ · " : "") + bnDate + " · " + toBn(featMatches.length) + (featDate===tStr ? "টি ম্যাচ" : "টি আসন্ন ম্যাচ");
 }else{
   document.getElementById("today-vs-grid").innerHTML =
     '<div class="card empty-card" style="grid-column:1/-1">কোনো আসন্ন ম্যাচ বাকি নেই — গ্রুপ পর্বের সব ম্যাচ শেষ।</div>';
@@ -2726,6 +2772,10 @@ function pad2(n){ return (n<10 ? "0" : "") + n; }
   if(!grid) return;
   var endedCard = document.getElementById("today-ended-card");
   function tick(){
+    /* Page khola thaka obosthay rat 12 ta perole (Asia/Dhaka te notun
+       tarikh) section ta nije thekei porer din e bodle jabe — render
+       load er somoy ekbar hoy bole reload diye notun din er card ashe */
+    if(todayStr() !== tStr){ location.reload(); return; }
     var now = Date.now();
     var cards = grid.querySelectorAll("[data-cd-target]");
     if(!cards.length){ if(endedCard) endedCard.hidden = true; return; }
@@ -2748,8 +2798,10 @@ function pad2(n){ return (n<10 ? "0" : "") + n; }
          countdown focus thakle proti second e ghoshona (spam) hoto;
          timer er static label ("ম্যাচ শুরু হতে বাকি সময়")-i jothesto */
     }
-    /* Featured din er sob match er somoy par hole "sesh" card dekhay */
-    if(endedCard) endedCard.hidden = anyLeft;
+    /* Featured din er sob match er somoy par hole "sesh" card dekhay —
+       kintu sesh hoye jawa match er FT card (score soho) grid e thakle
+       oi note lagbe na, result card ei dekha jacche */
+    if(endedCard) endedCard.hidden = anyLeft || !!grid.querySelector(".vs-card--ft");
   }
   tick();
   setInterval(tick, 1000);
@@ -3346,9 +3398,11 @@ window.addEventListener("load", syncNavHeight);
      prottek card tar NIJER match er start time ke target kore. Jemon
      2 Nov: bame Abdullah vs Sabbir 10:00 PM er card, dane Rs Rifat vs
      Meheraj 10:30 PM er card; 3 Nov: Md Yusuf Ali vs Atiq 10:30 PM, Radwan vs
-     HM Nahidul 11:00 PM. Duitar countdown-i proti second e update hoy,
-     ek match er somoy par hole seta sore jay, ar din er sob match par
-     hole porer din er 2 ta match ashe.
+     HM Nahidul 11:00 PM. Duitar countdown-i proti second e update hoy.
+     Section er card kebol TARIKH bodle bodlay (user er niyom): din er
+     match er somoy par hoye geleo card sore jay na — ajker sob card
+     madhyarat (Asia/Dhaka te notun tarikh) porjonto thake, porer din
+     er match rat 12 tar age kokhonoi ashe na.
      Player visual = desher jersey pora HALF BODY (matha theke komor) footballer
      visual (assets/players/, matha theke komor porjonto, haat soho,
      pichone desher boro flag) — Abdullah AL Mamun (Japan), Sabbir
@@ -3373,18 +3427,18 @@ window.addEventListener("load", syncNavHeight);
     var elMeta = document.getElementById("t32-today-meta");
     /* Round of 32 er PURO schedule (#1-#16, 2-9 Nov) — bracket er R32
        data-r sathe miliye: prottek din er 2 ta match (10:30 PM / 11:00 PM,
-       2 Nov sudhu 10:00 PM / 10:30 PM). Din bodlei (rat 12 tar por)
-       tick() nije thekei porer din er match dekhay — karon prottek
-       match er start time Asia/Dhaka onujayi epoch e hiseb hoy ebong
-       somoy par hoye jawa match nije thekei bad pore. */
+       2 Nov sudhu 10:00 PM / 10:30 PM). tick() Asia/Dhaka r ajker
+       tarikh er matchgula-i dekhay — tarikh bodlei (rat 12 tar por)
+       nije thekei porer din er match ashe; start time par hoye jawa
+       match din er moddhe bad pore na. */
     var CD_MATCHES = [
-      {d:"2026-11-02", t:"10:00 PM", when:"Mon, 2 Nov 2026, 10:00 PM", a:{n:"Abdullah AL Mamun",c:"Japan",f:"jp"}, b:{n:"Sabbir Rahman",c:"United States",f:"us"}},
-      {d:"2026-11-02", t:"10:30 PM", when:"Mon, 2 Nov 2026, 10:30 PM", a:{n:"Rs Rifat",c:"Colombia",f:"co"}, b:{n:"Meheraj Hossain Rahat",c:"Canada",f:"ca"}},
-      {d:"2026-11-03", t:"10:30 PM", when:"Tue, 3 Nov 2026, 10:30 PM", a:{n:"Md Yusuf Ali",c:"Netherlands",f:"nl"}, b:{n:"Atiq Hasan",c:"Algeria",f:"dz"}},
-      {d:"2026-11-03", t:"11:00 PM", when:"Tue, 3 Nov 2026, 11:00 PM", a:{n:"Radwan Riad",c:"Belgium",f:"be"}, b:{n:"HM Nahidul Islam",c:"Australia",f:"au"}},
-      {d:"2026-11-04", t:"10:30 PM", when:"Wed, 4 Nov 2026, 10:30 PM", a:{n:"Didarul Islam",c:"Portugal",f:"pt"}, b:{n:"Mohashin Mia",c:"Ivory Coast",f:"ci"}},
-      {d:"2026-11-04", t:"11:00 PM", when:"Wed, 4 Nov 2026, 11:00 PM", a:{n:"Mustafizur Rahman",c:"Poland",f:"pl"}, b:{n:"Md Bijoy",c:"South Korea",f:"kr"}},
-      {d:"2026-11-05", t:"10:30 PM", when:"Thu, 5 Nov 2026, 10:30 PM", a:{n:"Md Hassanur Rashid Adib",c:"England",f:"gb-eng"}, b:{n:"Munif Ahnaf",c:"Croatia",f:"hr"}},
+      {d:"2026-11-02", t:"10:00 PM", when:"Mon, 2 Nov 2026, 10:00 PM", a:{n:"Abdullah AL Mamun",c:"Japan",f:"jp"}, b:{n:"Sabbir Rahman",c:"United States",f:"us"}, hs:1, as:3},
+      {d:"2026-11-02", t:"10:30 PM", when:"Mon, 2 Nov 2026, 10:30 PM", a:{n:"Rs Rifat",c:"Colombia",f:"co"}, b:{n:"Meheraj Hossain Rahat",c:"Canada",f:"ca"}, hs:3, as:2},
+      {d:"2026-11-03", t:"10:30 PM", when:"Tue, 3 Nov 2026, 10:30 PM", a:{n:"Md Yusuf Ali",c:"Netherlands",f:"nl"}, b:{n:"Atiq Hasan",c:"Algeria",f:"dz"}, hs:2, as:0},
+      {d:"2026-11-03", t:"11:00 PM", when:"Tue, 3 Nov 2026, 11:00 PM", a:{n:"Radwan Riad",c:"Belgium",f:"be"}, b:{n:"HM Nahidul Islam",c:"Australia",f:"au"}, hs:3, as:4},
+      {d:"2026-11-04", t:"10:30 PM", when:"Wed, 4 Nov 2026, 10:30 PM", a:{n:"Didarul Islam",c:"Portugal",f:"pt"}, b:{n:"Mohashin Mia",c:"Ivory Coast",f:"ci"}, hs:1, as:2},
+      {d:"2026-11-04", t:"11:00 PM", when:"Wed, 4 Nov 2026, 11:00 PM", a:{n:"Mustafizur Rahman",c:"Poland",f:"pl"}, b:{n:"Md Bijoy",c:"South Korea",f:"kr"}, hs:1, as:2},
+      {d:"2026-11-05", t:"10:30 PM", when:"Thu, 5 Nov 2026, 10:30 PM", a:{n:"Md Hassanur Rashid Adib",c:"England",f:"gb-eng"}, b:{n:"Munif Ahnaf",c:"Croatia",f:"hr"}, hs:4, as:3},
       {d:"2026-11-06", t:"9:00 PM", when:"Fri, 6 Nov 2026, 9:00 PM", a:{n:"Tamim Rahman",c:"Norway",f:"no"}, b:{n:"Al Shahriar",c:"Uruguay",f:"uy"}},
       {d:"2026-11-06", t:"10:30 PM", when:"Fri, 6 Nov 2026, 10:30 PM", a:{n:"Al Imran",c:"Germany",f:"de"}, b:{n:"Yasir Arafat Simanto",c:"Austria",f:"at"}},
       {d:"2026-11-06", t:"11:00 PM", when:"Fri, 6 Nov 2026, 11:00 PM", a:{n:"Mohammad Sayed Islam",c:"Mexico",f:"mx"}, b:{n:"Md Sifat Arfin",c:"Senegal",f:"sn"}},
@@ -3496,35 +3550,65 @@ window.addEventListener("load", syncNavHeight);
         + '</div></div>'
         + '</div>';
     }
+    function cdHasScore(m){ return typeof m.hs==="number" && typeof m.as==="number"; }
+    function vsCardFt(m){
+      /* Ses hoye jawa AJKER match er card: CD_MATCHES e result (hs/as)
+         boslei ei card ashe — countdown er jaygay boro final score +
+         Full Time, uporer pill "ম্যাচ শেষ"। User er niyom: result
+         update holeo card ta "আজকের ম্যাচ" section ei thake —
+         Asia/Dhaka r ajker tarikh jotokkhon ache (rat 12 ta porjonto),
+         tar age sore jay na; score R32 bracket data r sathe miliye
+         CD_MATCHES ei rakha hoyeche. */
+      return '<div class="vs-card vs-card--ft">'
+        + '<div class="vs-stage">'+playerHtml(m.a)+playerHtml(m.b)
+        + '<div class="vs-pill vs-pill--ft">ম্যাচ শেষ · Full Time</div>'
+        + '<div class="vs-badge" aria-hidden="true">FT</div></div>'
+        + '<div class="vs-names">'+namePill(m.a)+namePill(m.b)+'</div>'
+        + '<div class="vs-when"><span class="vw-date">'+CAL_SVG+'<span>'+m.when.split(",").slice(0,2).join(",")+'</span></span><span class="vw-time">'+m.t+'</span></div>'
+        + '<div class="vs-cd"><div class="vs-ft-score"><span>'+m.hs+'</span><span class="vs-ft-dash">–</span><span>'+m.as+'</span></div>'
+        + '<div class="vs-ft-label">Full Time · চূড়ান্ত ফলাফল</div></div>'
+        + '</div>';
+    }
     var curKey = null;
     function tick(){
       var now = Date.now();
-      var upcoming = [];
-      for(var i=0;i<CD_MATCHES.length;i++){
-        if(parseStart(CD_MATCHES[i]) > now) upcoming.push(CD_MATCHES[i]);
-      }
-      if(!upcoming.length){
-        /* Sob match er somoy par — grid er bodle sesh obosthar card */
-        grid.innerHTML = "";
-        grid.hidden = true;
-        if(endedCard) endedCard.hidden = false;
-        if(elMeta && curKey !== "ended") elMeta.textContent = "Round of 32 · Infinite Arena 32 Team Tournament";
-        curKey = "ended";
-        return;
+      /* User er niyom: "আজকের ম্যাচ" kebol Asia/Dhaka r TARIKH diye
+         bodlay — rat 12 tar AGE kokhonoi na. Din er sesh match er
+         start time par hoye geleo (jemon rat 11 tar match 11 ta
+         bajlei) oi din er cardgula-i madhyarat porjonto thakbe;
+         porer din er match kebol notun tarikh (rat 12 tar por)
+         shuru holei asbe. Ager logic start time diye chilo bole
+         sesh match shuru hoye gelei section porer dine chole jeto —
+         setai user er apotti chhilo. */
+      var tStr = todayStr();
+      var dayMatches = CD_MATCHES.filter(function(m){ return m.d === tStr; });
+      if(!dayMatches.length){
+        /* Aj kono match nai — samner prothom upcoming match er din
+           dekhabe jate section faka na thake; kichhu-i baki na thakle
+           sesh obosthar card */
+        var upcoming = [];
+        for(var i=0;i<CD_MATCHES.length;i++){
+          if(parseStart(CD_MATCHES[i]) > now) upcoming.push(CD_MATCHES[i]);
+        }
+        if(!upcoming.length){
+          grid.innerHTML = "";
+          grid.hidden = true;
+          if(endedCard) endedCard.hidden = false;
+          if(elMeta && curKey !== "ended") elMeta.textContent = "Round of 32 · Infinite Arena 32 Team Tournament";
+          curKey = "ended";
+          return;
+        }
+        var nDay = upcoming[0].d;
+        dayMatches = upcoming.filter(function(m){ return m.d === nDay; });
       }
       if(endedCard) endedCard.hidden = true;
       grid.hidden = false;
-      /* Prothom upcoming match er din er baki upcoming matchgula-i
-         card e ashe (dine 2 ta thakle duitai, somoy par hoye jawa
-         match ashe na) */
-      var day = upcoming[0].d;
-      var dayMatches = upcoming.filter(function(m){ return m.d === day; });
-      var key = dayMatches.map(function(m){ return m.d+"|"+m.t+"|"+m.a.n+"|"+m.b.n; }).join(";");
+      var key = dayMatches.map(function(m){ return m.d+"|"+m.t+"|"+m.a.n+"|"+m.b.n+"|"+(cdHasScore(m) ? m.hs+"-"+m.as : ""); }).join(";");
       if(key !== curKey){
         curKey = key;
-        grid.innerHTML = dayMatches.map(function(m){ return vsCard(m); }).join("");
+        grid.innerHTML = dayMatches.map(function(m){ return cdHasScore(m) ? vsCardFt(m) : vsCard(m); }).join("");
         if(elMeta){
-          var dateLabel = upcoming[0].when.split(",").slice(0,2).join(",");
+          var dateLabel = dayMatches[0].when.split(",").slice(0,2).join(",");
           elMeta.textContent = dateLabel + " · " + bnNum(dayMatches.length) + "টি ম্যাচ · Round of 32";
         }
       }
