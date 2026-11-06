@@ -520,11 +520,18 @@
   }
   .vs-art-full{
     position:relative;z-index:1;display:block;width:100%;height:100%;
-    /* Half-body framing: player cell er puro half frame jure thake,
-       matha theke komor porjonto — chhobi gula age thekei half-body
-       crop kora (1280x1568), cover + top position e cell er jekono
-       aspect ei eki half-body framing thake */
-    object-fit:cover;object-position:center top;
+    /* Mukh jeno kokhono kata na pore (user er kotha, 2026-11-06):
+       asol photo gula alada alada aspect er (903x1600, 1010x1557,
+       1445x1088...) ar mukh o sob chhobite eki jaygay bosha na —
+       cover dile chhoto stage e karo mukh ardhek kata pore jeto
+       (Kamrul er mukh name pill er niche dube jeto, Radwan er mukh
+       onek niche neme jeto). Tai ekhon contain: puro photo tai
+       cell er bhitore dekhay, mukh sob somoy puropuri dekha jay;
+       cell er faka dui pashe pichoner blurred background-i vore
+       dey. Figure cell er niche lege daray (bottom), tai mathar
+       upore faka jayga thake, mukh uporer pill er nicheo dhaka
+       pore na. */
+    object-fit:contain;object-position:center bottom;
     filter:drop-shadow(0 10px 22px rgba(0,0,0,.45));
     /* Figure er dui pasher edge blurred flag-background er sathe melt
        kore jay — kono hard rectangle seam thake na */
@@ -2636,8 +2643,8 @@ var CLUB_ART = {
 };
 /* VS card er boro figure eo eki naam-dhore-save registry
    (T1_PLAYER_PHOTOS, upore) thekei photo ashe — registry te naam
-   thakle oi player er asol photo (HALF BODY framing, card er CSS
-   cover + center top) boshe, na thakle generic club visual. Tai
+   thakle oi player er asol photo (card er CSS contain framing e,
+   tai mukh kokhono crop hoy na) boshe, na thakle generic club visual. Tai
    Radwan/Kamrul/Sahinul/Rifat/Yusuf/Sakil/Showrab/Sabbir/Sifat/Mustafizur/Nazmuz er
    photo ek jaygay save thaklei VS card, schedule, result, table —
    sob jaygay auto update hoy. Sabbir Rahman er khetre: T1 er photo alada
@@ -3498,9 +3505,9 @@ window.addEventListener("load", syncNavHeight);
       return String(n).replace(/[0-9]/g, function(c){ return map[c]; });
     }
     /* Reference card er moto figure: pichone eki chhobir blurred
-       flag-background, samne player er HALF BODY (matha theke komor
-       porjonto) — chhobi gula half-body crop-i, cell er half frame
-       jure cover hoye thake */
+       flag-background, samne player er puro photo (matha theke komor
+       porjonto) — CSS contain framing e cell er bhitore boshe,
+       tai mukh kokhono crop hoy na */
     function playerHtml(p){
       var real = REAL_ART[p.n];
       if(real){
