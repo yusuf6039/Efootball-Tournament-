@@ -520,16 +520,18 @@
   }
   .vs-art-full{
     position:relative;z-index:1;display:block;width:100%;height:100%;
-    /* FILL design-i thakbe (user er kotha, 2026-11-06): photo cell er
-       puro jayga vore thakbe — dui pase kono faka / blurred strip
-       thakbe na (contain soriye deya holo). Sudhu mathar fix:
-       object-position UPORE anchor kora (center top) — cover crop
-       hole kata pore sudhu nicher dik (komor/shorts er dik), photo
-       er upor ongsho (matha + mukh) sob somoy frame er vitorei
-       thake. Asol photo gula check kore dekha: sobar matha photo
-       er upor 7–24% theke shuru hoye ~50% er moddhei sesh, tai
-       top-anchor e mobile er choto stage eo mukh purota dekha
-       jay. Ager center-anchor cover ei matha ardhek kete felto. */
+    /* FILL design (user er kotha, 2026-11-06): photo cell er puro jayga
+       vore thake — dui pase kono faka / blurred strip thakbe na.
+       Mukh kata porar asol fix (2026-11-06 sesh update): prottek asol
+       player photo theke alada kore RESIZE/CROP kora VS version
+       (-vs.webp) banano hoyeche — prottek chhobir mukh er obosthan
+       mepe crop kora, tai crop er aspect (~0.78) VS cell er aspect
+       er kachakachi, mukh crop er upor 9–13% theke shuru hoye
+       36–58% er moddhe sesh hoy. Cover ekhane bosale sob viewport ei
+       sudhu niche theke samanno kate, matha/mukh sob somoy purota
+       frame er vitore thake — ager moto ardhek kata pore na.
+       Original photo file gula avatar (player-photo) er jonno
+       ager motoi ache, bodlay nai. */
     object-fit:cover;object-position:center top;
   }
   .vs-art-full.fill{object-fit:cover;object-position:center}
@@ -580,10 +582,13 @@
   .vs-cd .cd-colon{font-size:clamp(23px,3.4vw,34px)}
   @media (max-width:480px){
     .vs-card{padding:0 0 12px;border-radius:20px}
-    /* Mobile e VS stage er height komano (user er kotha, 2026-11-06):
-       flag/player chobi eki original-i thake, sudhu frame ta choto —
-       card kom lomba hoy, name pill / countdown kichui bodlay nai. */
-    .vs-stage{height:clamp(128px,34vw,150px)}
+    /* Mobile e VS stage abar lomba kora holo (2026-11-06 sesh fix):
+       ager choto height (128–150px) e cell landscape hoye jeto bole
+       portrait photo cover e mukh ardhek name-pill er niche dube
+       jeto (user er screenshot). Ekhon cell er aspect (~0.80)
+       resize kora -vs crop er aspect er sathe mile — mukh purota
+       dekha jay, dui pase faka thake na. */
+    .vs-stage{height:clamp(204px,57vw,252px)}
     .vs-names{padding:0 10px;margin-top:-20px}
     .vs-name-pill{padding:7px 9px 7px 7px}
     .vs-name-flag{width:40px;height:30px}
@@ -2588,11 +2593,17 @@ var CLUB_ART = {
    (United States, sabbir-us-photo.webp) er sathe melano na,
    duto registry-i alada, T2 er photo ekhane bodlay na. */
 var T1_CAL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg>';
+/* VS stage er jonno resize kora version: prottek asol photo
+   (-photo.webp) er pashe eki naam er -vs.webp ache — mukh mepe
+   crop kora, VS cell er aspect onujayi sajano, tai cover fill eo
+   mukh purota dekha jay. Original file avatar er jonno theke jay. */
+function vsSrc(src){ return src.replace(/-photo\.webp$/, "-vs.webp"); }
 function t1PlayerHtml(name){
   var c = CLUBS[name];
   var real = T1_PLAYER_PHOTOS[name];
   if(real){
-    return '<div class="vs-figure"><img class="vs-figure-bg" src="'+real+'" alt="" aria-hidden="true" loading="lazy" /><img class="vs-art-full" src="'+real+'" alt="'+esc(name)+' — '+c+' jersey pora half body (matha theke komor), user er dewa asol photo, mukh same-to-same" loading="lazy" /></div>';
+    var vs = vsSrc(real);
+    return '<div class="vs-figure"><img class="vs-figure-bg" src="'+vs+'" alt="" aria-hidden="true" loading="lazy" /><img class="vs-art-full" src="'+vs+'" alt="'+esc(name)+' — '+c+' jersey pora half body (matha theke komor), user er dewa asol photo resize kore bosano, mukh same-to-same purota dekha jay" loading="lazy" /></div>';
   }
   var art = c && CLUB_ART[c];
   if(art){
@@ -3408,7 +3419,8 @@ window.addEventListener("load", syncNavHeight);
     function playerHtml(p){
       var real = REAL_ART[p.n];
       if(real){
-        return '<div class="vs-figure"><img class="vs-figure-bg" src="'+real+'" alt="" aria-hidden="true" loading="lazy" /><img class="vs-art-full" src="'+real+'" alt="'+p.n+' — '+p.c+' jersey pora half body (matha theke komor), user er dewa asol photo, mukh same-to-same" loading="lazy" /></div>';
+        var vs = vsSrc(real);
+        return '<div class="vs-figure"><img class="vs-figure-bg" src="'+vs+'" alt="" aria-hidden="true" loading="lazy" /><img class="vs-art-full" src="'+vs+'" alt="'+p.n+' — '+p.c+' jersey pora half body (matha theke komor), user er dewa asol photo resize kore bosano, mukh same-to-same purota dekha jay" loading="lazy" /></div>';
       }
       var art = ART[p.f];
       if(art){
