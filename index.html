@@ -3346,7 +3346,26 @@ window.addEventListener("load", syncNavHeight);
   }
   renderT32Latest();
   var r32El = document.getElementById("ko-r32");
-  if(r32El) r32El.innerHTML = R32.map(function(m,i){ return r32TieHtml(m,i); }).join("");
+  if(r32El){
+    /* Bracket grid er card SERIAL hobe tarikh + somoy onujayi (chronological):
+       je match age khela hobe se card age asbe. Tai 10 Nov e sore jawa
+       #11/#12 ekhon grid er EKDOM SESHE (9 Nov er #15/#16 er pore) dekhabe,
+       tar age 8 Nov er #13/#14, tar age 6 Nov er #8-#10 — date jump hobe na.
+       SUDHU display order bodlay: R32 array er order ebong prottek card er
+       "Match N" number (original index theke) eki thake, tai Round of 16
+       er winner pairing (R32[i*2], R32[i*2+1]) bodlay na. */
+    var MONTHS = {Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};
+    function r32SortKey(m){
+      var wp = (m.w || "").split(" · ");
+      var dp = (wp[0] || "").replace(",", "").split(" "); /* ["Tue","10","Nov","2026"] */
+      var day = Number(dp[1]) || 0, mon = MONTHS[dp[2]] || 0, yr = Number(dp[3]) || 0;
+      var tm = wp.length > 1 ? timeToMin(wp[wp.length - 1]) : 0;
+      return ((yr * 100 + mon) * 100 + day) * 1440 + tm;
+    }
+    var r32Order = R32.map(function(m, i){ return i; });
+    r32Order.sort(function(x, y){ return r32SortKey(R32[x]) - r32SortKey(R32[y]) || x - y; });
+    r32El.innerHTML = r32Order.map(function(i){ return r32TieHtml(R32[i], i); }).join("");
+  }
   /* ============ Round of 16 Match 1: winner rule — R32 Match #1 ar #2 er
      bijoyira (naam + country flag soho) ekhane bosbe, placeholder soriye.
      Bijoyi score (hs/as) thekei hiseb hoy — kono winner invent kora na.
