@@ -1731,7 +1731,7 @@
   <section class="panel active" id="panel-overview" role="tabpanel">
     <div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> Admin-এর অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
 
-    <div class="sec-head" style="margin-top:28px">
+    <div class="sec-head" style="margin-top:28px;display:none">
       <h2>আজকের ম্যাচ</h2>
       <p id="upcoming-meta">আসন্ন ম্যাচগুলো</p>
     </div>
@@ -1739,8 +1739,8 @@
          gradient, pichone club crest, majhe VS badge, club jersey te generic
          half-body player visual, niche naam + club pill, date + time, ar
          card er nijer live countdown. JS diye #today-vs-grid e bhore. -->
-    <div class="t1-today-grid" id="today-vs-grid"></div>
-    <div class="countdown-card" id="today-ended-card" hidden>
+    <div class="t1-today-grid" id="today-vs-grid" style="display:none"></div>
+    <div class="countdown-card" id="today-ended-card" hidden style="display:none">
       <div class="cd-ended" style="margin-top:0">আজকের সব ম্যাচের নির্ধারিত সময় শেষ — ফলাফল আপডেট হলেই নিচে দেখা যাবে।</div>
     </div>
 
@@ -1775,8 +1775,8 @@
       </div>
     </div>
 
-    <div class="sec-head"><h2>সামনের ম্যাচগুলো</h2><p>Upcoming fixtures</p></div>
-    <div class="match-list" id="upcoming-list"></div>
+    <div class="sec-head" style="display:none"><h2>সামনের ম্যাচগুলো</h2><p>Upcoming fixtures</p></div>
+    <div class="match-list" id="upcoming-list" style="display:none"></div>
   </section>
 
   <!-- ================= TABLE ================= -->
@@ -2043,12 +2043,12 @@
          UCL countdown er sathe er kono somporko nai, ar ei section sudhu
          Tournament 2 page ei thake (t32-screen er vitore). Card gula
          JS diye #t32-today-grid e bhore. -->
-    <div class="sec-head" style="margin-top:28px">
+    <div class="sec-head" style="margin-top:28px;display:none">
       <h2>আজকের ম্যাচ</h2>
       <p id="t32-today-meta">Round of 32 · Infinite Arena 32 Team Tournament</p>
     </div>
-    <div class="t32-today-grid" id="t32-today-grid"></div>
-    <div class="countdown-card" id="t32-ended-card" hidden>
+    <div class="t32-today-grid" id="t32-today-grid" style="display:none"></div>
+    <div class="countdown-card" id="t32-ended-card" hidden style="display:none">
       <div class="cd-ended" style="margin-top:0">নির্ধারিত সব ম্যাচের সময় শেষ — ফলাফল আপডেট হলেই নিচে দেখা যাবে।</div>
     </div>
 
@@ -3699,4 +3699,4 @@ window.addEventListener("load", syncNavHeight);
 </script>
 </body>
 </html>
-<!-- deploy 2026-11-09 22:43 Asia/Dhaka -->
+<!-- deploy 2026-11-09 22:44 Asia/Dhaka -->
