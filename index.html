@@ -2457,9 +2457,9 @@ function matchCard(m){
     + '<div class="side">'+nameHtml(m.h)+'</div>'
     + '<div class="scorebox">'+center+'</div>'
     + '<div class="side right">'+nameHtml(m.a)+'</div>'
-    + '<div class="match-meta"><span class="mm-date">'+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span>'+statusHtml+'</span></div>'
+    + (st==="ft" ? '<div class="match-meta"><span class="mm-date">'+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span>'+statusHtml+'</span></div>' : '<div class="match-meta"><span class="mm-right">'+statusHtml+'</span></div>')
     + waitHtml
-    + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
+    + (st==="ft" ? '' : '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>')
     + matchShotHtml(m)
     + '</div>';
 }
@@ -2555,7 +2555,6 @@ function featuredCard(m, isFirst){
     + '<div class="scorebox"><span class="score">'+m.hs+' – '+m.as+'</span></div>'
     + sideHtml(m.a,true)
     + '<div class="match-meta"><span class="mm-date">ম্যাচ '+toBn(num)+' · '+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span><span class="status-badge ft">Full Time</span></span></div>'
-    + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
     + matchShotHtml(m)
     + '</div>';
 }
@@ -2684,7 +2683,6 @@ function t1VsCard(m){
     + '<div class="vs-pill">পরের ম্যাচ শুরু হতে বাকি</div>'
     + '<div class="vs-badge" aria-hidden="true">VS</div></div>'
     + '<div class="vs-names">'+t1NamePill(m.h)+t1NamePill(m.a)+'</div>'
-    + '<div class="vs-when"><span class="vw-date">'+T1_CAL_SVG+'<span>'+bnDateOf(m)+'</span></span><span class="vw-time">'+m.t+'</span></div>'
     + '<div class="vs-cd"><div class="cd-segments" role="timer" aria-label="ম্যাচ শুরু হতে বাকি সময়">'
     + '<div class="cd-unit"><b class="cd2-d">0</b><span>days</span></div>'
     + '<div class="cd-colon" aria-hidden="true">:</div>'
@@ -3244,7 +3242,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">Match '+(i+1)+'</div>'
       + '<div class="ko-slot">'+playerSlot(m.a)+'<span class="ko-score">'+scoreA+'</span></div>'
       + '<div class="ko-slot">'+playerSlot(m.b)+'<span class="ko-score">'+scoreB+'</span></div>'
-      + '<div class="ko-when"><span class="kw-date">'+wDate+'</span><span class="kw-right"><span class="kw-time">'+wTime+'</span>'+statusHtml+'</span></div>'+waitHtml+'<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'+'</div>';
+      + (hasScore ? '<div class="ko-when"><span class="kw-date">'+wDate+'</span><span class="kw-right"><span class="kw-time">'+wTime+'</span>'+statusHtml+'</span></div>' : '<div class="ko-when"><span class="kw-right">'+statusHtml+'</span></div>')+waitHtml+(hasScore ? '' : '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>')+'</div>';
   }
   /* ============ TOTAL GOALS (Tournament 2 Overview): prottek player er
      mot goal — R32 er match data (hs/as) theke nije hiseb hoy, sob 32 jon
@@ -3312,7 +3310,6 @@ window.addEventListener("load", syncNavHeight);
         + '<div class="scorebox"><span class="score">'+m.hs+' – '+m.as+'</span></div>'
         + sideHtml(m.b, true)
         + '<div class="match-meta"><span class="mm-date">MATCH '+(it.idx+1)+' · Round of 32 · '+wDate2+'</span><span class="mm-right"><span class="mm-time">'+wTime2+'</span><span class="status-badge ft">Full Time</span></span></div>'
-        + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
         + '</div>';
     }).join("");
   }
@@ -3508,7 +3505,6 @@ window.addEventListener("load", syncNavHeight);
         + '<div class="vs-pill">পরের ম্যাচ শুরু হতে বাকি</div>'
         + '<div class="vs-badge" aria-hidden="true">VS</div></div>'
         + '<div class="vs-names">'+namePill(m.a)+namePill(m.b)+'</div>'
-        + '<div class="vs-when"><span class="vw-date">'+CAL_SVG+'<span>'+m.when.split(",").slice(0,2).join(",")+'</span></span><span class="vw-time">'+m.t+'</span></div>'
         + '<div class="vs-cd"><div class="cd-segments" role="timer" aria-label="ম্যাচ শুরু হতে বাকি সময়">'
         + '<div class="cd-unit"><b class="cd2-d">0</b><span>days</span></div>'
         + '<div class="cd-colon" aria-hidden="true">:</div>'
@@ -3701,5 +3697,4 @@ window.addEventListener("load", syncNavHeight);
 </script>
 </body>
 </html>
-
-<!-- deploy-retry 2026-11-09 22:21 Asia/Dhaka -->
+<!-- deploy 2026-11-09 22:36 Asia/Dhaka -->
