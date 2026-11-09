@@ -448,6 +448,16 @@
     color:#fff;font-family:"Hind Siliguri",sans-serif;font-weight:600;font-size:clamp(15px,2.6vw,18px);line-height:1.6;
   }
   .pause-notice b{color:#C6F542}
+  /* Pause line — prottek match card e: Admin-এর অসুস্থতার কারণে ম্যাচ বন্ধ */
+  .pause-line{
+    text-align:center;font-family:"Hind Siliguri",sans-serif;font-size:13.5px;font-weight:600;
+    line-height:1.55;color:#C6F542;
+    background:rgba(198,245,66,.08);border:1px dashed rgba(198,245,66,.5);border-radius:10px;
+    padding:7px 10px;
+  }
+  .match .pause-line{grid-column:1/-1;margin-top:2px}
+  .ko-tie .pause-line{margin-top:8px}
+  .vs-card .pause-line{margin:10px 14px 0}
   .countdown-card{
     border:1px solid #26262C;border-radius:28px;
     background:#101013;
@@ -1585,7 +1595,7 @@
         <p class="gate-hero-title">প্রতিটি ম্যাচে লড়াই, প্রতিটি গোলে উত্তেজনা!<span class="blue-line">জয়, পরাজয় ও চ্যাম্পিয়ন হওয়ার লড়াই — সব এক জায়গায়!</span></p>
       </div>
     </div>
-<div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> আয়োজকের অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
+<div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> Admin-এর অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
     <div class="gate-youtube">
       <iframe id="gate-yt" data-src="https://www.youtube.com/embed/EWMwr6Rf9jk?start=3694&autoplay=1&mute=1&loop=1&playlist=EWMwr6Rf9jk" title="Infinite Arena Live Tournament 2026 — YouTube ভিডিও" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
     </div>
@@ -1719,7 +1729,7 @@
 
   <!-- ================= OVERVIEW ================= -->
   <section class="panel active" id="panel-overview" role="tabpanel">
-    <div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> আয়োজকের অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
+    <div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> Admin-এর অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
 
     <div class="sec-head" style="margin-top:28px">
       <h2>আজকের ম্যাচ</h2>
@@ -2016,7 +2026,7 @@
 
   <div class="wrap">
     <div class="t32-view" data-t32view="overview">
-    <div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> আয়োজকের অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
+    <div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> Admin-এর অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
     <!-- T32 আজকের ম্যাচ: heading "আজকের ম্যাচ" — oi din er 2 ta match
          reference poster design er VS card e dekhay: desktop e pasapasi,
          mobile e ektar niche ekta. Prottek card e dark blue gradient,
@@ -2449,6 +2459,7 @@ function matchCard(m){
     + '<div class="side right">'+nameHtml(m.a)+'</div>'
     + '<div class="match-meta"><span class="mm-date">'+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span>'+statusHtml+'</span></div>'
     + waitHtml
+    + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
     + matchShotHtml(m)
     + '</div>';
 }
@@ -2544,6 +2555,7 @@ function featuredCard(m, isFirst){
     + '<div class="scorebox"><span class="score">'+m.hs+' – '+m.as+'</span></div>'
     + sideHtml(m.a,true)
     + '<div class="match-meta"><span class="mm-date">ম্যাচ '+toBn(num)+' · '+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span><span class="status-badge ft">Full Time</span></span></div>'
+    + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
     + matchShotHtml(m)
     + '</div>';
 }
@@ -2682,6 +2694,7 @@ function t1VsCard(m){
     + '<div class="cd-colon" aria-hidden="true">:</div>'
     + '<div class="cd-unit"><b class="cd2-s">00</b><span>seconds</span></div>'
     + '</div></div>'
+    + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
     + '</div>';
 }
 var tStr = todayStr();
@@ -3147,7 +3160,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot"><span>'+slotA+'</span><span class="ko-score">–</span></div>'
       + '<div class="ko-slot"><span>'+slotB+'</span><span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div></div>';
+      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'+'</div>';
   }
   function fill(id, count, prefix, slotA, slotB){
     var el = document.getElementById(id); if(!el) return;
@@ -3231,7 +3244,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">Match '+(i+1)+'</div>'
       + '<div class="ko-slot">'+playerSlot(m.a)+'<span class="ko-score">'+scoreA+'</span></div>'
       + '<div class="ko-slot">'+playerSlot(m.b)+'<span class="ko-score">'+scoreB+'</span></div>'
-      + '<div class="ko-when"><span class="kw-date">'+wDate+'</span><span class="kw-right"><span class="kw-time">'+wTime+'</span>'+statusHtml+'</span></div>'+waitHtml+'</div>';
+      + '<div class="ko-when"><span class="kw-date">'+wDate+'</span><span class="kw-right"><span class="kw-time">'+wTime+'</span>'+statusHtml+'</span></div>'+waitHtml+'<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'+'</div>';
   }
   /* ============ TOTAL GOALS (Tournament 2 Overview): prottek player er
      mot goal — R32 er match data (hs/as) theke nije hiseb hoy, sob 32 jon
@@ -3299,6 +3312,7 @@ window.addEventListener("load", syncNavHeight);
         + '<div class="scorebox"><span class="score">'+m.hs+' – '+m.as+'</span></div>'
         + sideHtml(m.b, true)
         + '<div class="match-meta"><span class="mm-date">MATCH '+(it.idx+1)+' · Round of 32 · '+wDate2+'</span><span class="mm-right"><span class="mm-time">'+wTime2+'</span><span class="status-badge ft">Full Time</span></span></div>'
+        + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
         + '</div>';
     }).join("");
   }
@@ -3320,7 +3334,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot">'+playerSlot(pA)+'<span class="ko-score">–</span></div>'
       + '<div class="ko-slot">'+playerSlot(pB)+'<span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div></div>';
+      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'+'</div>';
   }
   function r16TieHtml(label, pA, pB){
     /* Ek pasher winner jana thakle seikhane winner (naam + flag) bosbe,
@@ -3332,7 +3346,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot">'+slotHtml(pA)+'<span class="ko-score">–</span></div>'
       + '<div class="ko-slot">'+slotHtml(pB)+'<span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div></div>';
+      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'+'</div>';
   }
   (function renderR16(){
     var el = document.getElementById("ko-r16"); if(!el) return;
@@ -3504,6 +3518,7 @@ window.addEventListener("load", syncNavHeight);
         + '<div class="cd-colon" aria-hidden="true">:</div>'
         + '<div class="cd-unit"><b class="cd2-s">00</b><span>seconds</span></div>'
         + '</div></div>'
+        + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
         + '</div>';
     }
     var curKey = null;
@@ -3687,4 +3702,4 @@ window.addEventListener("load", syncNavHeight);
 </body>
 </html>
 
-<!-- deploy-retry 2026-11-09 21:11 Asia/Dhaka -->
+<!-- deploy-retry 2026-11-09 22:21 Asia/Dhaka -->
