@@ -2164,10 +2164,10 @@
     <!-- KNOCKOUT BRACKET / সূচি ও ফলাফল -->
     <div class="sec-head t32-anchor" id="t32-bracket">
       <h2>Knockout Bracket</h2>
-      <p>Round of 32-এর ১৬টি Pairing — সব ম্যাচের তারিখ ও সময় দেওয়া আছে</p>
+      <p>Round of 32 থেকে Final — সব রাউন্ডের সব ম্যাচের তারিখ ও সময় দেওয়া আছে</p>
     </div>
     <div class="note" style="margin-top:0">
-      <b>Bracket কিভাবে চলবে?</b> Round of 32-তে ৩২ জন মুখোমুখি হবে — জিতলেই পরের রাউন্ডে, হারলেই বিদায়। এভাবে Round of 16, Quarterfinal, Semifinal পেরিয়ে Final-এ চ্যাম্পিয়ন ঠিক হবে। Round of 32-এর সব Pairing নিচে দেওয়া আছে — সব ম্যাচেই তারিখ ও সময় দেওয়া আছে (প্রতিদিন ২টি করে: 10:30 PM ও 11:00 PM)।
+      <b>Bracket কিভাবে চলবে?</b> Round of 32-তে ৩২ জন মুখোমুখি হবে — জিতলেই পরের রাউন্ডে, হারলেই বিদায়। এভাবে Round of 16, Quarterfinal, Semifinal পেরিয়ে Final-এ চ্যাম্পিয়ন ঠিক হবে। সব রাউন্ডের সব ম্যাচের তারিখ ও সময় নিচে দেওয়া আছে (প্রতিদিন ২টি করে: 10:30 PM ও 11:00 PM; Final শুধু 10:30 PM)।
     </div>
 
     <div class="ko-round" data-ko-round="r32">
@@ -3240,19 +3240,45 @@ window.addEventListener("load", syncNavHeight);
     var today = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
     return iso < today;
   }
-  function tieHtml(label, slotA, slotB){
-    /* Ei placeholder tie gulor kono tarikh-i nai ("সময় পরে জানানো হবে") —
-       tarikh periye jay nai, tai wait note bosbe na, sudhu UPCOMING
-       badge (.status.up, nil lekha) date/time er niche bosbe. */
+  /* ============ KNOCKOUT DATES (Round of 16 → Final) ============
+     R32 er motoi prottek knockout match er tarikh + somoy — bracket
+     card e date + time dekhabe, ar "আজকের ম্যাচ" countdown eo
+     ei date guloi use hoy (CD_MATCHES). R16 M1-M5 er duijon
+     player-i jana (R32 bijoyi), M6-M8 / QF / SF / Final er slot
+     placeholder-i thakbe jotokkhon na ager round er result ashe —
+     kono winner invent kora na. */
+  var KO_DATES = {
+    r16: ["Fri, 27 Nov 2026 · 10:30 PM", "Fri, 27 Nov 2026 · 11:00 PM",
+          "Sat, 28 Nov 2026 · 10:30 PM", "Sat, 28 Nov 2026 · 11:00 PM",
+          "Sun, 29 Nov 2026 · 10:30 PM", "Sun, 29 Nov 2026 · 11:00 PM",
+          "Mon, 30 Nov 2026 · 10:30 PM", "Mon, 30 Nov 2026 · 11:00 PM"],
+    qf: ["Tue, 1 Dec 2026 · 10:30 PM", "Tue, 1 Dec 2026 · 11:00 PM",
+         "Wed, 2 Dec 2026 · 10:30 PM", "Wed, 2 Dec 2026 · 11:00 PM"],
+    sf: ["Thu, 3 Dec 2026 · 10:30 PM", "Thu, 3 Dec 2026 · 11:00 PM"],
+    final: ["Fri, 4 Dec 2026 · 10:30 PM"]
+  };
+  /* ko-tie card er date/time row — R32 card er motoi: bam e date,
+     dan e time + Upcoming badge. w na thakle ager motoi
+     "সময় পরে জানানো হবে" dekhabe. Tarikh periye gele ar result
+     na ashle wait note bosbe (R32 er motoi niyom). */
+  function koWhenHtml(w){
+    if(!w) return '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>';
+    var wp = w.split(" · ");
+    var wTime = wp.length > 1 ? wp[wp.length - 1] : "";
+    var wDate = wp.length > 1 ? wp.slice(0, -1).join(" · ") : w;
+    var waitHtml = t32IsPast(w) ? '<div class="wait-note">ফলাফলের জন্য অপেক্ষা করুন • রেজাল্ট এখনো আসেনি</div>' : '';
+    return '<div class="ko-when"><span class="kw-date">'+wDate+'</span><span class="kw-right"><span class="kw-time">'+wTime+'</span><span class="status-badge up">Upcoming</span></span></div>'+waitHtml;
+  }
+  function tieHtml(label, slotA, slotB, w){
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot"><span>'+slotA+'</span><span class="ko-score">–</span></div>'
       + '<div class="ko-slot"><span>'+slotB+'</span><span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'</div>';
+      + koWhenHtml(w)+'</div>';
   }
-  function fill(id, count, prefix, slotA, slotB){
+  function fill(id, count, prefix, slotA, slotB, dates){
     var el = document.getElementById(id); if(!el) return;
     var html = "";
-    for(var i=1;i<=count;i++){ html += tieHtml(prefix+" "+i, slotA, slotB); }
+    for(var i=1;i<=count;i++){ html += tieHtml(prefix+" "+i, slotA, slotB, dates ? dates[i-1] : null); }
     el.innerHTML = html;
   }
   var R32 = [
@@ -3464,16 +3490,16 @@ window.addEventListener("load", syncNavHeight);
     if(typeof m.hs!=="number" || typeof m.as!=="number" || m.hs===m.as) return null;
     return m.hs>m.as ? m.a : m.b;
   }
-  function winnerTieHtml(label, pA, pB){
+  function winnerTieHtml(label, pA, pB, w){
     /* Bijoyira bosa thakleo ei match er result ekhono aseni — tai
-       ekhaneo UPCOMING badge (.status.up) thakbe. Kintu ei tie er
-       kono tarikh nai, tarikh periye jay nai — tai wait note bosbe na. */
+       ekhaneo UPCOMING badge (.status.up) thakbe. Tarikh ekhon
+       KO_DATES theke ashe. */
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot">'+playerSlot(pA)+'<span class="ko-score">–</span></div>'
       + '<div class="ko-slot">'+playerSlot(pB)+'<span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'</div>';
+      + koWhenHtml(w)+'</div>';
   }
-  function r16TieHtml(label, pA, pB){
+  function r16TieHtml(label, pA, pB, w){
     /* Ek pasher winner jana thakle seikhane winner (naam + flag) bosbe,
        onno pashe result na asha porjonto placeholder-i thakbe — winner
        ek ek kore bosbe, sob R32 sesh howa porjonto opekkha na. */
@@ -3483,22 +3509,22 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot">'+slotHtml(pA)+'<span class="ko-score">–</span></div>'
       + '<div class="ko-slot">'+slotHtml(pB)+'<span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'</div>';
+      + koWhenHtml(w)+'</div>';
   }
   (function renderR16(){
     var el = document.getElementById("ko-r16"); if(!el) return;
     var html = "";
     for(var i=0;i<8;i++){
       var wA = winnerOf(R32[i*2]), wB = winnerOf(R32[i*2+1]);
-      if(wA && wB){ html += winnerTieHtml("Match "+(i+1), wA, wB); }
-      else if(wA || wB){ html += r16TieHtml("Match "+(i+1), wA, wB); }
-      else { html += tieHtml("Match "+(i+1), "Round of 32 বিজয়ী", "Round of 32 বিজয়ী"); }
+      if(wA && wB){ html += winnerTieHtml("Match "+(i+1), wA, wB, KO_DATES.r16[i]); }
+      else if(wA || wB){ html += r16TieHtml("Match "+(i+1), wA, wB, KO_DATES.r16[i]); }
+      else { html += tieHtml("Match "+(i+1), "Round of 32 বিজয়ী", "Round of 32 বিজয়ী", KO_DATES.r16[i]); }
     }
     el.innerHTML = html;
   })();
-  fill("ko-qf", 4, "Match", "Round of 16 বিজয়ী", "Round of 16 বিজয়ী");
-  fill("ko-sf", 2, "Semifinal", "Quarterfinal বিজয়ী", "Quarterfinal বিজয়ী");
-  fill("ko-final", 1, "Final", "Semifinal বিজয়ী", "Semifinal বিজয়ী");
+  fill("ko-qf", 4, "Match", "Round of 16 বিজয়ী", "Round of 16 বিজয়ী", KO_DATES.qf);
+  fill("ko-sf", 2, "Semifinal", "Quarterfinal বিজয়ী", "Quarterfinal বিজয়ী", KO_DATES.sf);
+  fill("ko-final", 1, "Final", "Semifinal বিজয়ী", "Semifinal বিজয়ী", KO_DATES.final);
 
   /* ============ T32 আজকের ম্যাচ + LIVE COUNTDOWN (Tournament 2 er alada section) ============
      Section er heading "আজকের ম্যাচ" — oi din er 2 ta match-i reference
@@ -3526,20 +3552,24 @@ window.addEventListener("load", syncNavHeight);
      Visual na thaka desher (3 Nov er matchgula) khetre flag panel
      dekhay.
      Somoy Asia/Dhaka (UTC+6) onujayi hiseb hoy. Countdown list e
-     Round of 32 er PURO schedule (#1-#16, 2-26 Nov) ache — bracket er
-     R32 data-r pairing/date/time er sathe miliye — tai rat 12 ta
-     perolei porer din er 2 ta match nije thekei eshe jay. */
+     Round of 32 er PURO schedule (#1-#16, 2-26 Nov) ar knockout
+     schedule (R16 27-30 Nov, QF 1-2 Dec, SF 3 Dec, Final 4 Dec) ache
+     — bracket er data-r pairing/date/time er sathe miliye — tai rat
+     12 ta perolei porer din er 2 ta match nije thekei eshe jay. */
   (function initT32Countdown(){
     var grid = document.getElementById("t32-today-grid");
     if(!grid) return;
     var endedCard = document.getElementById("t32-ended-card");
     var elMeta = document.getElementById("t32-today-meta");
-    /* Round of 32 er PURO schedule (#1-#16, 2-26 Nov) — bracket er R32
-       data-r sathe miliye: prottek din er 2 ta match (10:30 PM / 11:00 PM,
-       2 Nov sudhu 10:00 PM / 10:30 PM). tick() Asia/Dhaka r ajker
-       tarikh er matchgula-i dekhay — tarikh bodlei (rat 12 tar por)
-       nije thekei porer din er match ashe; start time par hoye jawa
-       match din er moddhe bad pore na. */
+    /* Round of 32 er PURO schedule (#1-#16, 2-26 Nov) + knockout
+       schedule (R16 27-30 Nov, QF 1-2 Dec, SF 3 Dec, Final 4 Dec) —
+       bracket er data-r sathe miliye: prottek din er 2 ta match
+       (10:30 PM / 11:00 PM, 2 Nov sudhu 10:00 PM / 10:30 PM, Final
+       sudhu 10:30 PM). Bijoyi jana na thakle slot e placeholder naam
+       ("Round of 32 বিজয়ী" ityadi) thake — kono winner invent kora
+       na. tick() Asia/Dhaka r ajker tarikh er matchgula-i dekhay —
+       tarikh bodlei (rat 12 tar por) nije thekei porer din er match
+       ashe; start time par hoye jawa match din er moddhe bad pore na. */
     var CD_MATCHES = [
       {d:"2026-11-02", t:"10:00 PM", when:"Mon, 2 Nov 2026, 10:00 PM", a:{n:"Abdullah AL Mamun",c:"Japan",f:"jp"}, b:{n:"Sabbir Rahman",c:"United States",f:"us"}, hs:1, as:3},
       {d:"2026-11-02", t:"10:30 PM", when:"Mon, 2 Nov 2026, 10:30 PM", a:{n:"Rs Rifat",c:"Colombia",f:"co"}, b:{n:"Meheraj Hossain Rahat",c:"Canada",f:"ca"}, hs:3, as:2},
@@ -3556,7 +3586,22 @@ window.addEventListener("load", syncNavHeight);
       {d:"2026-11-24", t:"11:00 PM", when:"Tue, 24 Nov 2026, 11:00 PM", a:{n:"Foysal Rahman Shoron",c:"Spain",f:"es"}, b:{n:"Rafeeuzzaman Rafee",c:"Iran",f:"ir"}},
       {d:"2026-11-25", t:"10:30 PM", when:"Wed, 25 Nov 2026, 10:30 PM", a:{n:"Nur Islam",c:"Turkey",f:"tr"}, b:{n:"MA M UN",c:"Ecuador",f:"ec"}},
       {d:"2026-11-25", t:"11:00 PM", when:"Wed, 25 Nov 2026, 11:00 PM", a:{n:"Mdshadin Hossen",c:"Italy",f:"it"}, b:{n:"Mohammad Hassan",c:"Denmark",f:"dk"}},
-      {d:"2026-11-26", t:"10:30 PM", when:"Thu, 26 Nov 2026, 10:30 PM", a:{n:"ইলিয়াছ খান আকাশ",c:"Egypt",f:"eg"}, b:{n:"Abrar Mahmud Anis",c:"Morocco",f:"ma"}}
+      {d:"2026-11-26", t:"10:30 PM", when:"Thu, 26 Nov 2026, 10:30 PM", a:{n:"ইলিয়াছ খান আকাশ",c:"Egypt",f:"eg"}, b:{n:"Abrar Mahmud Anis",c:"Morocco",f:"ma"}},
+      {d:"2026-11-27", t:"10:30 PM", when:"Fri, 27 Nov 2026, 10:30 PM", r:"Round of 16", a:{n:"Sabbir Rahman",c:"United States",f:"us"}, b:{n:"Rs Rifat",c:"Colombia",f:"co"}},
+      {d:"2026-11-27", t:"11:00 PM", when:"Fri, 27 Nov 2026, 11:00 PM", r:"Round of 16", a:{n:"MD Yusuf Ali",c:"Netherlands",f:"nl"}, b:{n:"HM Nahidul Islam",c:"Australia",f:"au"}},
+      {d:"2026-11-28", t:"10:30 PM", when:"Sat, 28 Nov 2026, 10:30 PM", r:"Round of 16", a:{n:"Mohashin Mia",c:"Ivory Coast",f:"ci"}, b:{n:"Md Bijoy",c:"South Korea",f:"kr"}},
+      {d:"2026-11-28", t:"11:00 PM", when:"Sat, 28 Nov 2026, 11:00 PM", r:"Round of 16", a:{n:"Md Hassanur Rashid Adib",c:"England",f:"gb-eng"}, b:{n:"Al Shahriar",c:"Uruguay",f:"uy"}},
+      {d:"2026-11-29", t:"10:30 PM", when:"Sun, 29 Nov 2026, 10:30 PM", r:"Round of 16", a:{n:"Yasir Arafat Simanto",c:"Austria",f:"at"}, b:{n:"Mohammad Sayed Islam",c:"Mexico",f:"mx"}},
+      {d:"2026-11-29", t:"11:00 PM", when:"Sun, 29 Nov 2026, 11:00 PM", r:"Round of 16", a:{n:"Round of 32 বিজয়ী",c:"",f:""}, b:{n:"Round of 32 বিজয়ী",c:"",f:""}},
+      {d:"2026-11-30", t:"10:30 PM", when:"Mon, 30 Nov 2026, 10:30 PM", r:"Round of 16", a:{n:"Round of 32 বিজয়ী",c:"",f:""}, b:{n:"Round of 32 বিজয়ী",c:"",f:""}},
+      {d:"2026-11-30", t:"11:00 PM", when:"Mon, 30 Nov 2026, 11:00 PM", r:"Round of 16", a:{n:"Round of 32 বিজয়ী",c:"",f:""}, b:{n:"Round of 32 বিজয়ী",c:"",f:""}},
+      {d:"2026-12-01", t:"10:30 PM", when:"Tue, 1 Dec 2026, 10:30 PM", r:"Quarterfinal", a:{n:"Round of 16 বিজয়ী",c:"",f:""}, b:{n:"Round of 16 বিজয়ী",c:"",f:""}},
+      {d:"2026-12-01", t:"11:00 PM", when:"Tue, 1 Dec 2026, 11:00 PM", r:"Quarterfinal", a:{n:"Round of 16 বিজয়ী",c:"",f:""}, b:{n:"Round of 16 বিজয়ী",c:"",f:""}},
+      {d:"2026-12-02", t:"10:30 PM", when:"Wed, 2 Dec 2026, 10:30 PM", r:"Quarterfinal", a:{n:"Round of 16 বিজয়ী",c:"",f:""}, b:{n:"Round of 16 বিজয়ী",c:"",f:""}},
+      {d:"2026-12-02", t:"11:00 PM", when:"Wed, 2 Dec 2026, 11:00 PM", r:"Quarterfinal", a:{n:"Round of 16 বিজয়ী",c:"",f:""}, b:{n:"Round of 16 বিজয়ী",c:"",f:""}},
+      {d:"2026-12-03", t:"10:30 PM", when:"Thu, 3 Dec 2026, 10:30 PM", r:"Semifinal", a:{n:"Quarterfinal বিজয়ী",c:"",f:""}, b:{n:"Quarterfinal বিজয়ী",c:"",f:""}},
+      {d:"2026-12-03", t:"11:00 PM", when:"Thu, 3 Dec 2026, 11:00 PM", r:"Semifinal", a:{n:"Quarterfinal বিজয়ী",c:"",f:""}, b:{n:"Quarterfinal বিজয়ী",c:"",f:""}},
+      {d:"2026-12-04", t:"10:30 PM", when:"Fri, 4 Dec 2026, 10:30 PM", r:"Final", a:{n:"Semifinal বিজয়ী",c:"",f:""}, b:{n:"Semifinal বিজয়ী",c:"",f:""}}
     ];
     /* Desher jersey pora generic HALF BODY (matha theke komor) footballer visual
        (matha theke komor, haat soho, pichone boro flag) — flag code
@@ -3615,6 +3660,12 @@ window.addEventListener("load", syncNavHeight);
        porjonto) — CSS contain framing e cell er bhitore boshe,
        tai mukh kokhono crop hoy na */
     function playerHtml(p){
+      if(!p.f){
+        /* Bijoyi ekhono jana nai (placeholder slot: "Round of 32 বিজয়ী"
+           ityadi) — kono flag/photo nai, tai khali figure er bodle
+           "?" chinno dekhabe; img src="" (broken image) bosbe na. */
+        return '<div class="vs-figure" style="display:flex;align-items:center;justify-content:center"><span style="font-size:72px;color:var(--gold);opacity:.85">?</span></div>';
+      }
       var real = REAL_ART[p.n];
       if(real){
         var vs = vsSrc(real);
@@ -3628,9 +3679,10 @@ window.addEventListener("load", syncNavHeight);
       return '<div class="vs-figure"><img class="vs-figure-bg" src="'+flag+'" alt="" aria-hidden="true" loading="lazy" /><img class="vs-art-full fill" src="'+flag+'" alt="'+p.c+' flag" loading="lazy" /></div>';
     }
     function namePill(p){
+      var flag = p.f ? '<img class="vs-name-flag flag" src="'+(window.__FLAG_DATA[p.f]||"")+'" alt="'+p.c+' flag" loading="lazy" />' : '';
       return '<div class="vs-name-pill">'
-        + '<img class="vs-name-flag flag" src="'+(window.__FLAG_DATA[p.f]||"")+'" alt="'+p.c+' flag" loading="lazy" />'
-        + '<span class="vs-name-text"><span class="vs-name">'+p.n+'</span><span class="vs-country">('+p.c+')</span></span>'
+        + flag
+        + '<span class="vs-name-text"><span class="vs-name">'+p.n+'</span>'+(p.c ? '<span class="vs-country">('+p.c+')</span>' : '')+'</span>'
         + '</div>';
     }
     /* Reference poster design er VS card: full-bleed stage — dui
@@ -3703,7 +3755,7 @@ window.addEventListener("load", syncNavHeight);
           grid.innerHTML = "";
           grid.hidden = true;
           if(endedCard) endedCard.hidden = false;
-          if(elMeta && curKey !== "ended") elMeta.textContent = "Round of 32 · Infinite Arena 32 Team Tournament";
+          if(elMeta && curKey !== "ended") elMeta.textContent = "Infinite Arena 32 Team Tournament";
           curKey = "ended";
           return;
         }
@@ -3718,7 +3770,8 @@ window.addEventListener("load", syncNavHeight);
         grid.innerHTML = dayMatches.map(function(m){ return cdHasScore(m) ? vsCardFt(m) : vsCard(m); }).join("");
         if(elMeta){
           var dateLabel = dayMatches[0].when.split(",").slice(0,2).join(",");
-          elMeta.textContent = bnNum(dayMatches.length) + "টি ম্যাচ · Round of 32";
+          var roundLabel = dayMatches[0].r || "Round of 32";
+          elMeta.textContent = bnNum(dayMatches.length) + "টি ম্যাচ · " + roundLabel;
         }
       }
       /* Prottek card er nijer countdown — tar data-cd-target (nijer
