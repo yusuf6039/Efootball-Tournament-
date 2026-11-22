@@ -448,7 +448,6 @@
     color:#fff;font-family:"Hind Siliguri",sans-serif;font-weight:600;font-size:clamp(15px,2.6vw,18px);line-height:1.6;
   }
   .pause-notice b{color:#C6F542}
-  /* Pause line — prottek match card e: Admin-এর অসুস্থতার কারণে ম্যাচ বন্ধ */
   .pause-line{
     text-align:center;font-family:"Hind Siliguri",sans-serif;font-size:13.5px;font-weight:600;
     line-height:1.55;color:#C6F542;
@@ -1611,7 +1610,6 @@
         <p class="gate-hero-title">প্রতিটি ম্যাচে লড়াই, প্রতিটি গোলে উত্তেজনা!<span class="blue-line">জয়, পরাজয় ও চ্যাম্পিয়ন হওয়ার লড়াই — সব এক জায়গায়!</span></p>
       </div>
     </div>
-    <div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> Admin-এর অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
     <div class="gate-youtube">
       <iframe id="gate-yt" data-src="https://www.youtube.com/embed/EWMwr6Rf9jk?start=3694&autoplay=1&mute=1&loop=1&playlist=EWMwr6Rf9jk" title="Infinite Arena Live Tournament 2026 — YouTube ভিডিও" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
     </div>
@@ -1727,7 +1725,7 @@
       </div>
       <div class="d-stat">
         <div class="d-tab" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/><path d="M7.5 14h.01M11.5 14h.01M15.5 14h.01M7.5 17.5h.01M11.5 17.5h.01M15.5 17.5h.01" stroke-width="2.4"/></svg></div>
-        <div class="d-value d-value--date" id="stat-dates">২৫ অক্টোবর – ১৭ নভেম্বর</div>
+        <div class="d-value d-value--date" id="stat-dates">২৫ অক্টোবর – ৩ ডিসেম্বর</div>
         <div class="d-divider"></div>
         <div class="d-label">গ্রুপ পর্বের সময়সূচি</div>
       </div>
@@ -1746,7 +1744,6 @@
   <!-- ================= OVERVIEW ================= -->
   <section class="panel active" id="panel-overview" role="tabpanel">
 
-    <div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> Admin-এর অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
 
     <!-- ৬ নভেম্বরের ফলাফল (Tournament 1 Overview er EKDOM UPORE):
          user er ovijog — link khulle kothao 6 tarikher result dekha
@@ -1761,7 +1758,7 @@
     </div>
     <div class="match-list" id="nov6-list"></div>
 
-    <div class="sec-head" style="display:none">
+    <div class="sec-head">
       <h2>আজকের ম্যাচ</h2>
       <p id="upcoming-meta">আসন্ন ম্যাচগুলো</p>
     </div>
@@ -1769,8 +1766,8 @@
          gradient, pichone club crest, majhe VS badge, club jersey te generic
          half-body player visual, niche naam + club pill, date + time, ar
          card er nijer live countdown. JS diye #today-vs-grid e bhore. -->
-    <div class="t1-today-grid" id="today-vs-grid" style="display:none"></div>
-    <div class="countdown-card" id="today-ended-card" hidden style="display:none">
+    <div class="t1-today-grid" id="today-vs-grid"></div>
+    <div class="countdown-card" id="today-ended-card" hidden>
       <div class="cd-ended" style="margin-top:0">আজকের সব ম্যাচের নির্ধারিত সময় শেষ — ফলাফল আপডেট হলেই নিচে দেখা যাবে।</div>
     </div>
 
@@ -1805,8 +1802,8 @@
       </div>
     </div>
 
-    <div class="sec-head" style="display:none"><h2>সামনের ম্যাচগুলো</h2><p>Upcoming fixtures</p></div>
-    <div class="match-list" id="upcoming-list" style="display:none"></div>
+    <div class="sec-head"><h2>সামনের ম্যাচগুলো</h2><p>Upcoming fixtures</p></div>
+    <div class="match-list" id="upcoming-list"></div>
   </section>
 
   <!-- ================= TABLE ================= -->
@@ -1969,7 +1966,7 @@
 
   <footer>
     <div class="mono">ইউসিএল টুর্নামেন্ট • ইফুটবল • সিজন ২০২৬</div>
-    ২৫ অক্টোবর – ১৭ নভেম্বর ২০২৬ • প্রতিদিন রাত ৯:৩০ / ১০:০০
+    ২৫ অক্টোবর – ৩ ডিসেম্বর ২০২৬ • প্রতিদিন রাত ৯:৩০ / ১০:০০
   </footer>
 </div>
 
@@ -1977,8 +1974,8 @@
      Knockout format: 32 participants (Score7 participants page theke neya,
      niche hubehu sei order ei). Round of 32 er 16 ta pairing Score7 Matches
      tab theke bosano hoyeche flag soho — sob 16 ta match ei date ache:
-     #1-#6 (2-4 Nov), #7-#8 (5 Nov), #9-#10 (6 Nov), #11-#12 (10 Nov — sesh e sorano),
-     #13-#14 (8 Nov), #15-#16 (9 Nov), protidin 2 ta kore.
+     #1-#6 (2-4 Nov), #7-#8 (5 Nov), #9-#10 (6 Nov), #11 (23 Nov),
+     #12-#13 (24 Nov), #14-#15 (25 Nov), #16 (26 Nov), protidin 2 ta kore.
      Ei page eo global top bar (logo, menu, YouTube Live, Back) thake. -->
 <div class="t32-screen" id="tournament32-screen" hidden>
   <div class="t32-hero">
@@ -2056,7 +2053,6 @@
 
   <div class="wrap">
     <div class="t32-view" data-t32view="overview">
-    <div class="pause-notice">⚠️ <b>গুরুত্বপূর্ণ নোটিশ:</b> Admin-এর অসুস্থতার কারণে সব ম্যাচ সাময়িকভাবে বন্ধ আছে। সুস্থ হলেই খেলা আবার শুরু হবে — ধন্যবাদ।</div>
     <!-- T32 আজকের ম্যাচ: heading "আজকের ম্যাচ" — oi din er 2 ta match
          reference poster design er VS card e dekhay: desktop e pasapasi,
          mobile e ektar niche ekta. Prottek card e dark blue gradient,
@@ -2089,12 +2085,12 @@
     </div>
     <div class="match-list" id="t32-nov6-results"></div>
 
-    <div class="sec-head" style="display:none">
+    <div class="sec-head">
       <h2>আজকের ম্যাচ</h2>
       <p id="t32-today-meta">Round of 32 · Infinite Arena 32 Team Tournament</p>
     </div>
-    <div class="t32-today-grid" id="t32-today-grid" style="display:none"></div>
-    <div class="countdown-card" id="t32-ended-card" hidden style="display:none">
+    <div class="t32-today-grid" id="t32-today-grid"></div>
+    <div class="countdown-card" id="t32-ended-card" hidden>
       <div class="cd-ended" style="margin-top:0">নির্ধারিত সব ম্যাচের সময় শেষ — ফলাফল আপডেট হলেই নিচে দেখা যাবে।</div>
     </div>
 
@@ -2168,10 +2164,10 @@
     <!-- KNOCKOUT BRACKET / সূচি ও ফলাফল -->
     <div class="sec-head t32-anchor" id="t32-bracket">
       <h2>Knockout Bracket</h2>
-      <p>Round of 32-এর ১৬টি Pairing — ২–৪ নভেম্বরের ম্যাচের তারিখ ও সময় দেওয়া আছে</p>
+      <p>Round of 32-এর ১৬টি Pairing — সব ম্যাচের তারিখ ও সময় দেওয়া আছে</p>
     </div>
     <div class="note" style="margin-top:0">
-      <b>Bracket কিভাবে চলবে?</b> Round of 32-তে ৩২ জন মুখোমুখি হবে — জিতলেই পরের রাউন্ডে, হারলেই বিদায়। এভাবে Round of 16, Quarterfinal, Semifinal পেরিয়ে Final-এ চ্যাম্পিয়ন ঠিক হবে। Round of 32-এর সব Pairing নিচে দেওয়া আছে — সব ম্যাচে সময় দেওয়া আছে (৩ নভেম্বর থেকে প্রতিদিন ২টি করে: 10:30 PM ও 11:00 PM); শুধু ২–৪ নভেম্বরের ম্যাচগুলোতে তারিখ দেওয়া আছে, বাকিগুলোর তারিখ পরে দেওয়া হবে।
+      <b>Bracket কিভাবে চলবে?</b> Round of 32-তে ৩২ জন মুখোমুখি হবে — জিতলেই পরের রাউন্ডে, হারলেই বিদায়। এভাবে Round of 16, Quarterfinal, Semifinal পেরিয়ে Final-এ চ্যাম্পিয়ন ঠিক হবে। Round of 32-এর সব Pairing নিচে দেওয়া আছে — সব ম্যাচেই তারিখ ও সময় দেওয়া আছে (প্রতিদিন ২টি করে: 10:30 PM ও 11:00 PM)।
     </div>
 
     <div class="ko-round" data-ko-round="r32">
@@ -2407,26 +2403,26 @@ var MATCHES = [
   {d:"2026-11-05", dl:"Thu · 5 Nov", h:"Rs Rifat", a:"Sifat Arfin", t:"10:00 PM", hs:3, as:0},
   {d:"2026-11-06", dl:"Fri · 6 Nov", h:"Showrab Patwary", a:"Kamrul Hassan", t:"9:30 PM", hs:0, as:1},
   {d:"2026-11-06", dl:"Fri · 6 Nov", h:"Sabbir Rahman", a:"Radwan Riad", t:"10:00 PM", hs:2, as:2},
-  {d:"2026-11-08", dl:"Sun · 8 Nov", h:"Sahinul Islam", a:"Kamrul Hassan", t:"9:30 PM"},
-  {d:"2026-11-08", dl:"Sun · 8 Nov", h:"Rs Rifat", a:"Radwan Riad", t:"10:00 PM"},
-  {d:"2026-11-09", dl:"Mon · 9 Nov", h:"Sabbir Rahman", a:"Mustafizur Rahman", t:"9:30 PM"},
-  {d:"2026-11-09", dl:"Mon · 9 Nov", h:"Nazmuz Sakib", a:"Sifat Arfin", t:"10:00 PM"},
-  {d:"2026-11-10", dl:"Tue · 10 Nov", h:"Sakil Mirza", a:"Kamrul Hassan", t:"9:30 PM"},
-  {d:"2026-11-10", dl:"Tue · 10 Nov", h:"MD Yusuf Ali", a:"Radwan Riad", t:"10:00 PM"},
-  {d:"2026-11-11", dl:"Wed · 11 Nov", h:"Rs Rifat", a:"Mustafizur Rahman", t:"9:30 PM"},
-  {d:"2026-11-11", dl:"Wed · 11 Nov", h:"Showrab Patwary", a:"Sabbir Rahman", t:"10:00 PM"},
-  {d:"2026-11-12", dl:"Thu · 12 Nov", h:"Nazmuz Sakib", a:"Kamrul Hassan", t:"9:30 PM"},
-  {d:"2026-11-12", dl:"Thu · 12 Nov", h:"Sifat Arfin", a:"Radwan Riad", t:"10:00 PM"},
-  {d:"2026-11-13", dl:"Fri · 13 Nov", h:"MD Yusuf Ali", a:"Mustafizur Rahman", t:"9:30 PM"},
-  {d:"2026-11-13", dl:"Fri · 13 Nov", h:"Sahinul Islam", a:"Sabbir Rahman", t:"10:00 PM"},
-  {d:"2026-11-14", dl:"Sat · 14 Nov", h:"Rs Rifat", a:"Showrab Patwary", t:"9:30 PM"},
-  {d:"2026-11-14", dl:"Sat · 14 Nov", h:"Nazmuz Sakib", a:"Radwan Riad", t:"10:00 PM"},
-  {d:"2026-11-15", dl:"Sun · 15 Nov", h:"Sifat Arfin", a:"Mustafizur Rahman", t:"9:30 PM"},
-  {d:"2026-11-15", dl:"Sun · 15 Nov", h:"Sakil Mirza", a:"Sabbir Rahman", t:"10:00 PM"},
-  {d:"2026-11-16", dl:"Mon · 16 Nov", h:"MD Yusuf Ali", a:"Showrab Patwary", t:"9:30 PM"},
-  {d:"2026-11-16", dl:"Mon · 16 Nov", h:"Sahinul Islam", a:"Rs Rifat", t:"10:00 PM"},
-  {d:"2026-11-17", dl:"Tue · 17 Nov", h:"Nazmuz Sakib", a:"Sakil Mirza", t:"9:30 PM"},
-  {d:"2026-11-17", dl:"Tue · 17 Nov", h:"MD Yusuf Ali", a:"Sifat Arfin", t:"10:00 PM"}
+  {d:"2026-11-23", dl:"Mon · 23 Nov", h:"Sahinul Islam", a:"Kamrul Hassan", t:"9:30 PM"},
+  {d:"2026-11-24", dl:"Tue · 24 Nov", h:"Rs Rifat", a:"Radwan Riad", t:"9:30 PM"},
+  {d:"2026-11-24", dl:"Tue · 24 Nov", h:"Sabbir Rahman", a:"Mustafizur Rahman", t:"10:00 PM"},
+  {d:"2026-11-25", dl:"Wed · 25 Nov", h:"Nazmuz Sakib", a:"Sifat Arfin", t:"9:30 PM"},
+  {d:"2026-11-25", dl:"Wed · 25 Nov", h:"Sakil Mirza", a:"Kamrul Hassan", t:"10:00 PM"},
+  {d:"2026-11-26", dl:"Thu · 26 Nov", h:"MD Yusuf Ali", a:"Radwan Riad", t:"9:30 PM"},
+  {d:"2026-11-26", dl:"Thu · 26 Nov", h:"Rs Rifat", a:"Mustafizur Rahman", t:"10:00 PM"},
+  {d:"2026-11-27", dl:"Fri · 27 Nov", h:"Showrab Patwary", a:"Sabbir Rahman", t:"9:30 PM"},
+  {d:"2026-11-27", dl:"Fri · 27 Nov", h:"Nazmuz Sakib", a:"Kamrul Hassan", t:"10:00 PM"},
+  {d:"2026-11-28", dl:"Sat · 28 Nov", h:"Sifat Arfin", a:"Radwan Riad", t:"9:30 PM"},
+  {d:"2026-11-28", dl:"Sat · 28 Nov", h:"MD Yusuf Ali", a:"Mustafizur Rahman", t:"10:00 PM"},
+  {d:"2026-11-29", dl:"Sun · 29 Nov", h:"Sahinul Islam", a:"Sabbir Rahman", t:"9:30 PM"},
+  {d:"2026-11-29", dl:"Sun · 29 Nov", h:"Rs Rifat", a:"Showrab Patwary", t:"10:00 PM"},
+  {d:"2026-11-30", dl:"Mon · 30 Nov", h:"Nazmuz Sakib", a:"Radwan Riad", t:"9:30 PM"},
+  {d:"2026-11-30", dl:"Mon · 30 Nov", h:"Sifat Arfin", a:"Mustafizur Rahman", t:"10:00 PM"},
+  {d:"2026-12-01", dl:"Tue · 1 Dec", h:"Sakil Mirza", a:"Sabbir Rahman", t:"9:30 PM"},
+  {d:"2026-12-01", dl:"Tue · 1 Dec", h:"MD Yusuf Ali", a:"Showrab Patwary", t:"10:00 PM"},
+  {d:"2026-12-02", dl:"Wed · 2 Dec", h:"Sahinul Islam", a:"Rs Rifat", t:"9:30 PM"},
+  {d:"2026-12-02", dl:"Wed · 2 Dec", h:"Nazmuz Sakib", a:"Sakil Mirza", t:"10:00 PM"},
+  {d:"2026-12-03", dl:"Thu · 3 Dec", h:"MD Yusuf Ali", a:"Sifat Arfin", t:"10:00 PM"}
 ];
 
 var YOU = "MD Yusuf Ali";
@@ -2503,9 +2499,8 @@ function matchCard(m){
     + '<div class="side">'+nameHtml(m.h)+'</div>'
     + '<div class="scorebox">'+center+'</div>'
     + '<div class="side right">'+nameHtml(m.a)+'</div>'
-    + (st==="ft" ? '<div class="match-meta"><span class="mm-date">'+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span>'+statusHtml+'</span></div>' : '<div class="match-meta"><span class="mm-right">'+statusHtml+'</span></div>')
+    + '<div class="match-meta"><span class="mm-date">'+bnDateOf(m)+'</span><span class="mm-right"><span class="mm-time">'+m.t+'</span>'+statusHtml+'</span></div>'
     + waitHtml
-    + (st==="ft" ? '' : '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>')
     + matchShotHtml(m)
     + '</div>';
 }
@@ -2750,7 +2745,6 @@ function t1VsCard(m){
     + '<div class="cd-colon" aria-hidden="true">:</div>'
     + '<div class="cd-unit"><b class="cd2-s">00</b><span>seconds</span></div>'
     + '</div></div>'
-    + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
     + '</div>';
 }
 function t1VsCardFt(m){
@@ -2900,10 +2894,9 @@ function renderFixtures(){
     groups[m.d].push(m);
   });
   order.forEach(function(dk){
-    /* Pause thaka (result na asha) group er tarikh dekhano hobe na —
-       match postponed, kono date nai. Result asha group ei date-label thakbe. */
-    var hasAnyScore = groups[dk].some(hasScore);
-    html += (hasAnyScore ? '<div class="date-label">'+bnDateOf(groups[dk][0])+'</div>' : '') + '<div class="match-list">'
+    /* Prottek din er group er upore tarikh-label thakbe — result asa
+       ar na-asa, sob group ei. */
+    html += '<div class="date-label">'+bnDateOf(groups[dk][0])+'</div>' + '<div class="match-list">'
       + groups[dk].map(matchCard).join("") + '</div>';
   });
   document.getElementById("fixture-list").innerHTML = html;
@@ -3154,8 +3147,8 @@ window.addEventListener("load", syncNavHeight);
    #1: 2 Nov 10:00 PM, #2: 2 Nov 10:30 PM (khela hoye geche, oporibortito),
    #3: 3 Nov 10:30 PM, #4: 3 Nov 11:00 PM, #5: 4 Nov 10:30 PM,
    #6: 4 Nov 11:00 PM — #1-#6 ei date ache.
-   #7-#8: Thu 5 Nov, #9-#10: Fri 6 Nov, #11-#12: Tue 10 Nov (sesh e sorano),
-   #13-#14: Sun 8 Nov, #15-#16: Mon 9 Nov 2026 — serial onujayi
+   #7-#8: Thu 5 Nov, #9-#10: Fri 6 Nov, #11: Mon 23 Nov,
+   #12-#13: Tue 24 Nov, #14-#15: Wed 25 Nov, #16: Thu 26 Nov 2026 — serial onujayi
    protidin 2 ta kore date bosano hoyeche, time ager motoi
    (bijor 10:30 PM, jor 11:00 PM). Ajker match er countdown
    (CD_MATCHES) sudhu #1-#4 kei target kore, ager motoi.
@@ -3254,7 +3247,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot"><span>'+slotA+'</span><span class="ko-score">–</span></div>'
       + '<div class="ko-slot"><span>'+slotB+'</span><span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'+'</div>';
+      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'</div>';
   }
   function fill(id, count, prefix, slotA, slotB){
     var el = document.getElementById(id); if(!el) return;
@@ -3273,12 +3266,12 @@ window.addEventListener("load", syncNavHeight);
     {a:{n:"Tamim Rahman",c:"Norway",f:"no"}, b:{n:"Al Shahriar",c:"Uruguay",f:"uy"}, w:"Fri, 6 Nov 2026 · 9:00 PM", hs:0, as:3},
     {a:{n:"Al Imran",c:"Germany",f:"de"}, b:{n:"Yasir Arafat Simanto",c:"Austria",f:"at"}, w:"Fri, 6 Nov 2026 · 10:30 PM", hs:2, as:3},
     {a:{n:"Mohammad Sayed Islam",c:"Mexico",f:"mx"}, b:{n:"Md Sifat Arfin",c:"Senegal",f:"sn"}, w:"Fri, 6 Nov 2026 · 11:00 PM", hs:5, as:3},
-    {a:{n:"HM Junaitul",c:"France",f:"fr"}, b:{n:"Nazmuz Sakib",c:"Switzerland",f:"ch"}, w:"Tue, 10 Nov 2026 · 10:30 PM"},
-    {a:{n:"RI A D",c:"Sweden",f:"se"}, b:{n:"Fahad Hossain Khan",c:"Nigeria",f:"ng"}, w:"Tue, 10 Nov 2026 · 11:00 PM"},
-    {a:{n:"Foysal Rahman Shoron",c:"Spain",f:"es"}, b:{n:"Rafeeuzzaman Rafee",c:"Iran",f:"ir"}, w:"Sun, 8 Nov 2026 · 10:30 PM"},
-    {a:{n:"Nur Islam",c:"Turkey",f:"tr"}, b:{n:"MA M UN",c:"Ecuador",f:"ec"}, w:"Sun, 8 Nov 2026 · 11:00 PM"},
-    {a:{n:"Mdshadin Hossen",c:"Italy",f:"it"}, b:{n:"Mohammad Hassan",c:"Denmark",f:"dk"}, w:"Mon, 9 Nov 2026 · 10:30 PM"},
-    {a:{n:"ইলিয়াছ খান আকাশ",c:"Egypt",f:"eg"}, b:{n:"Abrar Mahmud Anis",c:"Morocco",f:"ma"}, w:"Mon, 9 Nov 2026 · 11:00 PM"}
+    {a:{n:"HM Junaitul",c:"France",f:"fr"}, b:{n:"Nazmuz Sakib",c:"Switzerland",f:"ch"}, w:"Mon, 23 Nov 2026 · 10:30 PM"},
+    {a:{n:"RI A D",c:"Sweden",f:"se"}, b:{n:"Fahad Hossain Khan",c:"Nigeria",f:"ng"}, w:"Tue, 24 Nov 2026 · 10:30 PM"},
+    {a:{n:"Foysal Rahman Shoron",c:"Spain",f:"es"}, b:{n:"Rafeeuzzaman Rafee",c:"Iran",f:"ir"}, w:"Tue, 24 Nov 2026 · 11:00 PM"},
+    {a:{n:"Nur Islam",c:"Turkey",f:"tr"}, b:{n:"MA M UN",c:"Ecuador",f:"ec"}, w:"Wed, 25 Nov 2026 · 10:30 PM"},
+    {a:{n:"Mdshadin Hossen",c:"Italy",f:"it"}, b:{n:"Mohammad Hassan",c:"Denmark",f:"dk"}, w:"Wed, 25 Nov 2026 · 11:00 PM"},
+    {a:{n:"ইলিয়াছ খান আকাশ",c:"Egypt",f:"eg"}, b:{n:"Abrar Mahmud Anis",c:"Morocco",f:"ma"}, w:"Thu, 26 Nov 2026 · 10:30 PM"}
   ];
   /* ============ HERO STATS (Tournament 2): poster design er 4 ta card er
      value DATA theke auto hiseb hoy, hardcode na —
@@ -3338,7 +3331,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">Match '+(i+1)+'</div>'
       + '<div class="ko-slot">'+playerSlot(m.a)+'<span class="ko-score">'+scoreA+'</span></div>'
       + '<div class="ko-slot">'+playerSlot(m.b)+'<span class="ko-score">'+scoreB+'</span></div>'
-      + (hasScore ? '<div class="ko-when"><span class="kw-date">'+wDate+'</span><span class="kw-right"><span class="kw-time">'+wTime+'</span>'+statusHtml+'</span></div>' : '<div class="ko-when"><span class="kw-right">'+statusHtml+'</span></div>')+waitHtml+(hasScore ? '' : '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>')+'</div>';
+      + '<div class="ko-when"><span class="kw-date">'+wDate+'</span><span class="kw-right"><span class="kw-time">'+wTime+'</span>'+statusHtml+'</span></div>'+waitHtml+'</div>';
   }
   /* ============ TOTAL GOALS (Tournament 2 Overview): prottek player er
      mot goal — R32 er match data (hs/as) theke nije hiseb hoy, sob 32 jon
@@ -3478,7 +3471,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot">'+playerSlot(pA)+'<span class="ko-score">–</span></div>'
       + '<div class="ko-slot">'+playerSlot(pB)+'<span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'+'</div>';
+      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'</div>';
   }
   function r16TieHtml(label, pA, pB){
     /* Ek pasher winner jana thakle seikhane winner (naam + flag) bosbe,
@@ -3490,7 +3483,7 @@ window.addEventListener("load", syncNavHeight);
     return '<div class="ko-tie"><div class="ko-match">'+label+'</div>'
       + '<div class="ko-slot">'+slotHtml(pA)+'<span class="ko-score">–</span></div>'
       + '<div class="ko-slot">'+slotHtml(pB)+'<span class="ko-score">–</span></div>'
-      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'+'</div>';
+      + '<div class="ko-when"><span>সময় পরে জানানো হবে</span><span class="kw-right"><span class="status-badge up">Upcoming</span></span></div>'+'</div>';
   }
   (function renderR16(){
     var el = document.getElementById("ko-r16"); if(!el) return;
@@ -3533,7 +3526,7 @@ window.addEventListener("load", syncNavHeight);
      Visual na thaka desher (3 Nov er matchgula) khetre flag panel
      dekhay.
      Somoy Asia/Dhaka (UTC+6) onujayi hiseb hoy. Countdown list e
-     Round of 32 er PURO schedule (#1-#16, 2-10 Nov) ache — bracket er
+     Round of 32 er PURO schedule (#1-#16, 2-26 Nov) ache — bracket er
      R32 data-r pairing/date/time er sathe miliye — tai rat 12 ta
      perolei porer din er 2 ta match nije thekei eshe jay. */
   (function initT32Countdown(){
@@ -3541,7 +3534,7 @@ window.addEventListener("load", syncNavHeight);
     if(!grid) return;
     var endedCard = document.getElementById("t32-ended-card");
     var elMeta = document.getElementById("t32-today-meta");
-    /* Round of 32 er PURO schedule (#1-#16, 2-10 Nov) — bracket er R32
+    /* Round of 32 er PURO schedule (#1-#16, 2-26 Nov) — bracket er R32
        data-r sathe miliye: prottek din er 2 ta match (10:30 PM / 11:00 PM,
        2 Nov sudhu 10:00 PM / 10:30 PM). tick() Asia/Dhaka r ajker
        tarikh er matchgula-i dekhay — tarikh bodlei (rat 12 tar por)
@@ -3558,12 +3551,12 @@ window.addEventListener("load", syncNavHeight);
       {d:"2026-11-06", t:"9:00 PM", when:"Fri, 6 Nov 2026, 9:00 PM", a:{n:"Tamim Rahman",c:"Norway",f:"no"}, b:{n:"Al Shahriar",c:"Uruguay",f:"uy"}, hs:0, as:3},
       {d:"2026-11-06", t:"10:30 PM", when:"Fri, 6 Nov 2026, 10:30 PM", a:{n:"Al Imran",c:"Germany",f:"de"}, b:{n:"Yasir Arafat Simanto",c:"Austria",f:"at"}, hs:2, as:3},
       {d:"2026-11-06", t:"11:00 PM", when:"Fri, 6 Nov 2026, 11:00 PM", a:{n:"Mohammad Sayed Islam",c:"Mexico",f:"mx"}, b:{n:"Md Sifat Arfin",c:"Senegal",f:"sn"}, hs:5, as:3},
-      {d:"2026-11-08", t:"10:30 PM", when:"Sun, 8 Nov 2026, 10:30 PM", a:{n:"Foysal Rahman Shoron",c:"Spain",f:"es"}, b:{n:"Rafeeuzzaman Rafee",c:"Iran",f:"ir"}},
-      {d:"2026-11-08", t:"11:00 PM", when:"Sun, 8 Nov 2026, 11:00 PM", a:{n:"Nur Islam",c:"Turkey",f:"tr"}, b:{n:"MA M UN",c:"Ecuador",f:"ec"}},
-      {d:"2026-11-09", t:"10:30 PM", when:"Mon, 9 Nov 2026, 10:30 PM", a:{n:"Mdshadin Hossen",c:"Italy",f:"it"}, b:{n:"Mohammad Hassan",c:"Denmark",f:"dk"}},
-      {d:"2026-11-09", t:"11:00 PM", when:"Mon, 9 Nov 2026, 11:00 PM", a:{n:"ইলিয়াছ খান আকাশ",c:"Egypt",f:"eg"}, b:{n:"Abrar Mahmud Anis",c:"Morocco",f:"ma"}},
-      {d:"2026-11-10", t:"10:30 PM", when:"Tue, 10 Nov 2026, 10:30 PM", a:{n:"HM Junaitul",c:"France",f:"fr"}, b:{n:"Nazmuz Sakib",c:"Switzerland",f:"ch"}},
-      {d:"2026-11-10", t:"11:00 PM", when:"Tue, 10 Nov 2026, 11:00 PM", a:{n:"RI A D",c:"Sweden",f:"se"}, b:{n:"Fahad Hossain Khan",c:"Nigeria",f:"ng"}}
+      {d:"2026-11-23", t:"10:30 PM", when:"Mon, 23 Nov 2026, 10:30 PM", a:{n:"HM Junaitul",c:"France",f:"fr"}, b:{n:"Nazmuz Sakib",c:"Switzerland",f:"ch"}},
+      {d:"2026-11-24", t:"10:30 PM", when:"Tue, 24 Nov 2026, 10:30 PM", a:{n:"RI A D",c:"Sweden",f:"se"}, b:{n:"Fahad Hossain Khan",c:"Nigeria",f:"ng"}},
+      {d:"2026-11-24", t:"11:00 PM", when:"Tue, 24 Nov 2026, 11:00 PM", a:{n:"Foysal Rahman Shoron",c:"Spain",f:"es"}, b:{n:"Rafeeuzzaman Rafee",c:"Iran",f:"ir"}},
+      {d:"2026-11-25", t:"10:30 PM", when:"Wed, 25 Nov 2026, 10:30 PM", a:{n:"Nur Islam",c:"Turkey",f:"tr"}, b:{n:"MA M UN",c:"Ecuador",f:"ec"}},
+      {d:"2026-11-25", t:"11:00 PM", when:"Wed, 25 Nov 2026, 11:00 PM", a:{n:"Mdshadin Hossen",c:"Italy",f:"it"}, b:{n:"Mohammad Hassan",c:"Denmark",f:"dk"}},
+      {d:"2026-11-26", t:"10:30 PM", when:"Thu, 26 Nov 2026, 10:30 PM", a:{n:"ইলিয়াছ খান আকাশ",c:"Egypt",f:"eg"}, b:{n:"Abrar Mahmud Anis",c:"Morocco",f:"ma"}}
     ];
     /* Desher jersey pora generic HALF BODY (matha theke komor) footballer visual
        (matha theke komor, haat soho, pichone boro flag) — flag code
@@ -3664,7 +3657,6 @@ window.addEventListener("load", syncNavHeight);
         + '<div class="cd-colon" aria-hidden="true">:</div>'
         + '<div class="cd-unit"><b class="cd2-s">00</b><span>seconds</span></div>'
         + '</div></div>'
-        + '<div class="pause-line">⏸️ Admin-এর অসুস্থতার কারণে ম্যাচ সাময়িকভাবে বন্ধ আছে</div>'
         + '</div>';
     }
     function cdHasScore(m){ return typeof m.hs==="number" && typeof m.as==="number"; }
