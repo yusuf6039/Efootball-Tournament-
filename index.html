@@ -204,6 +204,11 @@
     transition:background .18s ease,color .18s ease,transform .12s ease,box-shadow .18s ease,filter .18s ease;
   }
   body.gate-open .topnav-app{display:inline-flex}
+  /* App er vitore (Android WebView / installed PWA) button lukano thakbe —
+     app er vitore theke app download orthohin. Normal browser e gate khulle
+     ager motoi dekhabe; gate-open rule er pore bosano, !important diye
+     nischit kora holo — tournament view te ager motoi lukano thakbe. */
+  body.in-app .topnav-app{display:none!important}
   .topnav-app:hover{background:#FFFFFF;color:#050505;transform:translateY(-2px);box-shadow:inset 0 0 0 2px #C6F542;filter:drop-shadow(0 0 10px rgba(198,245,66,.85)) drop-shadow(0 6px 14px rgba(198,245,66,.35))}
   .topnav-app:active{transform:scale(.97)}
   .topnav-app:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
@@ -3123,6 +3128,19 @@ window.addEventListener("load", syncNavHeight);
 })();
 </script>
 <script>
+/* App er vitore khulle top bar er "অ্যাপ ডাউনলোড" button lukano hobe:
+   Android WebView (Infinite Arena app) ba installed PWA (Add to Home
+   Screen) hole body te "in-app" class add hobe — CSS e oi class thakle
+   button hide hoy. Normal browser e (Chrome/Safari) class add hobe na,
+   gate khulle button ager motoi dekhabe; tournament view te ager motoi
+   lukano thakbe (gate-open logic er sathe kono conflict nai). */
+(function(){
+  var ua = navigator.userAgent || "";
+  var isWebView = ua.indexOf("; wv)") !== -1;
+  var isStandalone = false;
+  try { isStandalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true; } catch(e){}
+  if (isWebView || isStandalone) document.body.classList.add("in-app");
+})();
 /* ============ 32 TEAM: BRACKET SLOTS + PARTICIPANT SEARCH ============
    Round of 32 er 16 ta pairing Score7 Matches tab theke neya (flag soho).
    #1: 2 Nov 10:00 PM, #2: 2 Nov 10:30 PM (khela hoye geche, oporibortito),
